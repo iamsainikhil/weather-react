@@ -1,14 +1,26 @@
 import React, {Component} from 'react'
 import debounce from 'lodash/debounce'
+import './HomeStyle.scss'
 import SearchContainer from '../../components/search/SearchComponent'
 import AddressComponent from '../../components/address/AddressComponent'
-import './HomeStyle.scss'
+import LoaderComponent from '../../components/loader/LoaderComponent'
+import ErrorComponent from '../../components/error/ErrorComponent'
 
 class HomeContainer extends Component {
   state = {
+    showCaret: false,
+    showAddresses: false,
+    showLoader: false,
     city: '',
     addresses: [],
-    countryCode: ''
+    countryCode: '',
+    countryCodes: [],
+    weatherData: {},
+    errorMessage: ''
+  }
+
+  handleError(message) {
+    this.setState({errorMessage: message})
   }
 
   // debounced function
@@ -16,69 +28,117 @@ class HomeContainer extends Component {
 
   searchCity = event => {
     this.setState({city: event.target.value})
-    this.debounceAddress()
+    if (event.target.value.trim()) {
+      this.debounceAddress()
+    } else {
+      this.clearState()
+    }
   }
 
   // fetch valid matched addresses for searched city
   async getAddresses() {
+    this.setState({showLoader: true})
     fetch(`https://api.teleport.org/api/cities/?search=${this.state.city}`)
       .then(response => response.json())
       .then(data => {
-        const results = data._embedded['city:search-results'].map(
-          result => result.matching_full_name
-        )
-        this.setState({addresses: results})
+        // if matching cities exist
+        if (data.count) {
+          const results = data._embedded['city:search-results'].map(
+            result => result.matching_full_name
+          )
+          this.setState({
+            addresses: results,
+            showCaret: true,
+            showAddresses: true
+          })
+        } else {
+          this.setState({showAddresses: false})
+          this.handleError(
+            'No matching cities found. Try searching with a valid city name!'
+          )
+        }
       })
-      .catch(err => console.log(err))
-      .finally(() => console.log('addresses fetched'))
+      .catch(err => {
+        this.handleError(err)
+      })
+      .finally(() => {
+        this.setState({showLoader: false})
+      })
+  }
+
+  toggleAddresses = () => {
+    this.setState({showAddresses: !this.state.showAddresses})
   }
 
   setCity = address => {
-    this.setState({
-      city: address
-    })
-    this.getCountryCode()
-  }
-
-  validAddresses = () => {
-    return this.state.addresses && this.state.addresses.length > 0
-  }
-
-  async getCountryCode() {
-    fetch(
-      'https://gist.githubusercontent.com/iamsainikhil/7d0f46a903c47efadd2d0bb4e0862c4d/raw/be41012c2c3e619396c0b66f7004b83546f51d31/iso3166_codes.json'
-    )
-      .then(response => response.json())
-      .then(data => {
-        const name = this.state.city.split(', ')[2].trim()
-        let countryName = name.includes('(') ? name.split('(')[0].trim() : name
-        const filteredCodes = data.filter(
-          country => country.Name === countryName
-        )
-        this.setState({
-          city: this.state.city.split(', ')[0].trim(),
-          countryCode: filteredCodes[0].Code
-        })
-        this.fetchWeatherData()
+    if (address) {
+      this.setState({
+        city: address,
+        showAddresses: false
       })
-      .catch(err => console.log(err))
+      this.getCountryCode(address)
+    }
+  }
+
+  async getCountryCode(address) {
+    const name = address.split(', ')[2].trim()
+    let countryName = name.includes('(') ? name.split('(')[0].trim() : name
+    const filteredCodes = await this.state.countryCodes.filter(
+      country => country.Name === countryName
+    )
+    this.setState({
+      city: this.state.city.split(', ')[0].trim(),
+      countryCode: filteredCodes[0].Code
+    })
+    this.fetchWeatherData()
   }
 
   async fetchWeatherData() {
     const API_KEY = process.env.REACT_APP_WEATHERMAP_API
     const URL = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.city},${this.state.countryCode}&appid=${API_KEY}`
+    this.setState({showLoader: true})
     fetch(URL)
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         this.clearState()
+        this.setState({weatherData: data})
       })
-      .catch(err => console.log(err))
-      .finally(() => console.log('Weather data fetched'))
+      .catch(err => {
+        this.setState({errorMessage: err, showLoader: false})
+      })
   }
 
   clearState() {
-    this.setState({city: '', address: '', addresses: [], countryCode: ''})
+    this.setState({
+      showCaret: false,
+      showAddresses: false,
+      showLoader: false,
+      city: '',
+      address: '',
+      addresses: [],
+      countryCode: '',
+      errorMessage: ''
+    })
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('countryCodes')) {
+      this.setState({
+        countryCodes: JSON.parse(localStorage.getItem('countryCodes'))
+      })
+    } else {
+      fetch(
+        'https://gist.githubusercontent.com/iamsainikhil/7d0f46a903c47efadd2d0bb4e0862c4d/raw/be41012c2c3e619396c0b66f7004b83546f51d31/iso3166_codes.json'
+      )
+        .then(response => response.json())
+        .then(data => {
+          this.setState({
+            countryCodes: data
+          })
+          localStorage.setItem('countryCodes', JSON.stringify(data))
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   render() {
@@ -86,12 +146,16 @@ class HomeContainer extends Component {
       <div>
         <SearchContainer
           city={this.state.city}
-          showCaret={this.validAddresses()}
+          showCaret={this.state.showCaret}
+          showAddresses={this.state.showAddresses}
           citySearch={this.searchCity}
+          caretClicked={this.toggleAddresses}
         />
-        {this.validAddresses() ? (
+        {this.state.showLoader ? (
+          <LoaderComponent />
+        ) : this.state.showAddresses ? (
           <div className='flex'>
-            <div className='w-1/2 mx-5 mt-1 border border-gray-600 rounded address-list'>
+            <div className='w-1/2 mx-5 mt-1 rounded address-list'>
               {this.state.addresses.map((address, index) => {
                 return (
                   <AddressComponent
@@ -103,6 +167,14 @@ class HomeContainer extends Component {
               })}
             </div>
           </div>
+        ) : null}
+        {this.state.errorMessage.length ? (
+          <ErrorComponent
+            errorMessage={this.state.errorMessage}
+            closeError={() => {
+              this.setState({errorMessage: ''})
+            }}
+          />
         ) : null}
       </div>
     )
