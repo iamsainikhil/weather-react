@@ -3,14 +3,14 @@ import React from 'react'
 const ErrorComponent = props => {
   return (
     <div
-      class='flex w-2/3 h-auto bg-red-100 border border-red-400 text-red-700 ml-5 mt-5 px-4 py-2 rounded relative'
+      className='w-5/6 ml-auto mr-auto h-auto bg-red-100 border border-red-400 text-red-700 mt-5 px-4 py-2 rounded relative'
       role='alert'>
-      <span class='w-full block sm:inline'>{props.errorMessage}</span>
+      <span className='w-5/6 block break-words'>{props.errorMessage}</span>
       <span
-        class='absolute top-0 bottom-0 right-0 ml-3 mr-1 py-3'
+        className='absolute top-0 bottom-0 right-0 ml-3 mr-1 py-3'
         onClick={props.closeError}>
         <svg
-          class='fill-current h-6 w-6 text-red-500'
+          className='fill-current h-6 w-6 text-red-500'
           role='button'
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 20 20'>

@@ -1,14 +1,20 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 
 const SearchComponent = props => {
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [])
   return (
     <div className='h-12 mx-5 mt-5'>
       <div className='relative'>
         <input
-          className='block appearance-none w-full bg-gray-300 text-gray-700 border rounded-full py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white truncate'
+          ref={inputRef}
+          className='block appearance-none w-full bg-gray-300 text-gray-700 border-none rounded-full shadow py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white truncate'
           id='grid-first-name'
           type='text'
-          placeholder='Type city name'
+          placeholder='🔍 Type city name to find weather'
           onChange={props.citySearch}
           value={props.city}
         />

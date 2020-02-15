@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import debounce from 'lodash/debounce'
 import './AutoCompleteStyle.scss'
 import SearchContainer from '../../components/search/SearchComponent'
@@ -14,7 +14,6 @@ class AutoCompleteContainer extends Component {
     city: '',
     addresses: [],
     countryCodes: [],
-    weatherData: {},
     errorMessage: ''
   }
 
@@ -28,6 +27,7 @@ class AutoCompleteContainer extends Component {
   searchCity = event => {
     this.setState({city: event.target.value})
     if (event.target.value.trim()) {
+      this.setState({errorMessage: ''})
       this.debounceAddress()
     } else {
       this.clearState()
@@ -48,7 +48,8 @@ class AutoCompleteContainer extends Component {
           this.setState({
             addresses: results,
             showCaret: true,
-            showAddresses: true
+            showAddresses: true,
+            errorMessage: ''
           })
         } else {
           this.setState({showAddresses: false})
@@ -66,7 +67,11 @@ class AutoCompleteContainer extends Component {
   }
 
   toggleAddresses = () => {
-    this.setState({showAddresses: !this.state.showAddresses})
+    this.setState((prevState, props) => {
+      return {
+        showAddresses: !prevState.showAddresses
+      }
+    })
   }
 
   setCity = address => {
@@ -87,22 +92,12 @@ class AutoCompleteContainer extends Component {
       country => country.Name === countryName
     )
     const countryCode = filteredCodes[0].Code
-    this.fetchWeatherData(cityName, countryCode)
-  }
-
-  async fetchWeatherData(city, code) {
-    const API_KEY = process.env.REACT_APP_WEATHERMAP_API
-    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city},${code}&appid=${API_KEY}`
-    this.setState({showLoader: true})
-    fetch(URL)
-      .then(response => response.json())
-      .then(data => {
-        this.clearState()
-        this.setState({weatherData: data})
-      })
-      .catch(err => {
-        this.setState({errorMessage: err, showLoader: false})
-      })
+    // send props to weather container through home container
+    this.props.citySearch({
+      city: cityName,
+      countryCode: countryCode,
+      address: address
+    })
   }
 
   clearState() {
@@ -139,9 +134,9 @@ class AutoCompleteContainer extends Component {
 
   render() {
     return (
-      <div>
-        <div className='flex justify-center'>
-          <div class='w-1/2'>
+      <Fragment>
+        <div className='flex justify-center mt-5'>
+          <div className='w-1/2'>
             <SearchContainer
               city={this.state.city}
               showCaret={this.state.showCaret}
@@ -152,33 +147,35 @@ class AutoCompleteContainer extends Component {
           </div>
         </div>
         <div className='flex justify-center'>
-          <div class='w-1/2'>
+          <div className='w-1/2'>
             {this.state.showLoader ? (
               <LoaderComponent />
-            ) : this.state.showAddresses ? (
-              <div className='mx-5 mt-1 rounded address-list'>
-                {this.state.addresses.map((address, index) => {
-                  return (
-                    <AddressComponent
-                      address={address}
-                      key={index}
-                      addressSelected={() => this.setCity(address)}
-                    />
-                  )
-                })}
-              </div>
-            ) : null}
-            {this.state.errorMessage.length ? (
+            ) : (
+              this.state.showAddresses && (
+                <div className='mx-5 mt-1 border-solid border-2 border-gray-400 rounded address-list'>
+                  {this.state.addresses.map((address, index) => {
+                    return (
+                      <AddressComponent
+                        address={address}
+                        key={index}
+                        addressSelected={() => this.setCity(address)}
+                      />
+                    )
+                  })}
+                </div>
+              )
+            )}
+            {this.state.errorMessage.length > 0 && (
               <ErrorComponent
                 errorMessage={this.state.errorMessage}
                 closeError={() => {
                   this.setState({errorMessage: ''})
                 }}
               />
-            ) : null}
+            )}
           </div>
         </div>
-      </div>
+      </Fragment>
     )
   }
 }
