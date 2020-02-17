@@ -36,34 +36,34 @@ class AutoCompleteContainer extends Component {
 
   // fetch valid matched addresses for searched city
   async getAddresses() {
-    this.setState({showLoader: true})
-    fetch(`https://api.teleport.org/api/cities/?search=${this.state.city}`)
-      .then(response => response.json())
-      .then(data => {
-        // if matching cities exist
-        if (data.count) {
-          const results = data._embedded['city:search-results'].map(
-            result => result.matching_full_name
-          )
-          this.setState({
-            addresses: results,
-            showCaret: true,
-            showAddresses: true,
-            errorMessage: ''
-          })
-        } else {
-          this.setState({showAddresses: false})
-          this.handleError(
-            'No matching cities found. Try searching with a valid city name!'
-          )
-        }
-      })
-      .catch(err => {
-        this.handleError(err)
-      })
-      .finally(() => {
-        this.setState({showLoader: false})
-      })
+    try {
+      this.setState({showLoader: true})
+      const data = await fetch(
+        `https://api.teleport.org/api/cities/?search=${this.state.city}`
+      ).then(response => response.json())
+
+      // if matching cities exist
+      if (data.count) {
+        const results = data._embedded['city:search-results'].map(
+          result => result.matching_full_name
+        )
+        this.setState({
+          addresses: results,
+          showCaret: true,
+          showAddresses: true,
+          errorMessage: ''
+        })
+      } else {
+        this.setState({showAddresses: false})
+        this.handleError(
+          'No matching cities found. Try searching with a valid city name!'
+        )
+      }
+    } catch (error) {
+      this.handleError(error)
+    } finally {
+      this.setState({showLoader: false})
+    }
   }
 
   toggleAddresses = () => {
@@ -112,23 +112,24 @@ class AutoCompleteContainer extends Component {
     })
   }
 
-  componentDidMount() {
-    if (localStorage.getItem('countryCodes')) {
-      this.setState({
-        countryCodes: JSON.parse(localStorage.getItem('countryCodes'))
-      })
-    } else {
-      fetch(
-        'https://gist.githubusercontent.com/iamsainikhil/7d0f46a903c47efadd2d0bb4e0862c4d/raw/be41012c2c3e619396c0b66f7004b83546f51d31/iso3166_codes.json'
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            countryCodes: data
-          })
-          localStorage.setItem('countryCodes', JSON.stringify(data))
+  async componentDidMount() {
+    try {
+      if (localStorage.getItem('countryCodes')) {
+        this.setState({
+          countryCodes: JSON.parse(localStorage.getItem('countryCodes'))
         })
-        .catch(err => console.log(err))
+      } else {
+        const data = await fetch(
+          'https://gist.githubusercontent.com/iamsainikhil/7d0f46a903c47efadd2d0bb4e0862c4d/raw/be41012c2c3e619396c0b66f7004b83546f51d31/iso3166_codes.json'
+        ).then(response => response.json())
+
+        this.setState({
+          countryCodes: data
+        })
+        localStorage.setItem('countryCodes', JSON.stringify(data))
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 

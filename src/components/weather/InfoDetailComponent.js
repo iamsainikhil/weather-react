@@ -39,7 +39,7 @@ const InfoDetailComponent = props => {
       <div className='w-1/2'>
         <div className='flex justify-between items-end'>
           <div
-            className={`flex ${getIcon(props.data.icon) ? 'w-1/4' : 'w-1/6'}`}>
+            className={`flex ${getIcon(props.data.icon) ? 'w-1/4' : 'w-1/4'}`}>
             {getIcon(props.data.icon) ? (
               <ReactAnimatedWeather
                 icon={getIcon(props.data.icon)}
@@ -53,7 +53,7 @@ const InfoDetailComponent = props => {
             )}
           </div>
           <div
-            className={`flex ${getIcon(props.data.icon) ? 'w-3/4' : 'w-5/6'}`}>
+            className={`flex ${getIcon(props.data.icon) ? 'w-3/4' : 'w-3/4'}`}>
             <div>
               <span className='text-5xl'>{props.data.main.temp}</span>
             </div>

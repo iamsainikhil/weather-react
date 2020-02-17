@@ -18,20 +18,21 @@ export class HomeContainer extends Component {
     })
   }
 
-  componentDidMount() {
-    // fetch ip info to find weather data on initial page load
-    fetch('https://ipapi.co/json')
-      .then(response => response.json())
-      .then(data => {
-        if (data) {
-          this.setState({
-            city: data.city,
-            countryCode: data.country_code,
-            address: `${data.city}, ${data.region}, ${data.country}`
-          })
-        }
+  async componentDidMount() {
+    try {
+      // fetch ip info to find weather data on initial page load
+      const data = await fetch('https://ipapi.co/json').then(response =>
+        response.json()
+      )
+
+      this.setState({
+        city: data.city,
+        countryCode: data.country_code,
+        address: `${data.city}, ${data.region}, ${data.country}`
       })
-      .catch(err => console.log(err))
+    } catch (error) {
+      console.log(error)
+    }
   }
   render() {
     return (

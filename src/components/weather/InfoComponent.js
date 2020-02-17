@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {format} from 'date-fns'
 
 const InfoComponent = ({address, currentWeatherCondition}) => {
-  const [date, setDate] = useState(format(new Date(), 'eeee K:mm a'))
+  const [date, setDate] = useState(format(new Date(), 'eeee k:mm a'))
   useEffect(() => {
     const dateTimer = setInterval(() => {
       setDate(format(new Date(), 'eeee K:mm a'))
