@@ -1,20 +1,21 @@
 import React, {Component, Fragment} from 'react'
 import './HomeStyle.scss'
 import AutoCompleteContainer from '../autocomplete/AutoCompleteContainer'
-import WeatherContainer from '../weather/WeatherContainer'
+import {WeatherContainer} from './../weather/WeatherContainer'
 
 export class HomeContainer extends Component {
   state = {
-    city: '',
-    countryCode: '',
-    address: ''
+    address: {
+      cityName: '',
+      cityId: ''
+    },
+    latlong: ''
   }
 
   citySearchHandler = data => {
     this.setState({
-      city: data.city,
-      countryCode: data.countryCode,
-      address: data.address
+      address: data.address,
+      latlong: data.latlong
     })
   }
 
@@ -26,9 +27,11 @@ export class HomeContainer extends Component {
       )
 
       this.setState({
-        city: data.city,
-        countryCode: data.country_code,
-        address: `${data.city}, ${data.region}, ${data.country}`
+        address: {
+          cityName: `${data.city}, ${data.region}, ${data.country_name}`,
+          cityId: ''
+        },
+        latlong: `${data.latitude},${data.longitude}`
       })
     } catch (error) {
       console.log(error)
@@ -37,16 +40,13 @@ export class HomeContainer extends Component {
   render() {
     return (
       <Fragment>
-        <div>
-          <AutoCompleteContainer
-            citySearch={data => this.citySearchHandler(data)}
-          />
-          <WeatherContainer
-            city={this.state.city}
-            countryCode={this.state.countryCode}
-            address={this.state.address}
-          />
-        </div>
+        <AutoCompleteContainer
+          citySearch={data => this.citySearchHandler(data)}
+        />
+        <WeatherContainer
+          address={this.state.address}
+          latlong={this.state.latlong}
+        />
       </Fragment>
     )
   }

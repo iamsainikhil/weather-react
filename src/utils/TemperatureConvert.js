@@ -1,9 +1,9 @@
 const fToC = temp => {
-  return Math.floor(((temp - 32) * 5) / 9)
+  return Math.round(((temp - 32) * 5) / 9)
 }
 
 const cToF = temp => {
-  return Math.floor((temp * 9) / 5 + 32)
+  return Math.round((temp * 9) / 5 + 32)
 }
 
 export default {

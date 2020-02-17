@@ -6,7 +6,7 @@ const AddressComponent = props => {
     <p
       className='px-5 py-1 cursor-pointer item'
       onClick={props.addressSelected}>
-      {props.address}
+      {props.address.cityName}
     </p>
   )
 }
