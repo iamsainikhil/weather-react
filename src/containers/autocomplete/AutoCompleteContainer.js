@@ -5,8 +5,10 @@ import SearchContainer from '../../components/search/SearchComponent'
 import AddressComponent from '../../components/address/AddressComponent'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
+import {AddressContext} from '../../context/AddressContext'
 
 class AutoCompleteContainer extends Component {
+  static contextType = AddressContext
   state = {
     showCaret: false,
     showAddresses: false,
@@ -90,8 +92,7 @@ class AutoCompleteContainer extends Component {
       `https://api.teleport.org/api/cities/${address.cityId}`
     ).then(response => response.json())
     const {latitude, longitude} = await data.location.latlon
-    // send props to weather container through home container
-    this.props.citySearch({
+    this.context.updateState({
       address: address,
       latlong: `${latitude},${longitude}`
     })

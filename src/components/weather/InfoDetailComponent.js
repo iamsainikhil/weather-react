@@ -1,7 +1,11 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useContext} from 'react'
+import WeatherContext from '../../context/WeatherContext'
+import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 
 const InfoDetailComponent = props => {
-  const iconURL = `/weather_icons/${props.currentWeather.wx_icon}`
+  const {weatherCurrent} = useContext(WeatherContext)
+  const {weatherUnit} = useContext(WeatherUnitContext)
+  const iconURL = `/weather_icons/${weatherCurrent.wx_icon}`
 
   const unitClick = unit => {
     props.unitClicked(unit)
@@ -12,21 +16,19 @@ const InfoDetailComponent = props => {
    * @param {String} type
    */
   const computedTempValue = type => {
-    return props.unit === 'F'
-      ? Math.round(props.currentWeather[`${type}_f`])
-      : Math.round(props.currentWeather[`${type}_c`])
+    return Math.round(weatherCurrent[`${type}_${weatherUnit.toLowerCase()}`])
   }
 
   const computedSpeedValue = () => {
-    return props.unit === 'F'
-      ? `${Math.round(props.currentWeather.windspd_mph)} MPH`
-      : `${Math.round(props.currentWeather.windspd_kmh)} KMPH`
+    return weatherUnit === 'F'
+      ? `${Math.round(weatherCurrent.windspd_mph)} MPH`
+      : `${Math.round(weatherCurrent.windspd_kmh)} KMPH`
   }
 
   return (
     <Fragment>
       <div className='sm:flex-col md:flex md:flex-row justify-between mt-10 mb-5'>
-        <div className='w-1/2'>
+        <div className='flex-col sm:w-full lg:w-1/2'>
           <div className='flex flex-row items-center'>
             <div className='flex'>
               <img
@@ -43,7 +45,7 @@ const InfoDetailComponent = props => {
                 <span className='text-2xl'>o</span>
                 <span
                   className={`cursor-pointer ml-2 ${
-                    props.unit === 'F' ? 'font-bold underline' : ''
+                    weatherUnit === 'F' ? 'font-bold underline' : ''
                   }`}
                   onClick={() => unitClick('F')}>
                   F
@@ -51,7 +53,7 @@ const InfoDetailComponent = props => {
                 /
                 <span
                   className={`cursor-pointer ${
-                    props.unit === 'C' ? 'font-bold underline' : ''
+                    weatherUnit === 'C' ? 'font-bold underline' : ''
                   }`}
                   onClick={() => unitClick('C')}>
                   C
@@ -59,11 +61,12 @@ const InfoDetailComponent = props => {
               </div>
             </div>
           </div>
+          <p>{weatherCurrent.wx_desc}</p>
         </div>
-        <div className='w-1/2'>
-          <p>Humidity: {props.currentWeather.humid_pct}%</p>
+        <div className='sm:w-full lg:w-1/2'>
+          <p>Humidity: {weatherCurrent.humid_pct}%</p>
           <p>
-            Wind: {computedSpeedValue()} {props.currentWeather.winddir_compass}
+            Wind: {computedSpeedValue()} {weatherCurrent.winddir_compass}
           </p>
           <p>
             Feels like: {computedTempValue('feelslike')}

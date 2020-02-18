@@ -1,16 +1,10 @@
-import React, {useEffect, useRef} from 'react'
+import React from 'react'
 
 const SearchComponent = props => {
-  const inputRef = useRef(null)
-
-  useEffect(() => {
-    inputRef.current.focus()
-  }, [])
   return (
     <div className='h-12 mx-5 mt-5'>
       <div className='relative'>
         <input
-          ref={inputRef}
           className='block appearance-none w-full bg-gray-300 text-gray-700 border-none rounded-full shadow py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white truncate'
           id='grid-first-name'
           type='text'

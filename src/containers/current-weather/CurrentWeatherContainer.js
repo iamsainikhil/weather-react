@@ -1,12 +1,13 @@
-import React, {Fragment, useState, useEffect} from 'react'
+import React, {Fragment, useEffect, useContext} from 'react'
 import InfoComponent from '../../components/weather/InfoComponent'
 import InfoDetailComponent from '../../components/weather/InfoDetailComponent'
+import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 
-const CurrentWeatherContainer = ({address, currentWeather}) => {
-  const [unit, setUnit] = useState('F')
+const CurrentWeatherContainer = () => {
+  const {weatherUnit, setWeatherUnit} = useContext(WeatherUnitContext)
 
   const unitHandler = unit => {
-    setUnit(unit)
+    setWeatherUnit({weatherUnit: unit, setWeatherUnit})
     localStorage.setItem('unit', JSON.stringify(unit))
   }
 
@@ -15,18 +16,18 @@ const CurrentWeatherContainer = ({address, currentWeather}) => {
     if (!localStorage.getItem('unit')) {
       localStorage.setItem('unit', JSON.stringify('F'))
     } else {
-      setUnit(JSON.parse(localStorage.getItem('unit')))
+      setWeatherUnit({
+        weatherUnit: JSON.parse(localStorage.getItem('unit')),
+        setWeatherUnit
+      })
     }
-  }, [unit])
+    // eslint-disable-next-line
+  }, [weatherUnit])
 
   return (
     <Fragment>
-      <InfoComponent currentWeather={currentWeather} address={address} />
-      <InfoDetailComponent
-        currentWeather={currentWeather}
-        unit={unit}
-        unitClicked={unitHandler}
-      />
+      <InfoComponent />
+      <InfoDetailComponent unitClicked={unitHandler} />
     </Fragment>
   )
 }

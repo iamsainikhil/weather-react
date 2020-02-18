@@ -1,25 +1,31 @@
-import React, {useState, useEffect} from 'react'
-import {format} from 'date-fns'
+import React, {useState, useEffect, useContext} from 'react'
+import {AddressContext} from '../../context/AddressContext'
+import dayjs from 'dayjs'
 
-const InfoComponent = ({currentWeather, address}) => {
-  const [date, setDate] = useState(format(new Date(), 'eeee h:mm a'))
+const InfoComponent = () => {
+  const {address} = useContext(AddressContext)
+  const [date, setDate] = useState(dayjs().format('MMMM DD, YYYY'))
+  const [time, setTime] = useState(dayjs().format('dddd h:mm A'))
+
   useEffect(() => {
     const dateTimer = setInterval(() => {
-      setDate(format(new Date(), 'eeee h:mm a'))
+      setDate(dayjs().format('MMMM DD, YYYY'))
+      setTime(dayjs().format('dddd h:mm A'))
     }, 1000)
     return () => {
       clearInterval(dateTimer)
     }
-  }, [currentWeather])
+  }, [address.cityName])
+
   return (
     <div>
       <p className='font-bold'>{address.cityName}</p>
       <div className='sm:flex-col md:flex md:flex-row'>
         <p>
           {date}
-          <span className='invisible md:visible'>&nbsp;.&nbsp;</span>
+          <span className='invisible md:visible'>&nbsp;|&nbsp;</span>
         </p>
-        <p>{currentWeather.wx_desc}</p>
+        <p>{time}</p>
       </div>
     </div>
   )
