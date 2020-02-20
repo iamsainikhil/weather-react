@@ -1,11 +1,16 @@
-import React, {useState, useEffect, useContext, Fragment} from 'react'
+import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
-import FetchDateTime from '../../utils/FetchDateTime'
+import dayjs from 'dayjs'
+import FormattedDateTime from '../../utils/FormattedDateTime'
 
 const InfoComponent = ({address, latlong}) => {
   const {updateFavorites} = useContext(AddressContext)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
+
+  // store ref to formattedDateTime and update it for the first api call fetch
+  // this ref will be used to update date and time every second without making additional api calls
+  const formattedDateTimeRef = useRef()
 
   const isBookmarked = () => {
     if (localStorage.getItem('favorites')) {
@@ -55,19 +60,28 @@ const InfoComponent = ({address, latlong}) => {
     }
   }
 
+  // format and set date & time based on the dateObj
+  const datetimeSetter = dateObj => {
+    setDate(dateObj.format('MMMM DD, YYYY'))
+    setTime(dateObj.format('dddd h:mm A'))
+  }
+
   const fetchDateTime = async () => {
-    const formattedDateTime = await FetchDateTime(latlong)
-    if (formattedDateTime) {
-      setDate(formattedDateTime.date)
-      setTime(formattedDateTime.time)
-    }
+    const formattedDateTime = await FormattedDateTime(latlong)
+    datetimeSetter(dayjs(formattedDateTime))
+    formattedDateTimeRef.current = formattedDateTime
   }
 
   useEffect(() => {
     fetchDateTime()
     const dateTimer = setInterval(() => {
-      fetchDateTime()
-    }, 60000)
+      // update date and time every second
+      const formattedDateTimeObj = dayjs(formattedDateTimeRef.current).add(
+        1,
+        'second'
+      )
+      datetimeSetter(formattedDateTimeObj)
+    }, 1000)
     return () => {
       clearInterval(dateTimer)
     }

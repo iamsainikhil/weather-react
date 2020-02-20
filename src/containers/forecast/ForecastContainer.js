@@ -2,18 +2,17 @@ import React, {useState, useEffect, Fragment} from 'react'
 import DayComponent from '../../components/weather/DayComponent'
 import TimeframeComponent from '../../components/weather/TimeframeComponent'
 import dayjs from 'dayjs'
-import FetchDateTime from '../../utils/FetchDateTime'
 import {findIndex} from 'lodash-es'
 import LoaderComponent from '../../components/loader/LoaderComponent'
+import FormattedDateTime from '../../utils/FormattedDateTime'
 
 const ForecastContainer = ({weatherForecast, latlong}) => {
-  // set the selectedDayIndex to the current day
-  const getToday = async () => {
-    const formattedDateTime = await FetchDateTime(latlong)
-    if (formattedDateTime) {
-      return formattedDateTime.date
-    }
-    return dayjs().format('MMMM DD, YYYY')
+  // set the selectedDayIndex to the current day by fetching current city date and time from FormattedDateTime
+  const updateSelectedDay = async () => {
+    const formattedDateTime = await FormattedDateTime(latlong)
+    const today = dayjs(formattedDateTime).format('DD/MM/YYYY')
+    const todayIndex = findIndex(weatherForecast.Days, ['date', today])
+    setSelectedDayIndex(todayIndex < 0 ? todayIndex + 1 : todayIndex)
   }
 
   const [selectedDayIndex, setSelectedDayIndex] = useState(-1)
@@ -29,20 +28,13 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
   }
 
   useEffect(() => {
-    // fetch current city date and time using FetchDateTime
-    getToday()
-      .then(response => {
-        const today = dayjs(response).format('DD/MM/YYYY')
-        const todayIndex = findIndex(weatherForecast.Days, ['date', today])
-        setSelectedDayIndex(todayIndex < 0 ? todayIndex + 1 : todayIndex)
-      })
-      .catch(err => console.log(err))
+    updateSelectedDay()
     // eslint-disable-next-line
   }, [latlong])
 
   return (
     <Fragment>
-      {selectedDayIndex >= 0 ? (
+      {selectedDayIndex !== -1 ? (
         <Fragment>
           <div className='hidden sm:visible sm:flex sm:flex-row py-3'>
             {weatherForecast.Days[selectedDayIndex]
