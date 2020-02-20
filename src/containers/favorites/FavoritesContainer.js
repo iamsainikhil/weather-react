@@ -4,6 +4,7 @@ import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import ForecastContainer from '../forecast/ForecastContainer'
 import FetchWeatherData from './../../utils/FetchWeatherData'
 import LoaderComponent from '../../components/loader/LoaderComponent'
+import {sortBy} from 'lodash-es'
 
 const FavoritesContainer = () => {
   const {favorites, updateFavorites} = useContext(AddressContext)
@@ -52,8 +53,9 @@ const FavoritesContainer = () => {
     const timeout = setTimeout(() => {
       if (localStorage.getItem('favorites')) {
         const fav = JSON.parse(localStorage.getItem('favorites'))
+        // sort favorites by cityName
         updateFavorites({
-          favorites: [...fav]
+          favorites: sortBy(fav, ['address.cityName'])
         })
       }
     }, 1000)
