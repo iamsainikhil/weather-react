@@ -1,14 +1,12 @@
 import React, {Fragment, useContext} from 'react'
-import WeatherContext from '../../context/WeatherContext'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 
-const InfoDetailComponent = props => {
-  const {weatherCurrent} = useContext(WeatherContext)
+const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
   const iconURL = `/weather_icons/${weatherCurrent.wx_icon}`
 
   const unitClick = unit => {
-    props.unitClicked(unit)
+    unitClicked(unit)
   }
 
   /**
@@ -27,13 +25,14 @@ const InfoDetailComponent = props => {
 
   return (
     <Fragment>
-      <div className='sm:flex-col md:flex md:flex-row justify-between mt-10 mb-5'>
+      <div className='sm:flex-col md:flex md:flex-row justify-between mt-10 mb-5 px-4'>
         <div className='flex-col sm:w-full lg:w-1/2'>
           <div className='flex flex-row items-center'>
             <div className='flex'>
               <img
                 src={iconURL}
                 alt='weather icon'
+                title={weatherCurrent.wx_desc}
                 className='sm:w-12 sm:h-8'
               />
             </div>
@@ -61,7 +60,7 @@ const InfoDetailComponent = props => {
               </div>
             </div>
           </div>
-          <p>{weatherCurrent.wx_desc}</p>
+          <p className='sm:ml-3'>{weatherCurrent.wx_desc}</p>
         </div>
         <div className='sm:w-full lg:w-1/2'>
           <p>Humidity: {weatherCurrent.humid_pct}%</p>

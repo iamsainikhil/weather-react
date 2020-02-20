@@ -1,8 +1,11 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component, Fragment, Suspense, lazy} from 'react'
 import './HomeStyle.scss'
 import AutoCompleteContainer from '../autocomplete/AutoCompleteContainer'
-import WeatherContainer from './../weather/WeatherContainer'
+import LoaderComponent from '../../components/loader/LoaderComponent'
 import {AddressContextProvider} from '../../context/AddressContext'
+import {WeatherUnitContextProvider} from '../../context/WeatherUnitContext'
+const WeatherContainer = lazy(() => import('./../weather/WeatherContainer'))
+const FavoritesContainer = lazy(() => import('../favorites/FavoritesContainer'))
 
 export class HomeContainer extends Component {
   render() {
@@ -10,7 +13,12 @@ export class HomeContainer extends Component {
       <Fragment>
         <AddressContextProvider>
           <AutoCompleteContainer />
-          <WeatherContainer />
+          <WeatherUnitContextProvider>
+            <Suspense fallback={<LoaderComponent />}>
+              <WeatherContainer />
+              <FavoritesContainer />
+            </Suspense>
+          </WeatherUnitContextProvider>
         </AddressContextProvider>
       </Fragment>
     )

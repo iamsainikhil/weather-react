@@ -2,8 +2,9 @@ import React, {Fragment, useEffect, useContext} from 'react'
 import InfoComponent from '../../components/weather/InfoComponent'
 import InfoDetailComponent from '../../components/weather/InfoDetailComponent'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
+import LoaderComponent from './../../components/loader/LoaderComponent'
 
-const CurrentWeatherContainer = () => {
+const CurrentWeatherContainer = ({weatherCurrent, address, latlong}) => {
   const {weatherUnit, setWeatherUnit} = useContext(WeatherUnitContext)
 
   const unitHandler = unit => {
@@ -26,8 +27,17 @@ const CurrentWeatherContainer = () => {
 
   return (
     <Fragment>
-      <InfoComponent />
-      <InfoDetailComponent unitClicked={unitHandler} />
+      {address && weatherCurrent ? (
+        <Fragment>
+          <InfoComponent address={address} latlong={latlong} />
+          <InfoDetailComponent
+            weatherCurrent={weatherCurrent}
+            unitClicked={unitHandler}
+          />
+        </Fragment>
+      ) : (
+        <LoaderComponent />
+      )}
     </Fragment>
   )
 }

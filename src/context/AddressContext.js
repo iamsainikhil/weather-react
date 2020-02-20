@@ -7,13 +7,19 @@ class AddressContextProvider extends Component {
   updateState = state => {
     this.setState({...state})
   }
+
+  updateFavorites = state => {
+    this.setState({...state})
+  }
   state = {
     address: {
       cityName: '',
       cityId: ''
     },
     latlong: '',
-    updateState: this.updateState
+    favorites: [],
+    updateState: this.updateState,
+    updateFavorites: this.updateFavorites
   }
 
   async getAddressInfo() {

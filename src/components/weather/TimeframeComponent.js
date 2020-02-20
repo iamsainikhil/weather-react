@@ -1,19 +1,26 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import FormatTime from '../../utils/FormatTime'
+import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 
-const TimeframeComponent = ({timeFrame}) => {
-  const iconURL = `/weather_icons/${timeFrame.wx_icon}`
+const TimeframeComponent = ({Timeframe}) => {
+  const iconURL = `/weather_icons/${Timeframe.wx_icon}`
+  const {weatherUnit} = useContext(WeatherUnitContext)
 
   const computedTempValue = type => {
-    const unit = JSON.parse(localStorage.getItem('unit'))
-    return Math.round(timeFrame[`${type}_${unit.toLowerCase()}`])
+    return Math.round(Timeframe[`${type}_${weatherUnit.toLowerCase()}`])
   }
   return (
-    <div>
-      <img src={iconURL} alt='weather icon' />
-      <p className='xl'>{computedTempValue('temp')}</p>
-      <p className='text-lg'>Feels like {computedTempValue('feelslike')}</p>
-      <p>{FormatTime(`${timeFrame.time}`)}</p>
+    <div className='border-none flex flex-col justify-start items-center mx-3 mb-3 w-full'>
+      <img src={iconURL} alt='weather icon' title={Timeframe.wx_desc} />
+      <p className='text-xl'>
+        {computedTempValue('temp')}
+        <sup>o</sup>
+      </p>
+      <p className='text-sm'>
+        {computedTempValue('feelslike')}
+        <sup>o</sup>
+      </p>
+      <p className='text-sm'>{FormatTime(`${Timeframe.time}`)}</p>
     </div>
   )
 }
