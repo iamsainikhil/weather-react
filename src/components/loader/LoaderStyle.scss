@@ -5,7 +5,19 @@
   margin: 20px auto 10px auto;
 }
 
-.double-bounce1,
+.double-bounce1 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #00c3b3;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: sk-bounce 2s infinite ease-in-out;
+  animation: sk-bounce 2s infinite ease-in-out;
+}
+
 .double-bounce2 {
   width: 100%;
   height: 100%;
@@ -15,12 +27,8 @@
   position: absolute;
   top: 0;
   left: 0;
-
   -webkit-animation: sk-bounce 2s infinite ease-in-out;
   animation: sk-bounce 2s infinite ease-in-out;
-}
-
-.double-bounce2 {
   -webkit-animation-delay: -1s;
   animation-delay: -1s;
 }
@@ -30,6 +38,7 @@
   100% {
     -webkit-transform: scale(0);
   }
+
   50% {
     -webkit-transform: scale(1);
   }
@@ -41,8 +50,23 @@
     transform: scale(0);
     -webkit-transform: scale(0);
   }
+
   50% {
     transform: scale(1);
     -webkit-transform: scale(1);
+  }
+}
+
+.text-fade {
+  animation: halfFade 1.2s ease-in-out 0.2s infinite;
+}
+
+@keyframes halfFade {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
   }
 }

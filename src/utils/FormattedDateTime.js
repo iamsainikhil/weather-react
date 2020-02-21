@@ -1,5 +1,9 @@
 const APP_KEY = process.env.REACT_APP_TIMEZONE_DB_API_KEY
 
+/**
+ *
+ * @param {String} latlong
+ */
 const FormattedDateTime = async latlong => {
   const [lat, long] = latlong.split(',')
   let formattedDateTime = ''

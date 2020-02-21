@@ -1,13 +1,19 @@
 import React from 'react'
 import './LoaderStyle.scss'
 
-const LoaderComponent = () => {
+const LoaderComponent = ({loaderText}) => {
   return (
-    <div className='flex w-full justify-center'>
+    <div className='flex flex-col w-full justify-center items-center'>
       <div className='spinner'>
         <div className='double-bounce1'></div>
         <div className='double-bounce2'></div>
       </div>
+      {loaderText && (
+        <div className='text-sm'>
+          {loaderText}
+          <span class='text-2xl text-fade'>...</span>
+        </div>
+      )}
     </div>
   )
 }

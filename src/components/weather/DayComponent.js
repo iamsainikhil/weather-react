@@ -4,7 +4,7 @@ import FormatTime from '../../utils/FormatTime'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 
 const DayComponent = props => {
-  const {day, icon, index, selectedIndex} = props
+  const {day, icon, iconDesc, index, selectedIndex} = props
   const {weatherUnit} = useContext(WeatherUnitContext)
   const iconURL = `/weather_icons/${icon}`
 
@@ -31,7 +31,12 @@ const DayComponent = props => {
               .join(', ')
           ).format('ddd')}
         </p>
-        <img src={iconURL} alt='weather icon' className='sm:mx-auto' />
+        <img
+          src={iconURL}
+          alt='weather icon'
+          title={iconDesc}
+          className='sm:mx-auto'
+        />
       </div>
       <div className='flex flex-row justify-around sm:flex-col'>
         <p className='text-xl'>

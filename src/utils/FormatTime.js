@@ -1,3 +1,7 @@
+/**
+ *
+ * @param {String} t
+ */
 const FormatTime = t => {
   // check if the 't' is sunrise/set time or timeframe time
   // 06:00 or 600 exception being 0 & 1000

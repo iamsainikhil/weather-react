@@ -1,6 +1,10 @@
 const APP_ID = process.env.REACT_APP_WEATHER_UNLOCKED_APP_ID
 const APP_KEY = process.env.REACT_APP_WEATHER_UNLOCKED_APP_KEY
-
+/**
+ *
+ * @param {String} type ('forecast' or 'current')
+ * @param {String} latlong
+ */
 const getURL = (type, latlong) => {
   return `http://api.weatherunlocked.com/api/${type}/${latlong}?app_id=${APP_ID}&app_key=${APP_KEY}`
 }
