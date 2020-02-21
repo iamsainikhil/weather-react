@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from 'react'
 import DayComponent from '../../components/weather/DayComponent'
 import TimeframeComponent from '../../components/weather/TimeframeComponent'
 import dayjs from 'dayjs'
-import {findIndex} from 'lodash-es'
+import {findIndex, groupBy, mapValues} from 'lodash-es'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import FormattedDateTime from '../../utils/FormattedDateTime'
 
@@ -10,9 +10,11 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
   // set the selectedDayIndex to the current day by fetching current city date and time from FormattedDateTime
   const updateSelectedDay = async () => {
     const formattedDateTime = await FormattedDateTime(latlong)
-    const today = dayjs(formattedDateTime).format('DD/MM/YYYY')
-    const todayIndex = findIndex(weatherForecast.Days, ['date', today])
-    setSelectedDayIndex(todayIndex < 0 ? todayIndex + 1 : todayIndex)
+    if (formattedDateTime) {
+      const today = dayjs(formattedDateTime).format('DD/MM/YYYY')
+      const todayIndex = findIndex(weatherForecast.Days, ['date', today])
+      setSelectedDayIndex(todayIndex < 0 ? todayIndex + 1 : todayIndex)
+    }
   }
 
   const [selectedDayIndex, setSelectedDayIndex] = useState(-1)
@@ -27,8 +29,28 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
     setDaysVisible(state => !state)
   }
 
+  // find weather icon for every day in weatherForecast Days based on the most common weather_icon of the timeframes
+  const [dayIcons, setDayIcons] = useState([])
+  const updateDayIcons = () => {
+    const groupedDaysByIcon = weatherForecast.Days.map(day => {
+      return groupBy(day.Timeframes, 'wx_icon')
+    })
+    const groupedDaysIconByCount = groupedDaysByIcon.map(dayIcon => {
+      return mapValues(dayIcon, function(key) {
+        return key.length
+      })
+    })
+
+    const groupedDayIcons = groupedDaysIconByCount.map(icon => {
+      return Object.keys(icon).sort((a, b) => icon[b] - icon[a])[0]
+    })
+
+    setDayIcons(groupedDayIcons)
+  }
+
   useEffect(() => {
     updateSelectedDay()
+    updateDayIcons()
     // eslint-disable-next-line
   }, [latlong])
 
@@ -65,6 +87,7 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
                       day={day}
                       key={index}
                       index={index}
+                      icon={dayIcons[index]}
                       selectedIndex={selectedDayIndex}
                       selectedDay={() => daySelectHandler(index)}
                     />
