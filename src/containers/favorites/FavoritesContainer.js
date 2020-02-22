@@ -7,27 +7,24 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import {sortBy} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
+import FormattedDateTime from './../../utils/FormattedDateTime'
 
 const FavoritesContainer = () => {
   const {favorites, updateFavorites} = useContext(AddressContext)
   const [selectedFavorite, setSelectedFavorite] = useState({})
   const [favoriteWeather, setFavoriteWeather] = useState({})
   const [slideIndex, setSlideIndex] = useState(0)
+  const [formattedDateTime, setFormattedDateTime] = useState('')
   const weatherRef = useRef(null)
 
   // scroll to weather component when selectedFavorite is set
   const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
 
-  const selectFavoriteHandler = index => {
-    // for the first component load, set a selectedFavorite since it will be undefined
-    // if clicked on a already selectedFavorite should set a new selectedFavorite
-    if (
-      selectedFavorite.address !== undefined &&
-      selectedFavorite.address.cityName === favorites[index].address.cityName
-    ) {
-      // setSelectedFavorite({})
-    } else {
+  const selectFavoriteHandler = async index => {
+    if (favorites[index]) {
       setSelectedFavorite({...favorites[index]})
+      const formattedString = await FormattedDateTime(favorites[index].latlong)
+      setFormattedDateTime(formattedString)
     }
     setSlideIndex(index)
   }
@@ -124,10 +121,11 @@ const FavoritesContainer = () => {
                     weatherCurrent={favoriteWeather.weatherCurrent}
                     address={selectedFavorite.address}
                     latlong={selectedFavorite.latlong}
+                    formattedDateTime={formattedDateTime}
                   />
                   <ForecastContainer
                     weatherForecast={favoriteWeather.weatherForecast}
-                    latlong={selectedFavorite.latlong}
+                    formattedDateTime={formattedDateTime}
                   />
                 </div>
               </div>

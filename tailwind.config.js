@@ -122,9 +122,10 @@ module.exports = {
     },
     fontFamily: {
       sans: [
+        '"Inter"',
         '-apple-system',
         'BlinkMacSystemFont',
-        '"Work Sans"',
+        '"Lato"',
         '"Segoe UI"',
         'Roboto',
         '"Helvetica Neue"',

@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import dayjs from 'dayjs'
-import FormattedDateTime from './../../utils/FormattedDateTime'
 
-const InfoComponent = ({address, latlong}) => {
+const InfoComponent = ({address, latlong, formattedDateTime}) => {
   const {updateFavorites} = useContext(AddressContext)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
@@ -60,40 +59,46 @@ const InfoComponent = ({address, latlong}) => {
     }
   }
 
+  // check if formattedDateTime is not an empty string & an error message starting with Failed
+  const isValidFormattedDateTime =
+    formattedDateTime && !formattedDateTime.includes('Failed')
+
   // format and set date & time based on the dateObj
   const datetimeSetter = dateObj => {
-    setDate(dateObj.format('MMMM DD, YYYY'))
-    setTime(dateObj.format('dddd h:mm A'))
-    formattedDateTimeRef.current = dateObj
-  }
-
-  const fetchDateTime = async () => {
-    const formattedDateTime = await FormattedDateTime(latlong)
-    datetimeSetter(dayjs(formattedDateTime))
+    setDate(dateObj ? dateObj.format('MMMM DD, YYYY') : '')
+    setTime(dateObj ? dateObj.format('dddd h:mm A') : '')
+    formattedDateTimeRef.current = dateObj ? dateObj : null
   }
 
   useEffect(() => {
-    fetchDateTime()
+    // reset date & time whenever formattedDateTime change
+    datetimeSetter('')
+    // set date & time when formattedDateTime is valid
+    if (isValidFormattedDateTime) {
+      datetimeSetter(dayjs(formattedDateTime))
+    }
     const dateTimer = setInterval(() => {
-      // update date and time every second
-      const formattedDateTimeObj = dayjs(formattedDateTimeRef.current).add(
-        1,
-        'second'
-      )
-      datetimeSetter(formattedDateTimeObj)
+      if (isValidFormattedDateTime) {
+        // update date and time every second only when there is a valid formattedDateTime
+        const formattedDateTimeObj = dayjs(formattedDateTimeRef.current).add(
+          1,
+          'second'
+        )
+        datetimeSetter(formattedDateTimeObj)
+      }
     }, 1000)
     return () => {
       clearInterval(dateTimer)
     }
     // eslint-disable-next-line
-  }, [latlong])
+  }, [formattedDateTime])
 
   return (
     <div className='flex justify-between items-start'>
       <div className='pt-4 px-4'>
         <p className='font-bold'>{address.cityName}</p>
         <div className='sm:flex-col md:flex md:flex-row font-light'>
-          {date ? (
+          {date && time ? (
             <Fragment>
               <p>
                 {date}

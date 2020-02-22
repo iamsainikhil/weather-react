@@ -14,7 +14,7 @@ const FormattedDateTime = async latlong => {
       formattedDateTime = formatted
     }
   } catch (error) {
-    console.log(error)
+    formattedDateTime = `${error.message} forecast data. Please try again!`
   }
 
   return formattedDateTime

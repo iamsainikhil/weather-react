@@ -3,6 +3,7 @@ import ForecastContainer from '../forecast/ForecastContainer'
 import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from '../../utils/FetchWeatherData'
+import FormattedDateTime from './../../utils/FormattedDateTime'
 
 export class WeatherContainer extends Component {
   previousCityName = ''
@@ -10,7 +11,8 @@ export class WeatherContainer extends Component {
 
   state = {
     weatherForecast: {},
-    weatherCurrent: {}
+    weatherCurrent: {},
+    formattedDateTime: ''
   }
 
   timer = null
@@ -22,6 +24,10 @@ export class WeatherContainer extends Component {
     this.setState({
       weatherCurrent,
       weatherForecast
+    })
+    const formattedString = await FormattedDateTime(this.context.latlong)
+    this.setState({
+      formattedDateTime: formattedString
     })
   }
 
@@ -53,10 +59,11 @@ export class WeatherContainer extends Component {
                 weatherCurrent={this.state.weatherCurrent}
                 address={this.context.address}
                 latlong={this.context.latlong}
+                formattedDateTime={this.state.formattedDateTime}
               />
               <ForecastContainer
                 weatherForecast={this.state.weatherForecast}
-                latlong={this.context.latlong}
+                formattedDateTime={this.state.formattedDateTime}
               />
             </div>
           </div>

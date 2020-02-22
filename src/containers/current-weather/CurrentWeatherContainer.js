@@ -4,7 +4,12 @@ import InfoDetailComponent from '../../components/weather/InfoDetailComponent'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import LoaderComponent from './../../components/loader/LoaderComponent'
 
-const CurrentWeatherContainer = ({weatherCurrent, address, latlong}) => {
+const CurrentWeatherContainer = ({
+  weatherCurrent,
+  address,
+  latlong,
+  formattedDateTime
+}) => {
   const {weatherUnit, setWeatherUnit} = useContext(WeatherUnitContext)
 
   const unitHandler = unit => {
@@ -29,7 +34,11 @@ const CurrentWeatherContainer = ({weatherCurrent, address, latlong}) => {
     <Fragment>
       {address && weatherCurrent ? (
         <Fragment>
-          <InfoComponent address={address} latlong={latlong} />
+          <InfoComponent
+            address={address}
+            latlong={latlong}
+            formattedDateTime={formattedDateTime}
+          />
           <InfoDetailComponent
             weatherCurrent={weatherCurrent}
             unitClicked={unitHandler}
