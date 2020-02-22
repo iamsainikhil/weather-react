@@ -25,8 +25,7 @@ const DayComponent = props => {
         index === selectedIndex ? 'sm:bg-gray-400' : ''
       }`}
       onClick={selectedDay}>
-      {/* <div className='flex flex-row justify-center sm:flex-col'> */}
-      <p>
+      <p className='font-medium'>
         {dayjs(
           day.date
             .split('/')
@@ -40,18 +39,17 @@ const DayComponent = props => {
         title={iconDesc}
         className='mx-auto'
       />
-      {/* </div>*/}
-      <div className='flex flex-row justify-center sm:flex-col'>
-        <p className='text-xl mx-2'>
+      <div className='flex flex-row justify-center font-light'>
+        <p className='mx-2'>
           {computedTempValue('max')}
           <sup>o</sup>
         </p>
-        <p className='text-lg mx-2'>
+        <p className='mx-2'>
           {computedTempValue('min')}
           <sup>o</sup>
         </p>
       </div>
-      <div className='flex flex-row justify-center sm:flex-col'>
+      <div className='flex flex-row justify-center sm:flex-col font-light'>
         <div className='flex flex-row justify-center items-center mx-2'>
           <img
             src={getIconURL('Sunny.gif')}

@@ -76,7 +76,7 @@ const FavoritesContainer = () => {
         <Fragment>
           <p className='text-center font-bold text-2xl'>Favorites</p>
           {/* mobile */}
-          <div className='sm:hidden mx-10 my-5'>
+          <div className='sm:hidden mx-5 my-5'>
             <Carousel
               {...CarouselSettings('favorite')}
               slideIndex={slideIndex}
@@ -84,12 +84,12 @@ const FavoritesContainer = () => {
               {favorites.map((favorite, index) => {
                 return (
                   <div
-                    className='border border-gray-400 bg-white rounded-lg shadow-lg font-medium cursor-pointer text-center px-6 py-6'
+                    className='border border-gray-400 bg-white rounded-lg shadow-lg cursor-pointer text-center px-6 py-6'
                     onClick={() => {
                       selectFavoriteHandler(index)
                     }}
                     key={index}>
-                    <p>{favorite.address.cityName.split(', ')[0]}</p>
+                    {favorite.address.cityName.split(', ')[0]}
                   </div>
                 )
               })}
@@ -97,12 +97,12 @@ const FavoritesContainer = () => {
           </div>
           {/* tablet and above devices */}
           <div className='hidden sm:flex  justify-center items-center'>
-            <div className='sm:w-5/6 md:w-2/3 xl:w-1/2 mx-10 my-5'>
+            <div className='sm:w-5/6 xl:w-1/2 mx-5 my-5'>
               <div className='flex sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {
                   return (
                     <div
-                      className='flex sm:w-1/3 md:w-1/4 justify-center border border-gray-400 bg-white hover:bg-gray-400 rounded-lg shadow-lg font-medium cursor-pointer text-center mx-3 my-3 px-6 py-6'
+                      className='flex sm:w-1/3 md:w-1/4 justify-center border border-gray-400 bg-white hover:bg-gray-400 rounded-lg shadow-lg cursor-pointer text-center mx-3 my-3 px-6 py-6'
                       onClick={() => {
                         selectFavoriteHandler(index)
                       }}
@@ -118,8 +118,8 @@ const FavoritesContainer = () => {
           <div ref={weatherRef}>
             {selectedFavorite.address !== undefined &&
             favoriteWeather.weatherCurrent !== undefined ? (
-              <div className='flex justify-center mx-10 my-10'>
-                <div className='sm:w-full md:w-5/6 lg:w-2/3 xl:w-1/2 border border-gray-400 bg-white rounded-lg shadow-lg'>
+              <div className='flex justify-center mx-5 my-10'>
+                <div className='sm:w-full md:w-5/6 xl:w-1/2 border border-gray-400 bg-white rounded-lg shadow-lg'>
                   <CurrentWeatherContainer
                     weatherCurrent={favoriteWeather.weatherCurrent}
                     address={selectedFavorite.address}

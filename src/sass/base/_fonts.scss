@@ -3,29 +3,12 @@
 // -----------------------------------------------------------------------------
 // This file contains all @font-face declarations, if any.
 // -----------------------------------------------------------------------------
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+// @import url('https://fonts.googleapis.com/css?family=Lato:300,400&display=swap');
 // @font-face {
-//   font-family: 'Oliver';
-//   src: url('../fonts/Oliver.eot'); /* IE9 Compat Modes */
-//   src: url('../fonts/Oliver.eot?#iefix') format('embedded-opentype'),
-//     /* IE6-IE8 */ url('../fonts/Oliver.woff2') format('woff2'),
-//     /* Super Modern Browsers */ url('../fonts/Oliver.woff') format('woff'); /* Pretty Modern Browsers */
+//   font-family: 'Montauk';
+//   src: url('../fonts/Montauk-Regular.woff') format('woff')
+//       /* Pretty Modern Browsers */,
+//     url('../fonts/Montauk-Regular.ttf') format('truetype');
 // }
 
-// @font-face {
-//   font-family: 'Oliver';
-//   font-weight: 300;
-//   src: url('../fonts/OliverLight.eot');
-//   src: url('../fonts/OliverLight.eot?#iefix') format('embedded-opentype'),
-//     url('../fonts/OliverLight.woff2') format('woff2'),
-//     url('../fonts/OliverLight.woff') format('woff');
-// }
-
-// @font-face {
-//   font-family: 'Oliver';
-//   font-weight: bold;
-//   src: url('../fonts/OliverBold.eot');
-//   src: url('../fonts/OliverBold.eot?#iefix') format('embedded-opentype'),
-//     url('../fonts/OliverBold.woff2') format('woff2'),
-//     url('../fonts/OliverBold.woff') format('woff');
-// }
+@import url('https://rsms.me/inter/inter.css');

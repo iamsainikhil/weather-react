@@ -38,9 +38,11 @@ const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
             </div>
             <div className='flex'>
               <div>
-                <span className='text-3xl'>{computedTempValue('temp')}</span>
+                <span className='text-3xl font-bold'>
+                  {computedTempValue('temp')}
+                </span>
               </div>
-              <div>
+              <div style={{marginTop: '-5px'}}>
                 <span className='text-2xl'>o</span>
                 <span
                   className={`cursor-pointer ml-2 ${
@@ -62,7 +64,7 @@ const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
           </div>
           <p className='sm:ml-3'>{weatherCurrent.wx_desc}</p>
         </div>
-        <div className='sm:w-full lg:w-1/2'>
+        <div className='sm:w-full lg:w-1/2 font-light'>
           <p>Humidity: {weatherCurrent.humid_pct}%</p>
           <p>
             Wind: {computedSpeedValue()} {weatherCurrent.winddir_compass}

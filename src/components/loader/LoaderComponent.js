@@ -9,7 +9,7 @@ const LoaderComponent = ({loaderText}) => {
         <div className='double-bounce2'></div>
       </div>
       {loaderText && (
-        <div className='text-sm'>
+        <div className='text-sm font-light'>
           {loaderText}
           <span className='text-2xl text-fade'>...</span>
         </div>

@@ -64,12 +64,12 @@ const InfoComponent = ({address, latlong}) => {
   const datetimeSetter = dateObj => {
     setDate(dateObj.format('MMMM DD, YYYY'))
     setTime(dateObj.format('dddd h:mm A'))
+    formattedDateTimeRef.current = dateObj
   }
 
   const fetchDateTime = async () => {
     const formattedDateTime = await FormattedDateTime(latlong)
     datetimeSetter(dayjs(formattedDateTime))
-    formattedDateTimeRef.current = formattedDateTime
   }
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const InfoComponent = ({address, latlong}) => {
     <div className='flex justify-between items-start'>
       <div className='pt-4 px-4'>
         <p className='font-bold'>{address.cityName}</p>
-        <div className='sm:flex-col md:flex md:flex-row'>
+        <div className='sm:flex-col md:flex md:flex-row font-light'>
           {date ? (
             <Fragment>
               <p>
