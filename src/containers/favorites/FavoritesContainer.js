@@ -75,6 +75,7 @@ const FavoritesContainer = () => {
       {favorites.length > 0 ? (
         <Fragment>
           <p className='text-center font-bold text-2xl'>Favorites</p>
+          {/* mobile */}
           <div className='sm:hidden mx-10 my-5'>
             <Carousel
               {...CarouselSettings('favorite')}
@@ -94,13 +95,14 @@ const FavoritesContainer = () => {
               })}
             </Carousel>
           </div>
-          <div className='hidden sm:block flex justify-center items-center'>
-            <div className='w-full sm:w-5/6 xl:w-1/3 mx-10 my-5'>
-              <div className='flex flex-col sm:flex-row flex-wrap justify-center'>
+          {/* tablet and above devices */}
+          <div className='hidden sm:flex  justify-center items-center'>
+            <div className='sm:w-5/6 md:w-2/3 xl:w-1/2 mx-10 my-5'>
+              <div className='flex sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {
                   return (
                     <div
-                      className='flex w-full sm:w-1/2 md:w-1/3 lg:w-1/4 justify-center border border-gray-400 bg-white hover:bg-gray-400 rounded-lg shadow-lg font-medium cursor-pointer text-center mx-3 my-3 px-6 py-6'
+                      className='flex sm:w-1/3 md:w-1/4 justify-center border border-gray-400 bg-white hover:bg-gray-400 rounded-lg shadow-lg font-medium cursor-pointer text-center mx-3 my-3 px-6 py-6'
                       onClick={() => {
                         selectFavoriteHandler(index)
                       }}
@@ -117,7 +119,7 @@ const FavoritesContainer = () => {
             {selectedFavorite.address !== undefined &&
             favoriteWeather.weatherCurrent !== undefined ? (
               <div className='flex justify-center mx-10 my-10'>
-                <div className='sm:w-full md:w-5/6 xl:w-1/3 border border-gray-400 bg-white rounded-lg shadow-lg'>
+                <div className='sm:w-full md:w-5/6 lg:w-2/3 xl:w-1/2 border border-gray-400 bg-white rounded-lg shadow-lg'>
                   <CurrentWeatherContainer
                     weatherCurrent={favoriteWeather.weatherCurrent}
                     address={selectedFavorite.address}

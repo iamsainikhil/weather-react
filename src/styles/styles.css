@@ -2,7 +2,7 @@
 /**
  * Set up a decent box model on the root element
  */
-@import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700&display=swap");
 html {
   box-sizing: border-box;
   scroll-behavior: smooth; }
@@ -36,7 +36,7 @@ a {
  */
 body {
   color: #222222;
-  font: normal 125%/1.4 "Work Sans", "Lato", "Open Sans", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
+  font: normal 125%/1.4 "Lato", "Open Sans", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
 
 /**
  * Clear inner floats

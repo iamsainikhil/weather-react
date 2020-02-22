@@ -48,7 +48,7 @@ export class WeatherContainer extends Component {
         {this.state.weatherCurrent !== undefined &&
         Object.keys(this.state.weatherCurrent).length > 0 ? (
           <div className='flex justify-center mx-10 my-10'>
-            <div className='sm:w-full md:w-5/6 xl:w-1/3 border border-gray-400 bg-white rounded-lg shadow-lg'>
+            <div className='sm:w-full md:w-5/6 lg:w-2/3 xl:w-1/2 border border-gray-400 bg-white rounded-lg shadow-lg'>
               <CurrentWeatherContainer
                 weatherCurrent={this.state.weatherCurrent}
                 address={this.context.address}

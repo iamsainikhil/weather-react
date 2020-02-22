@@ -46,17 +46,7 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
     <Fragment>
       {selectedDayIndex !== -1 ? (
         <Fragment>
-          <div className='hidden sm:visible sm:flex sm:flex-row py-3'>
-            {weatherForecast.Days[selectedDayIndex]
-              ? weatherForecast.Days[selectedDayIndex].Timeframes.map(
-                  (Timeframe, index) => {
-                    return (
-                      <TimeframeComponent Timeframe={Timeframe} key={index} />
-                    )
-                  }
-                )
-              : null}
-          </div>
+          {/* mobile */}
           <div className='sm:hidden py-3'>
             <Carousel {...CarouselSettings('time')}>
               {weatherForecast.Days[selectedDayIndex]
@@ -70,24 +60,20 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
                 : null}
             </Carousel>
           </div>
-          <div
-            className={`hidden flex-col sm:flex sm:flex-row w-full rounded sm:visible`}>
-            {weatherForecast.Days
-              ? weatherForecast.Days.map((day, index) => {
-                  return (
-                    <DayComponent
-                      day={day}
-                      key={index}
-                      index={index}
-                      icon={dayIcons.icons[index]}
-                      iconDesc={dayIcons.iconDesc[index]}
-                      selectedIndex={selectedDayIndex}
-                      selectedDay={() => daySelectHandler(index)}
-                    />
-                  )
-                })
+          {/* tablet and above devices */}
+          <div className='hidden sm:flex py-3'>
+            {weatherForecast.Days[selectedDayIndex]
+              ? weatherForecast.Days[selectedDayIndex].Timeframes.map(
+                  (Timeframe, index) => {
+                    return (
+                      <TimeframeComponent Timeframe={Timeframe} key={index} />
+                    )
+                  }
+                )
               : null}
           </div>
+
+          {/* mobile */}
           <div className='sm:hidden py-3'>
             <Carousel
               {...CarouselSettings('day')}
@@ -109,6 +95,24 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
                   })
                 : null}
             </Carousel>
+          </div>
+          {/* table and above devices */}
+          <div className={`hidden sm:flex w-full rounded sm:visible`}>
+            {weatherForecast.Days
+              ? weatherForecast.Days.map((day, index) => {
+                  return (
+                    <DayComponent
+                      day={day}
+                      key={index}
+                      index={index}
+                      icon={dayIcons.icons[index]}
+                      iconDesc={dayIcons.iconDesc[index]}
+                      selectedIndex={selectedDayIndex}
+                      selectedDay={() => daySelectHandler(index)}
+                    />
+                  )
+                })
+              : null}
           </div>
         </Fragment>
       ) : (
