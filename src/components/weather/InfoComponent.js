@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import dayjs from 'dayjs'
-import FormattedDateTime from '../../utils/FormattedDateTime'
+import FormattedDateTime from './../../utils/FormattedDateTime'
 
 const InfoComponent = ({address, latlong}) => {
   const {updateFavorites} = useContext(AddressContext)

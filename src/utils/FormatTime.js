@@ -1,5 +1,4 @@
 /**
- *
  * @param {String} t
  */
 const FormatTime = t => {

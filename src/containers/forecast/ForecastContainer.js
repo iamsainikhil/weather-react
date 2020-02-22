@@ -1,11 +1,13 @@
 import React, {useState, useEffect, Fragment} from 'react'
+import dayjs from 'dayjs'
+import {indexOf} from 'lodash-es'
+import Carousel from 'nuka-carousel'
 import DayComponent from '../../components/weather/DayComponent'
 import TimeframeComponent from '../../components/weather/TimeframeComponent'
-import dayjs from 'dayjs'
-import {findIndex} from 'lodash-es'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import FormattedDateTime from '../../utils/FormattedDateTime'
 import GroupedDayIcons from '../../utils/GroupedDayIcons'
+import CarouselSettings from '../../utils/CarouselSettings'
 
 const ForecastContainer = ({weatherForecast, latlong}) => {
   // set the selectedDayIndex to the current day by fetching current city date and time from FormattedDateTime
@@ -15,8 +17,8 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
       .catch(err => console.warn(err))
     if (formattedDateTime) {
       const today = dayjs(formattedDateTime).format('DD/MM/YYYY')
-      const todayIndex = findIndex(weatherForecast.Days, ['date', today])
-      setSelectedDayIndex(todayIndex < 0 ? todayIndex + 1 : todayIndex)
+      const todayIndex = indexOf(weatherForecast.Days, ['date', today])
+      setSelectedDayIndex(todayIndex < 0 ? 0 : todayIndex)
     }
   }
 
@@ -24,12 +26,6 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
 
   const daySelectHandler = index => {
     setSelectedDayIndex(index)
-  }
-
-  // show/hide days on mobile
-  const [daysVisible, setDaysVisible] = useState(false)
-  const toggleDaysVisibilityHandler = () => {
-    setDaysVisible(state => !state)
   }
 
   // find weather icon and desc for every day in weatherForecast Days based on the most common weather_icon of the timeframes
@@ -61,17 +57,21 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
                 )
               : null}
           </div>
-          <div className='sm:hidden text-center mb-4'>
-            <button
-              className='bg-gray-500 hover:bg-gray-700 text-white text-sm tracking-wider uppercase font-bold py-2 px-4 rounded-full'
-              onClick={toggleDaysVisibilityHandler}>
-              {daysVisible ? 'collapse' : 'expand'}
-            </button>
+          <div className='sm:hidden py-3'>
+            <Carousel {...CarouselSettings('time')}>
+              {weatherForecast.Days[selectedDayIndex]
+                ? weatherForecast.Days[selectedDayIndex].Timeframes.map(
+                    (Timeframe, index) => {
+                      return (
+                        <TimeframeComponent Timeframe={Timeframe} key={index} />
+                      )
+                    }
+                  )
+                : null}
+            </Carousel>
           </div>
           <div
-            className={`flex-col sm:flex sm:flex-row w-full rounded ${
-              daysVisible ? 'visible' : 'hidden'
-            } sm:visible`}>
+            className={`hidden flex-col sm:flex sm:flex-row w-full rounded sm:visible`}>
             {weatherForecast.Days
               ? weatherForecast.Days.map((day, index) => {
                   return (
@@ -87,6 +87,28 @@ const ForecastContainer = ({weatherForecast, latlong}) => {
                   )
                 })
               : null}
+          </div>
+          <div className='sm:hidden py-3'>
+            <Carousel
+              {...CarouselSettings('day')}
+              slideIndex={selectedDayIndex}
+              afterSlide={slideIndex => daySelectHandler(slideIndex)}>
+              {weatherForecast.Days
+                ? weatherForecast.Days.map((day, index) => {
+                    return (
+                      <DayComponent
+                        day={day}
+                        key={index}
+                        index={index}
+                        icon={dayIcons.icons[index]}
+                        iconDesc={dayIcons.iconDesc[index]}
+                        selectedIndex={selectedDayIndex}
+                        selectedDay={() => daySelectHandler(index)}
+                      />
+                    )
+                  })
+                : null}
+            </Carousel>
           </div>
         </Fragment>
       ) : (

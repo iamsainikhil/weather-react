@@ -11,7 +11,7 @@ const LoaderComponent = ({loaderText}) => {
       {loaderText && (
         <div className='text-sm'>
           {loaderText}
-          <span class='text-2xl text-fade'>...</span>
+          <span className='text-2xl text-fade'>...</span>
         </div>
       )}
     </div>

@@ -33,7 +33,7 @@ const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
                 src={iconURL}
                 alt='weather icon'
                 title={weatherCurrent.wx_desc}
-                className='sm:w-12 sm:h-8'
+                className='w-16'
               />
             </div>
             <div className='flex'>

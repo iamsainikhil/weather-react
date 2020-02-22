@@ -1,8 +1,7 @@
 const APP_ID = process.env.REACT_APP_WEATHER_UNLOCKED_APP_ID
 const APP_KEY = process.env.REACT_APP_WEATHER_UNLOCKED_APP_KEY
 /**
- *
- * @param {String} type ('forecast' or 'current')
+ * @param {String} type (forecast | current)
  * @param {String} latlong
  */
 const getURL = (type, latlong) => {

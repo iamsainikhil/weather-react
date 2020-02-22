@@ -5,11 +5,14 @@ import ForecastContainer from '../forecast/ForecastContainer'
 import FetchWeatherData from './../../utils/FetchWeatherData'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import {sortBy} from 'lodash-es'
+import Carousel from 'nuka-carousel'
+import CarouselSettings from '../../utils/CarouselSettings'
 
 const FavoritesContainer = () => {
   const {favorites, updateFavorites} = useContext(AddressContext)
   const [selectedFavorite, setSelectedFavorite] = useState({})
   const [favoriteWeather, setFavoriteWeather] = useState({})
+  const [slideIndex, setSlideIndex] = useState(0)
   const weatherRef = useRef(null)
 
   // scroll to weather component when selectedFavorite is set
@@ -26,6 +29,7 @@ const FavoritesContainer = () => {
     } else {
       setSelectedFavorite({...favorites[index]})
     }
+    setSlideIndex(index)
   }
 
   const fetchWeatherData = () => {
@@ -71,7 +75,26 @@ const FavoritesContainer = () => {
       {favorites.length > 0 ? (
         <Fragment>
           <p className='text-center font-bold text-2xl'>Favorites</p>
-          <div className='flex justify-center items-center'>
+          <div className='sm:hidden mx-10 my-5'>
+            <Carousel
+              {...CarouselSettings('favorite')}
+              slideIndex={slideIndex}
+              afterSlide={slideIndex => selectFavoriteHandler(slideIndex)}>
+              {favorites.map((favorite, index) => {
+                return (
+                  <div
+                    className='border border-gray-400 bg-white rounded-lg shadow-lg font-medium cursor-pointer text-center px-6 py-6'
+                    onClick={() => {
+                      selectFavoriteHandler(index)
+                    }}
+                    key={index}>
+                    <p>{favorite.address.cityName.split(', ')[0]}</p>
+                  </div>
+                )
+              })}
+            </Carousel>
+          </div>
+          <div className='hidden sm:block flex justify-center items-center'>
             <div className='w-full sm:w-5/6 xl:w-1/3 mx-10 my-5'>
               <div className='flex flex-col sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {

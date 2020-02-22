@@ -1,9 +1,8 @@
 import {groupBy, mapValues} from 'lodash-es'
 
 /**
- *
  * @param {Array} data (WeatherForecast)
- * @param {String} type ('wx_icon' or 'wx_desc')
+ * @param {String} type (wx_icon | wx_desc)
  */
 const GroupedDayIcons = (data, type) => {
   const groupedDaysByIcon = data.Days.map(day => {
