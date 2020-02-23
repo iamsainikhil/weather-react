@@ -1,10 +1,13 @@
-import {groupBy, mapValues} from 'lodash-es'
+import {isEmpty, groupBy, mapValues} from 'lodash-es'
 
 /**
  * @param {Array} data (WeatherForecast)
  * @param {String} type (wx_icon | wx_desc)
  */
 const GroupedDayIcons = (data, type) => {
+  if (isEmpty(data)) {
+    return []
+  }
   const groupedDaysByIcon = data.Days.map(day => {
     return groupBy(day.Timeframes, type)
   })

@@ -1,14 +1,14 @@
-const buttonStyle = {
-  color: '#000',
+const buttonStyle = theme => ({
+  color: theme === 'light' ? '#121212' : '#fff',
   background: 'transparent',
   fontSize: '16px'
-}
+})
 // modify carousel settings for timeframe and day components
 /**
  * @param {String} type
  * time or day or favorite
  */
-const CarouselSettings = type => ({
+const CarouselSettings = (type, theme) => ({
   width: '100%',
   slidesToShow: type === 'time' ? 3 : 1,
   slidesToScroll: type === 'time' ? 3 : 1,
@@ -21,11 +21,11 @@ const CarouselSettings = type => ({
     prevButtonText: '<',
     nextButtonText: '>',
     prevButtonStyle: {
-      ...buttonStyle,
+      ...buttonStyle(theme),
       display: type === 'favorite' ? 'none' : 'block'
     },
     nextButtonStyle: {
-      ...buttonStyle,
+      ...buttonStyle(theme),
       display: type === 'favorite' ? 'none' : 'block'
     },
     pagingDotsStyle: {

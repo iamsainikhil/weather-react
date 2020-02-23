@@ -2,10 +2,14 @@ import React, {useContext} from 'react'
 import dayjs from 'dayjs'
 import FormatTime from '../../utils/FormatTime'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
+import {ThemeContext} from '../../context/ThemeContext'
 
 const DayComponent = props => {
   const {day, icon, iconDesc, index, selectedIndex} = props
   const {weatherUnit} = useContext(WeatherUnitContext)
+  const {theme} = useContext(ThemeContext)
+  // contrast color based on theme
+  const colorTheme = theme === 'light' ? 'dark' : 'light'
 
   const getIconURL = iconType => {
     return `/weather_icons/${iconType}`
@@ -21,9 +25,9 @@ const DayComponent = props => {
 
   return (
     <div
-      className={`sm:border sm:border-gray-400 items-center text-center flex-1 py-1 pb-3 cursor-pointer ${
-        index === selectedIndex ? 'sm:bg-gray-400' : ''
-      }`}
+      className={`sm:border-t sm:border-r sm:border-${colorTheme} sm:hover:bg-${colorTheme} sm:hover:text-${theme} items-center text-center flex-1 py-1 pb-3 cursor-pointer ${
+        index === selectedIndex ? `sm:bg-${colorTheme} sm:text-${theme}` : ''
+      } transition-colors duration-1000 ease-in-out`}
       onClick={selectedDay}>
       <p className='font-medium'>
         {dayjs(

@@ -8,14 +8,19 @@ import {sortBy} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import FormattedDateTime from './../../utils/FormattedDateTime'
+import {ThemeContext} from '../../context/ThemeContext'
 
 const FavoritesContainer = () => {
   const {favorites, updateFavorites} = useContext(AddressContext)
+  const {theme} = useContext(ThemeContext)
   const [selectedFavorite, setSelectedFavorite] = useState({})
   const [favoriteWeather, setFavoriteWeather] = useState({})
   const [slideIndex, setSlideIndex] = useState(0)
   const [formattedDateTime, setFormattedDateTime] = useState('')
   const weatherRef = useRef(null)
+
+  // contrast color based on theme
+  const colorTheme = theme === 'light' ? 'dark' : 'light'
 
   // scroll to weather component when selectedFavorite is set
   const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
@@ -70,18 +75,20 @@ const FavoritesContainer = () => {
   return (
     <Fragment>
       {favorites.length > 0 ? (
-        <Fragment>
-          <p className='text-center font-bold text-2xl'>Favorites</p>
+        <div className={`bg-${theme} py-10`}>
+          <p className={`text-center font-bold text-2xl text-${colorTheme}`}>
+            Favorites
+          </p>
           {/* mobile */}
-          <div className='sm:hidden mx-5 my-5'>
+          <div className='sm:hidden px-5 py-5'>
             <Carousel
-              {...CarouselSettings('favorite')}
+              {...CarouselSettings('favorite', theme)}
               slideIndex={slideIndex}
               afterSlide={slideIndex => selectFavoriteHandler(slideIndex)}>
               {favorites.map((favorite, index) => {
                 return (
                   <div
-                    className='border border-gray-400 bg-white rounded-lg shadow-lg cursor-pointer text-center px-6 py-6'
+                    className={`border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-lg shadow-lg cursor-pointer text-center px-6 py-6`}
                     onClick={() => {
                       selectFavoriteHandler(index)
                     }}
@@ -94,12 +101,12 @@ const FavoritesContainer = () => {
           </div>
           {/* tablet and above devices */}
           <div className='hidden sm:flex  justify-center items-center'>
-            <div className='sm:w-5/6 xl:w-1/2 mx-5 my-5'>
+            <div className='sm:w-5/6 xl:w-1/2 px-5 py-5'>
               <div className='flex sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {
                   return (
                     <div
-                      className='flex sm:w-1/3 md:w-1/4 justify-center border border-gray-400 bg-white hover:bg-gray-400 rounded-lg shadow-lg cursor-pointer text-center mx-3 my-3 px-6 py-6'
+                      className={`flex sm:w-1/3 md:w-1/4 justify-center border border-${colorTheme} bg-${theme} text-${colorTheme} hover:bg-${colorTheme} hover:text-${theme} rounded-lg shadow-lg cursor-pointer text-center mx-3 my-3 px-6 py-6`}
                       onClick={() => {
                         selectFavoriteHandler(index)
                       }}
@@ -115,8 +122,9 @@ const FavoritesContainer = () => {
           <div ref={weatherRef}>
             {selectedFavorite.address !== undefined &&
             favoriteWeather.weatherCurrent !== undefined ? (
-              <div className='flex justify-center mx-5 my-10'>
-                <div className='sm:w-full md:w-5/6 xl:w-1/2 border border-gray-400 bg-white rounded-lg shadow-lg'>
+              <div className='flex justify-center px-5 py-10'>
+                <div
+                  className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-lg shadow-lg`}>
                   <CurrentWeatherContainer
                     weatherCurrent={favoriteWeather.weatherCurrent}
                     address={selectedFavorite.address}
@@ -131,7 +139,7 @@ const FavoritesContainer = () => {
               </div>
             ) : null}
           </div>
-        </Fragment>
+        </div>
       ) : (
         <LoaderComponent />
       )}

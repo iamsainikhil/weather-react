@@ -1,9 +1,11 @@
 import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import dayjs from 'dayjs'
+import {ThemeContext} from '../../context/ThemeContext'
 
 const InfoComponent = ({address, latlong, formattedDateTime}) => {
   const {updateFavorites} = useContext(AddressContext)
+  const {theme} = useContext(ThemeContext)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
 
@@ -94,7 +96,10 @@ const InfoComponent = ({address, latlong, formattedDateTime}) => {
   }, [formattedDateTime])
 
   return (
-    <div className='flex justify-between items-start'>
+    <div
+      className={`flex justify-between items-start text-${
+        theme === 'light' ? 'dark' : 'light'
+      }`}>
       <div className='pt-4 px-4'>
         <p className='font-bold'>{address.cityName}</p>
         <div className='sm:flex-col md:flex md:flex-row font-light'>

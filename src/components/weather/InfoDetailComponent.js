@@ -1,8 +1,10 @@
 import React, {Fragment, useContext} from 'react'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
+import {ThemeContext} from '../../context/ThemeContext'
 
 const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
+  const {theme} = useContext(ThemeContext)
   const iconURL = `/weather_icons/${weatherCurrent.wx_icon}`
 
   const unitClick = unit => {
@@ -25,7 +27,10 @@ const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
 
   return (
     <Fragment>
-      <div className='sm:flex-col md:flex md:flex-row justify-between mt-10 mb-5 px-4'>
+      <div
+        className={`sm:flex-col md:flex md:flex-row justify-between mt-10 mb-5 px-4 text-${
+          theme === 'light' ? 'dark' : 'light'
+        }`}>
         <div className='flex-col sm:w-full lg:w-1/2'>
           <div className='flex flex-row items-center'>
             <div className='flex'>
