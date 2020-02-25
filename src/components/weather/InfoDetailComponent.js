@@ -1,14 +1,15 @@
 import React, {Fragment, useContext} from 'react'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
+import getWindDirection from '../../utils/WindDirection'
+import getWeatherIcon from '../../utils/WeatherIcon'
 
-const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
-  const {weatherUnit} = useContext(WeatherUnitContext)
-  const {theme} = useContext(ThemeContext)
-  const iconURL = `/weather_icons/${weatherCurrent.wx_icon}`
+const InfoDetailComponent = ({weatherCurrent}) => {
+  const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
+  const {theme, colorTheme} = useContext(ThemeContext)
 
   const unitClick = unit => {
-    unitClicked(unit)
+    updateWeatherUnit(unit)
   }
 
   /**
@@ -21,8 +22,8 @@ const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
 
   const computedSpeedValue = () => {
     return weatherUnit === 'F'
-      ? `${Math.round(weatherCurrent.windspd_mph)} MPH`
-      : `${Math.round(weatherCurrent.windspd_kmh)} KMPH`
+      ? `${Math.round(weatherCurrent.windspd_mph)} mph`
+      : `${Math.round(weatherCurrent.windspd_kmh)} kmph`
   }
 
   return (
@@ -33,49 +34,56 @@ const InfoDetailComponent = ({weatherCurrent, unitClicked}) => {
         }`}>
         <div className='flex-col sm:w-full lg:w-1/2'>
           <div className='flex flex-row items-center'>
-            <div className='flex'>
-              <img
-                src={iconURL}
-                alt='weather icon'
-                title={weatherCurrent.wx_desc}
-                className='w-16'
-              />
+            <div>
+              <i
+                className={`wi wi-${getWeatherIcon(
+                  weatherCurrent.wx_icon
+                )} text-4xl mt-3 mr-2`}
+                title={weatherCurrent.wx_desc}></i>
             </div>
-            <div className='flex'>
+            <div className='flex justify-start items-center'>
               <div>
-                <span className='text-3xl font-bold'>
+                <span className='text-5xl font-bold'>
                   {computedTempValue('temp')}
                 </span>
               </div>
-              <div style={{marginTop: '-5px'}}>
-                <span className='text-2xl'>o</span>
-                <span
-                  className={`cursor-pointer ml-2 ${
+              <div style={{marginTop: '-15px'}} className='text-2xl'>
+                <i
+                  className={`wi wi-fahrenheit cursor-pointer mx-2 ${
                     weatherUnit === 'F' ? 'font-bold underline' : ''
                   }`}
-                  onClick={() => unitClick('F')}>
-                  F
-                </span>
-                /
-                <span
-                  className={`cursor-pointer ${
+                  onClick={() => unitClick('F')}></i>
+                |
+                <i
+                  className={`wi wi-celsius cursor-pointer mx-2 ${
                     weatherUnit === 'C' ? 'font-bold underline' : ''
                   }`}
-                  onClick={() => unitClick('C')}>
-                  C
-                </span>
+                  onClick={() => unitClick('C')}></i>
               </div>
             </div>
           </div>
-          <p className='sm:ml-3'>{weatherCurrent.wx_desc}</p>
+          <p className='sm:ml-3 capitalize'>{weatherCurrent.wx_desc}</p>
         </div>
-        <div className='sm:w-full lg:w-1/2 font-light'>
-          <p>Humidity: {weatherCurrent.humid_pct}%</p>
+        <div className='sm:w-full lg:w-1/2'>
           <p>
-            Wind: {computedSpeedValue()} {weatherCurrent.winddir_compass}
+            <span className='font-light'>Humidity:</span>&nbsp;
+            {weatherCurrent.humid_pct}%
           </p>
+          <div className='flex items-center'>
+            <p>
+              <span className='font-light'>Wind:</span>&nbsp;
+              {computedSpeedValue()}{' '}
+            </p>
+            <p>
+              <i
+                className={`mx-2 mt-2 text-3xl wi wi-direction-${getWindDirection(
+                  weatherCurrent.winddir_deg
+                )} text-${colorTheme}`}></i>
+            </p>
+          </div>
           <p>
-            Feels like: {computedTempValue('feelslike')}
+            <span className='font-light'>Feels like:</span>&nbsp;
+            {computedTempValue('feelslike')}
             <sup>o</sup>
           </p>
         </div>

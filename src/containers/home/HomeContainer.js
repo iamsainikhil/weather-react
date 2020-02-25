@@ -14,17 +14,17 @@ export class HomeContainer extends Component {
   render() {
     return (
       <div
-        className={`bg-${this.context.theme} absolute top-0 right-0 bottom-0 left-0`}>
-        <HeaderComponent />
-        <AddressContextProvider>
-          <AutoCompleteContainer />
-          <WeatherUnitContextProvider>
+        className={`bg-${this.context.theme} absolute top-0 right-0 bottom-0 left-0 tracking-wide`}>
+        <WeatherUnitContextProvider>
+          <HeaderComponent />
+          <AddressContextProvider>
+            <AutoCompleteContainer />
             <Suspense fallback={<LoaderComponent />}>
               <WeatherContainer />
               <FavoritesContainer />
             </Suspense>
-          </WeatherUnitContextProvider>
-        </AddressContextProvider>
+          </AddressContextProvider>
+        </WeatherUnitContextProvider>
       </div>
     )
   }

@@ -12,15 +12,12 @@ import {ThemeContext} from '../../context/ThemeContext'
 
 const FavoritesContainer = () => {
   const {favorites, updateFavorites} = useContext(AddressContext)
-  const {theme} = useContext(ThemeContext)
+  const {theme, colorTheme} = useContext(ThemeContext)
   const [selectedFavorite, setSelectedFavorite] = useState({})
   const [favoriteWeather, setFavoriteWeather] = useState({})
   const [slideIndex, setSlideIndex] = useState(0)
   const [formattedDateTime, setFormattedDateTime] = useState('')
   const weatherRef = useRef(null)
-
-  // contrast color based on theme
-  const colorTheme = theme === 'light' ? 'dark' : 'light'
 
   // scroll to weather component when selectedFavorite is set
   const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
@@ -88,7 +85,7 @@ const FavoritesContainer = () => {
               {favorites.map((favorite, index) => {
                 return (
                   <div
-                    className={`border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-lg shadow-lg cursor-pointer text-center px-6 py-6`}
+                    className={`tracking-wide border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-2xl shadow-lg cursor-pointer text-center px-6 py-6`}
                     onClick={() => {
                       selectFavoriteHandler(index)
                     }}
@@ -106,7 +103,7 @@ const FavoritesContainer = () => {
                 {favorites.map((favorite, index) => {
                   return (
                     <div
-                      className={`flex sm:w-1/3 md:w-1/4 justify-center border border-${colorTheme} bg-${theme} text-${colorTheme} hover:bg-${colorTheme} hover:text-${theme} rounded-lg shadow-lg cursor-pointer text-center mx-3 my-3 px-6 py-6`}
+                      className={`flex sm:w-1/3 md:w-1/4 justify-center tracking-wide border border-${colorTheme} bg-${theme} text-${colorTheme} hover:bg-${colorTheme} hover:text-${theme} rounded-2xl shadow-lg cursor-pointer text-center mx-3 my-3 px-6 py-6`}
                       onClick={() => {
                         selectFavoriteHandler(index)
                       }}
@@ -124,7 +121,7 @@ const FavoritesContainer = () => {
             favoriteWeather.weatherCurrent !== undefined ? (
               <div className='flex justify-center px-5 py-10'>
                 <div
-                  className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-lg shadow-lg`}>
+                  className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
                   <CurrentWeatherContainer
                     weatherCurrent={favoriteWeather.weatherCurrent}
                     address={selectedFavorite.address}

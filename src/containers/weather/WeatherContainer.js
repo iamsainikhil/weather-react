@@ -8,9 +8,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
-  const {theme} = useContext(ThemeContext)
-  // contrast color based on theme
-  const colorTheme = theme === 'light' ? 'dark' : 'light'
+  const {theme, colorTheme} = useContext(ThemeContext)
 
   const [weatherForecast, setWeatherForecast] = useState({})
   const [weatherCurrent, setWeatherCurrent] = useState({})
@@ -49,7 +47,7 @@ const WeatherContainer = () => {
       Object.keys(weatherCurrent).length > 0 ? (
         <div className={`flex justify-center px-5 py-10 bg-${theme}`}>
           <div
-            className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-lg shadow-lg`}>
+            className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
             <CurrentWeatherContainer
               weatherCurrent={weatherCurrent}
               address={addressContext.address}

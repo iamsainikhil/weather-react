@@ -117,7 +117,7 @@ const InfoComponent = ({address, latlong, formattedDateTime}) => {
       <div
         className='mt-4 mr-4 cursor-pointer'
         title={
-          isBookmarked
+          isBookmarked()
             ? 'Remove this city from favorites'
             : 'Favorite this city'
         }

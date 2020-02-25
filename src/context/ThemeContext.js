@@ -13,6 +13,8 @@ const ThemeContextProvider = ({children}) => {
     setTheme(theme === 'light' ? 'dark' : 'light')
   }
 
+  const colorTheme = theme === 'light' ? 'dark' : 'light'
+
   useEffect(() => {
     // set theme based on the time on initial application load
     const hour = dayjs().format('H')
@@ -24,7 +26,7 @@ const ThemeContextProvider = ({children}) => {
   }, [])
 
   return (
-    <ThemeContext.Provider value={{theme, toggleTheme}}>
+    <ThemeContext.Provider value={{theme, colorTheme, toggleTheme}}>
       {children}
     </ThemeContext.Provider>
   )

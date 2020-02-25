@@ -3,17 +3,12 @@ import dayjs from 'dayjs'
 import FormatTime from '../../utils/FormatTime'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
+import getWeatherIcon from '../../utils/WeatherIcon'
 
 const DayComponent = props => {
   const {day, icon, iconDesc, index, selectedIndex} = props
   const {weatherUnit} = useContext(WeatherUnitContext)
-  const {theme} = useContext(ThemeContext)
-  // contrast color based on theme
-  const colorTheme = theme === 'light' ? 'dark' : 'light'
-
-  const getIconURL = iconType => {
-    return `/weather_icons/${iconType}`
-  }
+  const {theme, colorTheme} = useContext(ThemeContext)
 
   const computedTempValue = type => {
     return Math.round(day[`temp_${type}_${weatherUnit.toLowerCase()}`])
@@ -25,7 +20,7 @@ const DayComponent = props => {
 
   return (
     <div
-      className={`sm:border-t sm:border-r sm:border-${colorTheme} sm:hover:bg-${colorTheme} sm:hover:text-${theme} items-center text-center flex-1 py-1 pb-3 cursor-pointer ${
+      className={`sm:border-t sm:border-r sm:border-b-0 sm:border-l-0 sm:border-${colorTheme} sm:hover:bg-${colorTheme} sm:hover:text-${theme} items-center text-center flex-1 py-1 pb-3 cursor-pointer ${
         index === selectedIndex ? `sm:bg-${colorTheme} sm:text-${theme}` : ''
       } transition-colors duration-1000 ease-in-out`}
       onClick={selectedDay}>
@@ -37,40 +32,27 @@ const DayComponent = props => {
             .join(', ')
         ).format('ddd')}
       </p>
-      <img
-        src={getIconURL(icon)}
-        alt='weather icon'
+      <i
         title={iconDesc}
-        className='mx-auto'
-      />
-      <div className='flex flex-row justify-center font-light'>
+        className={`mx-auto text-xl wi wi-${getWeatherIcon(icon)}`}></i>
+      <div className='flex flex-row justify-center items-center font-light'>
         <p className='mx-2'>
           {computedTempValue('max')}
           <sup>o</sup>
         </p>
-        <p className='mx-2'>
+        <p className='mx-2 text-sm'>
           {computedTempValue('min')}
           <sup>o</sup>
         </p>
       </div>
       <div className='flex flex-row justify-center sm:flex-col font-light'>
         <div className='flex flex-row justify-center items-center mx-2'>
-          <img
-            src={getIconURL('Sunny.gif')}
-            alt='weather icon'
-            title='sunrise'
-            className='w-6'
-          />
-          <p className='text-sm'>{FormatTime(`${day.sunrise_time}`)}</p>
+          <i className='text-sm wi wi-sunrise text-sun' title='sunrise'></i>
+          <p className='text-sm ml-2'>{FormatTime(`${day.sunrise_time}`)}</p>
         </div>
         <div className='flex flex-row justify-center items-center mx-2'>
-          <img
-            src={getIconURL('PartlyCloudyDay.gif')}
-            alt='weather icon'
-            title='sunset'
-            className='w-6'
-          />
-          <p className='text-sm'>{FormatTime(`${day.sunset_time}`)}</p>
+          <i className='text-sm wi wi-sunset text-sun' title='sunset'></i>
+          <p className='text-sm ml-2'>{FormatTime(`${day.sunset_time}`)}</p>
         </div>
       </div>
     </div>

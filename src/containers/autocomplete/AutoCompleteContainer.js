@@ -123,12 +123,12 @@ class AutoCompleteContainer extends Component {
           </div>
         </div>
         <div className='flex justify-center'>
-          <div className='w-full md:w-2/3 lg:w-5/6 xl:w-1/3'>
+          <div className='w-full sm:w-5/6 md:w-2/3 xl:w-1/2'>
             {this.state.showLoader ? (
               <LoaderComponent />
             ) : (
               this.state.showAddresses && (
-                <div className='mx-5 mt-1 border-solid border-2 border-gray-400 rounded address-list'>
+                <div className='mx-6 mt-1 border-solid border-2 border-gray-400 rounded address-list'>
                   {this.state.addresses.map((address, index) => {
                     return (
                       <AddressComponent
