@@ -3,7 +3,7 @@ import {AddressContext} from '../../context/AddressContext'
 import dayjs from 'dayjs'
 import {ThemeContext} from '../../context/ThemeContext'
 
-const InfoComponent = ({address, latlong, formattedDateTime}) => {
+const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
   const {updateFavorites} = useContext(AddressContext)
   const {theme} = useContext(ThemeContext)
   const [date, setDate] = useState('')
@@ -26,9 +26,12 @@ const InfoComponent = ({address, latlong, formattedDateTime}) => {
 
   const favoritesHandler = () => {
     if (!localStorage.getItem('favorites')) {
-      localStorage.setItem('favorites', JSON.stringify([{address, latlong}]))
+      localStorage.setItem(
+        'favorites',
+        JSON.stringify([{address, latlong, urbanArea}])
+      )
       updateFavorites({
-        favorites: [{address, latlong}]
+        favorites: [{address, latlong, urbanArea}]
       })
     } else {
       const favorites = JSON.parse(localStorage.getItem('favorites'))
@@ -38,10 +41,10 @@ const InfoComponent = ({address, latlong, formattedDateTime}) => {
       if (!duplicates.length) {
         localStorage.setItem(
           'favorites',
-          JSON.stringify([...favorites, {address, latlong}])
+          JSON.stringify([...favorites, {address, latlong, urbanArea}])
         )
         updateFavorites({
-          favorites: [...favorites, {address, latlong}]
+          favorites: [...favorites, {address, latlong, urbanArea}]
         })
       } else {
         // remove it from favorites

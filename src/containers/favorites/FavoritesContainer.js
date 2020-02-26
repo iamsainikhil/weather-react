@@ -3,7 +3,6 @@ import {AddressContext} from '../../context/AddressContext'
 import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import ForecastContainer from '../forecast/ForecastContainer'
 import FetchWeatherData from './../../utils/FetchWeatherData'
-import LoaderComponent from '../../components/loader/LoaderComponent'
 import {sortBy} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
@@ -119,27 +118,57 @@ const FavoritesContainer = () => {
           <div ref={weatherRef}>
             {selectedFavorite.address !== undefined &&
             favoriteWeather.weatherCurrent !== undefined ? (
-              <div className='flex justify-center px-5 py-10'>
-                <div
-                  className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
-                  <CurrentWeatherContainer
-                    weatherCurrent={favoriteWeather.weatherCurrent}
-                    address={selectedFavorite.address}
-                    latlong={selectedFavorite.latlong}
-                    formattedDateTime={formattedDateTime}
-                  />
-                  <ForecastContainer
-                    weatherForecast={favoriteWeather.weatherForecast}
-                    formattedDateTime={formattedDateTime}
-                  />
+              <Fragment>
+                <div className='flex justify-center px-5 py-10'>
+                  <div
+                    className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
+                    <CurrentWeatherContainer
+                      weatherCurrent={favoriteWeather.weatherCurrent}
+                      address={selectedFavorite.address}
+                      latlong={selectedFavorite.latlong}
+                      urbanArea={selectedFavorite.urbanArea}
+                      formattedDateTime={formattedDateTime}
+                    />
+                    <ForecastContainer
+                      weatherForecast={favoriteWeather.weatherForecast}
+                      formattedDateTime={formattedDateTime}
+                    />
+                  </div>
                 </div>
-              </div>
+                <div>
+                  {selectedFavorite.urbanArea.slug ? (
+                    <div className='flex flex-col justify-center items-center pb-5'>
+                      <div className='w-full text-center'>
+                        <a
+                          href={`https://teleport.org/cities/${selectedFavorite.urbanArea.slug}`}
+                          target='_blank'
+                          rel='noreferrer noopener'
+                          className='hover:no-underline'>
+                          <button
+                            className={`bg-${colorTheme} text-${theme} font-bold py-3 px-6 rounded-full capitalize`}>
+                            Explore life in {selectedFavorite.urbanArea.name}
+                          </button>
+                        </a>
+                      </div>
+                      <p
+                        className={`py-1 text-xs italic font-light text-${colorTheme}`}>
+                        Powered by&nbsp;
+                        <a
+                          href='https://teleport.org/'
+                          target='_blank'
+                          rel='noreferrer noopener'
+                          className={`hover:no-underline hover:font-medium hover:text-${colorTheme}`}>
+                          Teleport
+                        </a>
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
+              </Fragment>
             ) : null}
           </div>
         </div>
-      ) : (
-        <LoaderComponent />
-      )}
+      ) : null}
     </Fragment>
   )
 }

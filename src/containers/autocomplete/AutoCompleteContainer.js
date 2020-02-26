@@ -92,6 +92,22 @@ class AutoCompleteContainer extends Component {
       `https://api.teleport.org/api/cities/${address.cityId}`
     ).then(response => response.json())
     const {latitude, longitude} = await data.location.latlon
+    let name = undefined
+    if (await data._links['city:urban_area']) {
+      name = await data._links['city:urban_area'].name
+    }
+    // update urbanArea
+    if (localStorage.getItem('urban-areas') && name !== undefined) {
+      const urbanAreas = JSON.parse(localStorage.getItem('urban-areas'))
+      if (Object.keys(urbanAreas).includes(name)) {
+        this.context.updateState({
+          urbanArea: {
+            name,
+            slug: urbanAreas[name]
+          }
+        })
+      }
+    }
     this.context.updateState({
       address: address,
       latlong: `${latitude},${longitude}`

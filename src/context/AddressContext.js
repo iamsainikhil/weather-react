@@ -16,6 +16,7 @@ class AddressContextProvider extends Component {
       cityName: '',
       cityId: ''
     },
+    urbanArea: '',
     latlong: '',
     favorites: [],
     updateState: this.updateState,
@@ -34,8 +35,20 @@ class AddressContextProvider extends Component {
           cityName: `${data.city}, ${data.region}, ${data.country_name}`,
           cityId: ''
         },
+        urbanArea: {
+          name: '',
+          slug: ''
+        },
         latlong: `${data.latitude},${data.longitude}`
       })
+
+      // fetch and store urban areas list in localStorage
+      if (!localStorage.getItem('urban-areas')) {
+        const urban_areas = await fetch(
+          'https://gist.githubusercontent.com/iamsainikhil/4959bbe458ebf0c4bcbf7e24b4983c89/raw/170221bcd3d9732fec97210b9a67cd445e437481/urban_areas.json'
+        ).then(response => response.json())
+        localStorage.setItem('urban-areas', JSON.stringify(urban_areas))
+      }
     } catch (error) {
       console.log(error)
     }

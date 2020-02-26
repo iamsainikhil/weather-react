@@ -7,6 +7,7 @@ const CurrentWeatherContainer = ({
   weatherCurrent,
   address,
   latlong,
+  urbanArea,
   formattedDateTime
 }) => {
   return (
@@ -16,6 +17,7 @@ const CurrentWeatherContainer = ({
           <InfoComponent
             address={address}
             latlong={latlong}
+            urbanArea={urbanArea}
             formattedDateTime={formattedDateTime}
           />
           <InfoDetailComponent weatherCurrent={weatherCurrent} />
