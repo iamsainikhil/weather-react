@@ -78,7 +78,7 @@ const FavoritesContainer = () => {
           {/* mobile */}
           <div className='sm:hidden px-5 py-5'>
             <Carousel
-              {...CarouselSettings('favorite', theme)}
+              {...CarouselSettings('favorite')}
               slideIndex={slideIndex}
               afterSlide={slideIndex => selectFavoriteHandler(slideIndex)}>
               {favorites.map((favorite, index) => {

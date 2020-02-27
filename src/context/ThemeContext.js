@@ -15,14 +15,18 @@ const ThemeContextProvider = ({children}) => {
 
   const colorTheme = theme === 'light' ? 'dark' : 'light'
 
-  useEffect(() => {
-    // set theme based on the time on initial application load
+  const daynightChecker = () => {
     const hour = dayjs().format('H')
     if (hour >= 6 && hour < 18) {
       setTheme('light')
     } else {
       setTheme('dark')
     }
+  }
+
+  useEffect(() => {
+    // set theme based on the time on initial application load only
+    daynightChecker()
   }, [])
 
   return (

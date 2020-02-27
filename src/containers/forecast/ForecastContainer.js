@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, Fragment} from 'react'
+import React, {useState, useEffect, Fragment} from 'react'
 import dayjs from 'dayjs'
 import {findIndex} from 'lodash-es'
 import Carousel from 'nuka-carousel'
@@ -8,10 +8,8 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import GroupedDayIcons from '../../utils/GroupedDayIcons'
 import CarouselSettings from '../../utils/CarouselSettings'
 import ErrorComponent from './../../components/error/ErrorComponent'
-import {ThemeContext} from '../../context/ThemeContext'
 
 const ForecastContainer = ({weatherForecast, formattedDateTime}) => {
-  const {theme} = useContext(ThemeContext)
   const [errorMessage, setErrorMessage] = useState('')
   const [selectedDayIndex, setSelectedDayIndex] = useState(-1)
   const [dayIcons, setDayIcons] = useState({})
@@ -51,7 +49,7 @@ const ForecastContainer = ({weatherForecast, formattedDateTime}) => {
         <Fragment>
           {/* mobile */}
           <div className='sm:hidden py-3'>
-            <Carousel {...CarouselSettings('time', theme)}>
+            <Carousel {...CarouselSettings('time')}>
               {weatherForecast.Days[selectedDayIndex]
                 ? weatherForecast.Days[selectedDayIndex].Timeframes.map(
                     (Timeframe, index) => {
@@ -79,7 +77,7 @@ const ForecastContainer = ({weatherForecast, formattedDateTime}) => {
           {/* mobile */}
           <div className='sm:hidden py-3'>
             <Carousel
-              {...CarouselSettings('day', theme)}
+              {...CarouselSettings('day')}
               slideIndex={selectedDayIndex}
               afterSlide={slideIndex => daySelectHandler(slideIndex)}>
               {weatherForecast.Days

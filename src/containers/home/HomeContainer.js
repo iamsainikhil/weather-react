@@ -6,7 +6,7 @@ import {AddressContextProvider} from '../../context/AddressContext'
 import {WeatherUnitContextProvider} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
 import HeaderComponent from '../../components/header/HeaderComponent'
-const WeatherContainer = lazy(() => import('./../weather/WeatherContainer'))
+import WeatherContainer from './../weather/WeatherContainer'
 const FavoritesContainer = lazy(() => import('../favorites/FavoritesContainer'))
 
 export class HomeContainer extends Component {
@@ -19,8 +19,8 @@ export class HomeContainer extends Component {
           <HeaderComponent />
           <AddressContextProvider>
             <AutoCompleteContainer />
+            <WeatherContainer />
             <Suspense fallback={<LoaderComponent />}>
-              <WeatherContainer />
               <FavoritesContainer />
             </Suspense>
           </AddressContextProvider>

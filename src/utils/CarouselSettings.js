@@ -1,14 +1,9 @@
-const buttonStyle = theme => ({
-  color: theme === 'light' ? '#121212' : '#fff',
-  background: 'transparent',
-  fontSize: '16px'
-})
-// modify carousel settings for timeframe and day components
+// modify carousel settings for timeframe, day, and favorites components
 /**
  * @param {String} type
  * time or day or favorite
  */
-const CarouselSettings = (type, theme) => ({
+const CarouselSettings = type => ({
   width: '100%',
   slidesToShow: type === 'time' ? 3 : 1,
   slidesToScroll: type === 'time' ? 3 : 1,
@@ -18,21 +13,17 @@ const CarouselSettings = (type, theme) => ({
   easing: 'easeCircleOut',
   edgeEasing: 'easeCircleOut',
   defaultControlsConfig: {
-    prevButtonText: '<',
-    nextButtonText: '>',
     prevButtonStyle: {
-      ...buttonStyle(theme),
-      display: type === 'favorite' ? 'none' : 'block'
+      display: 'none'
     },
     nextButtonStyle: {
-      ...buttonStyle(theme),
-      display: type === 'favorite' ? 'none' : 'block'
+      display: 'none'
     },
     pagingDotsStyle: {
-      fill: type === 'favorite' ? '#A1A6B4' : 'none',
-      display: type === 'favorite' ? 'flex' : 'none',
+      fill: '#A1A6B4',
+      display: 'flex',
       position: 'relative',
-      top: '40px',
+      top: type === 'day' ? '25px' : '35px',
       margin: '10px 5px'
     }
   }
