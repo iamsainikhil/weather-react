@@ -16,7 +16,11 @@ class AddressContextProvider extends Component {
       cityName: '',
       cityId: ''
     },
-    urbanArea: '',
+    urbanArea: {
+      name: '',
+      slug: '',
+      photos: []
+    },
     latlong: '',
     favorites: [],
     updateState: this.updateState,
@@ -34,10 +38,6 @@ class AddressContextProvider extends Component {
         address: {
           cityName: `${data.city}, ${data.region}, ${data.country_name}`,
           cityId: ''
-        },
-        urbanArea: {
-          name: '',
-          slug: ''
         },
         latlong: `${data.latitude},${data.longitude}`
       })

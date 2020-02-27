@@ -1,12 +1,10 @@
 import React, {Fragment, useContext} from 'react'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
-import {ThemeContext} from '../../context/ThemeContext'
 import getWindDirection from '../../utils/WindDirection'
 import getWeatherIcon from '../../utils/WeatherIcon'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
-  const {theme, colorTheme} = useContext(ThemeContext)
 
   const unitClick = unit => {
     updateWeatherUnit(unit)
@@ -28,10 +26,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
 
   return (
     <Fragment>
-      <div
-        className={`sm:flex-col md:flex md:flex-row justify-between mt-10 mb-5 px-4 text-${
-          theme === 'light' ? 'dark' : 'light'
-        }`}>
+      <div className='sm:flex-col md:flex md:flex-row justify-between mt-5 mb-5 px-4'>
         <div className='flex-col sm:w-full lg:w-1/2'>
           <div className='flex flex-row items-center'>
             <div>
@@ -47,7 +42,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                   {computedTempValue('temp')}
                 </span>
               </div>
-              <div style={{marginTop: '-15px'}} className='text-2xl'>
+              <div className='text-2xl -mt-6'>
                 <i
                   className={`wi wi-fahrenheit cursor-pointer mx-2 ${
                     weatherUnit === 'F' ? 'font-bold underline' : ''
@@ -78,7 +73,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
               <i
                 className={`mx-2 mt-2 text-3xl wi wi-direction-${getWindDirection(
                   weatherCurrent.winddir_deg
-                )} text-${colorTheme}`}></i>
+                )}`}></i>
             </p>
           </div>
           <p>

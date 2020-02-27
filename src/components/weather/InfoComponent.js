@@ -5,9 +5,24 @@ import {ThemeContext} from '../../context/ThemeContext'
 
 const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
   const {updateFavorites} = useContext(AddressContext)
-  const {theme} = useContext(ThemeContext)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
+
+  const {colorTheme} = useContext(ThemeContext)
+  // check if there any image exist for an urban area
+  const imageExist = () => {
+    return urbanArea.photos.length > 0
+  }
+  const {image} = imageExist() ? urbanArea.photos[0] : {}
+  const {photographer, site, source} = imageExist()
+    ? urbanArea.photos[0].attribution
+    : {}
+
+  const imageOverlay = {
+    background: 'rgba(0,0,0,0.55)',
+    borderTopLeftRadius: '1rem',
+    borderTopRightRadius: '1rem'
+  }
 
   // store ref to formattedDateTime and update it for the first api call fetch
   // this ref will be used to update date and time every second without making additional api calls
@@ -99,33 +114,74 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
   }, [formattedDateTime])
 
   return (
-    <div
-      className={`flex justify-between items-start text-${
-        theme === 'light' ? 'dark' : 'light'
-      }`}>
-      <div className='pt-4 px-4'>
-        <p className='font-bold'>{address.cityName}</p>
-        <div className='sm:flex-col md:flex md:flex-row font-light'>
-          {date && time ? (
-            <Fragment>
-              <p>
-                {date}
-                <span className='invisible md:visible'>&nbsp;|&nbsp;</span>
-              </p>
-              <p>{time}</p>
-            </Fragment>
-          ) : null}
-        </div>
+    <div className='relative'>
+      <div>
+        {imageExist() ? (
+          <Fragment>
+            <img
+              src={image.mobile}
+              alt='city'
+              className='block sm:hidden h-40 w-full object-cover object-center rounded-t-2xl'
+            />
+            <img
+              src={image.web}
+              alt='city'
+              className='hidden sm:block sm:h-32 md:h-24 xl:h-32 w-full object-cover object-center rounded-t-2xl'
+            />
+          </Fragment>
+        ) : null}
       </div>
       <div
-        className='mt-4 mr-4 cursor-pointer'
-        title={
-          isBookmarked()
-            ? 'Remove this city from favorites'
-            : 'Favorite this city'
-        }
-        onClick={favoritesHandler}>
-        {isBookmarked() ? <span>&#9733;</span> : <span>&#9734;</span>}
+        className={`${
+          imageExist()
+            ? 'absolute top-0 left-0 right-0 bottom-0 text-light'
+            : `text-${colorTheme}`
+        }`}
+        style={imageExist() ? imageOverlay : null}>
+        <div className='flex justify-between items-start'>
+          <div className='pt-4 px-4'>
+            <p className='font-bold'>{address.cityName}</p>
+            <div className='sm:flex-col md:flex md:flex-row font-light'>
+              {date && time ? (
+                <Fragment>
+                  <p>
+                    {date}
+                    <span className='invisible md:visible'>&nbsp;|&nbsp;</span>
+                  </p>
+                  <p>{time}</p>
+                </Fragment>
+              ) : null}
+            </div>
+          </div>
+          <div
+            className='mt-4 mr-4 cursor-pointer'
+            title={
+              isBookmarked()
+                ? 'Remove this city from favorites'
+                : 'Favorite this city'
+            }
+            onClick={favoritesHandler}>
+            {isBookmarked() ? <span>&#9733;</span> : <span>&#9734;</span>}
+          </div>
+        </div>
+        <div className='hidden lg:block text-right bottom-0 right-0 lg:mt-10 px-2'>
+          {photographer && site ? (
+            <p
+              className='font-light tracking-wider'
+              style={{fontSize: '0.5rem'}}>
+              Photo by&nbsp;
+              <span className='italic font-normal'>{photographer}</span>
+              &nbsp;on&nbsp;
+              <a
+                className='italic font-normal hover:no-underline hover:font-medium hover:text-light'
+                href={source}
+                target='_blank'
+                rel='noreferrer noopener'>
+                {site}
+              </a>
+            </p>
+          ) : null}
+        </div>
       </div>
     </div>
   )

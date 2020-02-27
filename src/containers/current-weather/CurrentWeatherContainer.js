@@ -13,7 +13,7 @@ const CurrentWeatherContainer = ({
   return (
     <Fragment>
       {address && weatherCurrent ? (
-        <Fragment>
+        <div>
           <InfoComponent
             address={address}
             latlong={latlong}
@@ -21,7 +21,7 @@ const CurrentWeatherContainer = ({
             formattedDateTime={formattedDateTime}
           />
           <InfoDetailComponent weatherCurrent={weatherCurrent} />
-        </Fragment>
+        </div>
       ) : (
         <LoaderComponent />
       )}

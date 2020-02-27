@@ -100,10 +100,16 @@ class AutoCompleteContainer extends Component {
     if (localStorage.getItem('urban-areas') && name !== undefined) {
       const urbanAreas = JSON.parse(localStorage.getItem('urban-areas'))
       if (Object.keys(urbanAreas).includes(name)) {
+        const slug = urbanAreas[name]
+        const {photos} = await fetch(
+          `https://api.teleport.org/api/urban_areas/slug:${slug}/images`
+        ).then(response => response.json())
+        console.log(photos)
         this.context.updateState({
           urbanArea: {
             name,
-            slug: urbanAreas[name]
+            slug,
+            photos
           }
         })
       }

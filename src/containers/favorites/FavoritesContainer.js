@@ -137,8 +137,8 @@ const FavoritesContainer = () => {
                 </div>
                 <div>
                   {selectedFavorite.urbanArea.slug ? (
-                    <div className='flex flex-col justify-center items-center pb-5'>
-                      <div className='w-full text-center'>
+                    <div className='mx-auto text-center pb-5'>
+                      <p>
                         <a
                           href={`https://teleport.org/cities/${selectedFavorite.urbanArea.slug}`}
                           target='_blank'
@@ -149,7 +149,7 @@ const FavoritesContainer = () => {
                             Explore life in {selectedFavorite.urbanArea.name}
                           </button>
                         </a>
-                      </div>
+                      </p>
                       <p
                         className={`py-1 text-xs italic font-light text-${colorTheme}`}>
                         Powered by&nbsp;

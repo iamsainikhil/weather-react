@@ -36,16 +36,16 @@ const DayComponent = props => {
         title={iconDesc}
         className={`mx-auto text-xl wi wi-${getWeatherIcon(icon)}`}></i>
       <div className='flex flex-row justify-center items-center font-light'>
-        <p className='mx-2'>
+        <p className='mx-2 text-sm'>
           {computedTempValue('max')}
           <sup>o</sup>
         </p>
-        <p className='mx-2 text-sm'>
+        <p className='mx-2 text-xs'>
           {computedTempValue('min')}
           <sup>o</sup>
         </p>
       </div>
-      <div className='flex flex-row justify-center sm:flex-col font-light'>
+      <div className='flex flex-row justify-center sm:flex-col font-light mt-1'>
         <div className='flex flex-row justify-center items-center mx-2'>
           <i className='text-sm wi wi-sunrise text-sun' title='sunrise'></i>
           <p className='text-sm ml-2'>{FormatTime(`${day.sunrise_time}`)}</p>

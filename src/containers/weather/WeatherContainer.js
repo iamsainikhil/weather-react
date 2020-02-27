@@ -62,10 +62,10 @@ const WeatherContainer = () => {
               />
             </div>
           </div>
-          <div>
+          <div className={`bg-${theme}`}>
             {addressContext.urbanArea.slug ? (
-              <div className='flex flex-col justify-center items-center pb-5'>
-                <div className='w-full text-center'>
+              <div className={`mx-auto text-center pb-5`}>
+                <p>
                   <a
                     href={`https://teleport.org/cities/${addressContext.urbanArea.slug}`}
                     target='_blank'
@@ -76,7 +76,7 @@ const WeatherContainer = () => {
                       Explore life in {addressContext.urbanArea.name}
                     </button>
                   </a>
-                </div>
+                </p>
                 <p
                   className={`py-1 text-xs italic font-light text-${colorTheme}`}>
                   Powered by&nbsp;

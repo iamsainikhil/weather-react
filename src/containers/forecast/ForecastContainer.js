@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Fragment} from 'react'
 import dayjs from 'dayjs'
-import {findIndex} from 'lodash-es'
+import {findIndex, isEmpty} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import DayComponent from '../../components/weather/DayComponent'
 import TimeframeComponent from '../../components/weather/TimeframeComponent'
@@ -45,7 +45,7 @@ const ForecastContainer = ({weatherForecast, formattedDateTime}) => {
 
   return (
     <Fragment>
-      {selectedDayIndex !== -1 ? (
+      {!isEmpty(weatherForecast.Days) && selectedDayIndex !== -1 ? (
         <Fragment>
           {/* mobile */}
           <div className='sm:hidden py-3'>
@@ -118,8 +118,15 @@ const ForecastContainer = ({weatherForecast, formattedDateTime}) => {
         </Fragment>
       ) : (
         <div className='mb-3'>
-          {errorMessage ? (
-            <ErrorComponent errorMessage={errorMessage} showCloseBtn={false} />
+          {isEmpty(weatherForecast.Days) || errorMessage ? (
+            <ErrorComponent
+              errorMessage={
+                isEmpty(weatherForecast.Days)
+                  ? 'No forecast data available for this city!'
+                  : errorMessage
+              }
+              showCloseBtn={false}
+            />
           ) : (
             <LoaderComponent loaderText={'Fetching weather forecast'} />
           )}
