@@ -6,7 +6,7 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 
 const app = (
-  <Router>
+  <Router basename={process.env.PUBLIC_URL}>
     <App />
   </Router>
 )
