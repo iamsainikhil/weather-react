@@ -1,11 +1,13 @@
 import React, {Component, Fragment} from 'react'
+import axios from 'axios'
 import debounce from 'lodash/debounce'
 import './AutoCompleteStyle.scss'
-import SearchContainer from '../../components/search/SearchComponent'
 import AddressComponent from '../../components/address/AddressComponent'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
+import SearchComponent from '../../components/search/SearchComponent'
+import {isEmpty, isUndefined} from 'lodash-es'
 
 class AutoCompleteContainer extends Component {
   static contextType = AddressContext
@@ -39,12 +41,12 @@ class AutoCompleteContainer extends Component {
   async getAddresses() {
     try {
       this.setState({showLoader: true})
-      const data = await fetch(
+      const {data} = await axios.get(
         `https://api.teleport.org/api/cities/?search=${this.state.city}`
-      ).then(response => response.json())
+      )
 
       // if matching cities exist
-      if (data.count) {
+      if (!isEmpty(data) && !isUndefined(data) && data.count) {
         const results = data._embedded['city:search-results'].map(result => ({
           cityName: result.matching_full_name,
           cityId: result._links['city:item'].href.split('/')[5]
@@ -88,35 +90,47 @@ class AutoCompleteContainer extends Component {
   }
 
   async getLatLong(address) {
-    const data = await fetch(
+    // defaults
+    let lat = ''
+    let long = ''
+    let name = ''
+    let slug = ''
+    let photos = []
+
+    // get lat, long, and name
+    const {data} = await axios.get(
       `https://api.teleport.org/api/cities/${address.cityId}`
-    ).then(response => response.json())
-    const {latitude, longitude} = await data.location.latlon
-    let name = undefined
-    if (await data._links['city:urban_area']) {
-      name = await data._links['city:urban_area'].name
+    )
+
+    if (!isEmpty(data) && !isUndefined(data)) {
+      const {latitude, longitude} = data.location.latlon
+      lat = latitude
+      long = longitude
+      if (data._links['city:urban_area']) {
+        name = data._links['city:urban_area'].name
+      }
     }
-    // update urbanArea
+
+    // get slug and photos
     if (localStorage.getItem('urban-areas') && name !== undefined) {
       const urbanAreas = JSON.parse(localStorage.getItem('urban-areas'))
       if (Object.keys(urbanAreas).includes(name)) {
-        const slug = urbanAreas[name]
-        const {photos} = await fetch(
+        slug = urbanAreas[name]
+        const {data} = await axios.get(
           `https://api.teleport.org/api/urban_areas/slug:${slug}/images`
-        ).then(response => response.json())
-        console.log(photos)
-        this.context.updateState({
-          urbanArea: {
-            name,
-            slug,
-            photos
-          }
-        })
+        )
+        photos = !isEmpty(data) && !isUndefined(data) ? data.photos : []
       }
     }
+
     this.context.updateState({
       address: address,
-      latlong: `${latitude},${longitude}`
+      latlong: `${lat},${long}`,
+      urbanArea: {
+        name,
+        slug,
+        photos
+      }
     })
   }
 
@@ -135,7 +149,7 @@ class AutoCompleteContainer extends Component {
       <Fragment>
         <div className='flex justify-center mt-5'>
           <div className='w-full sm:w-5/6 md:w-2/3 xl:w-1/2'>
-            <SearchContainer
+            <SearchComponent
               city={this.state.city}
               showCaret={this.state.showCaret}
               showAddresses={this.state.showAddresses}
@@ -150,7 +164,7 @@ class AutoCompleteContainer extends Component {
               <LoaderComponent />
             ) : (
               this.state.showAddresses && (
-                <div className='mx-6 mt-1 border-solid border-2 border-gray-400 rounded address-list'>
+                <div className='mx-10 mt-0 border-solid border-2 border-gray-400 rounded-b-xl address-list'>
                   {this.state.addresses.map((address, index) => {
                     return (
                       <AddressComponent

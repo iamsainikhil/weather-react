@@ -1,3 +1,6 @@
+import axios from 'axios'
+import {isUndefined, isEmpty} from 'lodash-es'
+
 const APP_ID = process.env.REACT_APP_WEATHER_UNLOCKED_APP_ID
 const APP_KEY = process.env.REACT_APP_WEATHER_UNLOCKED_APP_KEY
 /**
@@ -12,19 +15,22 @@ const FetchWeatherData = async ({latlong}) => {
   let weatherCurrent = {}
   let weatherForecast = {}
 
-  try {
-    const forecastURL = getURL('forecast', latlong)
-    const forecastData = await fetch(forecastURL).then(response =>
-      response.json()
-    )
-    const currentURL = getURL('current', latlong)
-    const currentData = await fetch(currentURL).then(response =>
-      response.json()
-    )
-    weatherForecast = {...forecastData}
-    weatherCurrent = {...currentData}
-  } catch (error) {
-    console.log(error)
+  // fetch weather data only when latlong is valid to avoid uneccessary API calls
+  if (!isUndefined(latlong) && !isEmpty(latlong)) {
+    try {
+      const forecastURL = getURL('forecast', latlong)
+      const forecastData = await axios
+        .get(forecastURL)
+        .then(response => response.data)
+      const currentURL = getURL('current', latlong)
+      const currentData = await axios
+        .get(currentURL)
+        .then(response => response.data)
+      weatherForecast = {...forecastData}
+      weatherCurrent = {...currentData}
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return {

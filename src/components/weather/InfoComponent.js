@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import dayjs from 'dayjs'
 import {ThemeContext} from '../../context/ThemeContext'
+import {imageExist, getImageDetails} from '../../utils/ImageDetails'
 
 const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
   const {updateFavorites} = useContext(AddressContext)
@@ -9,14 +10,9 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
   const [time, setTime] = useState('')
 
   const {colorTheme} = useContext(ThemeContext)
-  // check if there any image exist for an urban area
-  const imageExist = () => {
-    return urbanArea.photos.length > 0
-  }
-  const {image} = imageExist() ? urbanArea.photos[0] : {}
-  const {photographer, site, source} = imageExist()
-    ? urbanArea.photos[0].attribution
-    : {}
+
+  // get image details
+  const {image, photographer, site, source} = getImageDetails(urbanArea)
 
   const imageOverlay = {
     background: 'rgba(0,0,0,0.55)',
@@ -116,7 +112,7 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
   return (
     <div className='relative'>
       <div>
-        {imageExist() ? (
+        {imageExist(urbanArea) ? (
           <Fragment>
             <img
               src={image.mobile}
@@ -133,15 +129,23 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
       </div>
       <div
         className={`${
-          imageExist()
+          imageExist(urbanArea)
             ? 'absolute top-0 left-0 right-0 bottom-0 text-light'
             : `text-${colorTheme}`
         }`}
-        style={imageExist() ? imageOverlay : null}>
+        style={imageExist(urbanArea) ? imageOverlay : null}>
         <div className='flex justify-between items-start'>
           <div className='pt-4 px-4'>
-            <p className='font-bold'>{address.cityName}</p>
-            <div className='sm:flex-col md:flex md:flex-row font-light'>
+            <p
+              className={`font-bold ${
+                imageExist(urbanArea) ? 'text-2xl' : ''
+              }`}>
+              {address.cityName}
+            </p>
+            <div
+              className={`sm:flex-col md:flex md:flex-row ${
+                imageExist(urbanArea) ? 'font-medium' : 'font-light'
+              }`}>
               {date && time ? (
                 <Fragment>
                   <p>

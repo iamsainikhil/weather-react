@@ -9,7 +9,7 @@ import GroupedDayIcons from '../../utils/GroupedDayIcons'
 import CarouselSettings from '../../utils/CarouselSettings'
 import ErrorComponent from './../../components/error/ErrorComponent'
 
-const ForecastContainer = ({weatherForecast, formattedDateTime}) => {
+const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [selectedDayIndex, setSelectedDayIndex] = useState(-1)
   const [dayIcons, setDayIcons] = useState({})
@@ -128,7 +128,9 @@ const ForecastContainer = ({weatherForecast, formattedDateTime}) => {
               showCloseBtn={false}
             />
           ) : (
-            <LoaderComponent loaderText={'Fetching weather forecast'} />
+            <LoaderComponent
+              loaderText={`Fetching 7 days weather forecast for ${cityName}`}
+            />
           )}
         </div>
       )}

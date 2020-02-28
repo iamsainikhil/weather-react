@@ -5,6 +5,8 @@ import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from '../../utils/FetchWeatherData'
 import FormattedDateTime from './../../utils/FormattedDateTime'
 import {ThemeContext} from '../../context/ThemeContext'
+import {isUndefined, isEmpty} from 'lodash-es'
+import LoaderComponent from '../../components/loader/LoaderComponent'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
@@ -14,7 +16,7 @@ const WeatherContainer = () => {
   const [weatherCurrent, setWeatherCurrent] = useState({})
   const [formattedDateTime, setFormattedDateTime] = useState('')
 
-  const previousCityName = useRef('')
+  const previousLatLong = useRef('')
 
   const fetchWeatherData = async () => {
     const {weatherCurrent, weatherForecast} = await FetchWeatherData(
@@ -31,10 +33,10 @@ const WeatherContainer = () => {
       fetchWeatherData()
     }, 3600000)
 
-    if (previousCityName.current !== addressContext.address.cityName) {
+    if (previousLatLong.current !== addressContext.latlong) {
       fetchWeatherData()
     }
-    previousCityName.current = addressContext.address.cityName
+    previousLatLong.current = addressContext.latlong
     return () => {
       clearInterval(timer)
     }
@@ -43,8 +45,7 @@ const WeatherContainer = () => {
 
   return (
     <Fragment>
-      {weatherCurrent !== undefined &&
-      Object.keys(weatherCurrent).length > 0 ? (
+      {!isUndefined(weatherCurrent) && !isEmpty(weatherCurrent) ? (
         <Fragment>
           <div className={`flex justify-center px-5 py-10 bg-${theme}`}>
             <div
@@ -57,6 +58,7 @@ const WeatherContainer = () => {
                 formattedDateTime={formattedDateTime}
               />
               <ForecastContainer
+                cityName={addressContext.address.cityName}
                 weatherForecast={weatherForecast}
                 formattedDateTime={formattedDateTime}
               />
@@ -92,7 +94,11 @@ const WeatherContainer = () => {
             ) : null}
           </div>
         </Fragment>
-      ) : null}
+      ) : (
+        <LoaderComponent
+          loaderText={`Fetching weather forecast for ${addressContext.address.cityName}`}
+        />
+      )}
     </Fragment>
   )
 }

@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
+import axios from 'axios'
 import {PropTypes} from 'prop-types'
+import {isEmpty, isUndefined} from 'lodash-es'
 
+// const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
 
 class AddressContextProvider extends Component {
@@ -27,26 +30,33 @@ class AddressContextProvider extends Component {
     updateFavorites: this.updateFavorites
   }
 
-  async getAddressInfo() {
-    try {
-      // fetch ip info to find weather data on initial page load
-      const data = await fetch('https://ipapi.co/json').then(response =>
-        response.json()
-      )
+  fetchAddressInfo = async () => {
+    const {data} = await axios.get('https://ipapi.co/json')
 
-      this.setState({
+    if (!isEmpty(data) && !isUndefined(data)) {
+      this.updateState({
         address: {
           cityName: `${data.city}, ${data.region}, ${data.country_name}`,
           cityId: ''
         },
         latlong: `${data.latitude},${data.longitude}`
       })
+    }
+  }
+
+  async getAddressInfo() {
+    try {
+      // use ipapi.co API instead of using browser's default geolocation API
+      // since cityName is important and cannot be fetched using browser geolocation API
+      this.fetchAddressInfo()
 
       // fetch and store urban areas list in localStorage
       if (!localStorage.getItem('urban-areas')) {
-        const urban_areas = await fetch(
-          'https://gist.githubusercontent.com/iamsainikhil/4959bbe458ebf0c4bcbf7e24b4983c89/raw/170221bcd3d9732fec97210b9a67cd445e437481/urban_areas.json'
-        ).then(response => response.json())
+        const urban_areas = await axios
+          .get(
+            'https://gist.githubusercontent.com/iamsainikhil/4959bbe458ebf0c4bcbf7e24b4983c89/raw/170221bcd3d9732fec97210b9a67cd445e437481/urban_areas.json'
+          )
+          .then(response => response.data)
         localStorage.setItem('urban-areas', JSON.stringify(urban_areas))
       }
     } catch (error) {

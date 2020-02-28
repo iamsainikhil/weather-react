@@ -3,11 +3,12 @@ import {AddressContext} from '../../context/AddressContext'
 import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import ForecastContainer from '../forecast/ForecastContainer'
 import FetchWeatherData from './../../utils/FetchWeatherData'
-import {sortBy} from 'lodash-es'
+import {sortBy, isUndefined} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import FormattedDateTime from './../../utils/FormattedDateTime'
 import {ThemeContext} from '../../context/ThemeContext'
+import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 
 const FavoritesContainer = () => {
   const {favorites, updateFavorites} = useContext(AddressContext)
@@ -83,14 +84,11 @@ const FavoritesContainer = () => {
               afterSlide={slideIndex => selectFavoriteHandler(slideIndex)}>
               {favorites.map((favorite, index) => {
                 return (
-                  <div
-                    className={`tracking-wide border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-2xl shadow-lg cursor-pointer text-center px-6 py-6`}
-                    onClick={() => {
-                      selectFavoriteHandler(index)
-                    }}
-                    key={index}>
-                    {favorite.address.cityName.split(', ')[0]}
-                  </div>
+                  <FavoriteComponent
+                    key={favorite.latlong}
+                    favorite={favorite}
+                    favoriteSelected={() => selectFavoriteHandler(index)}
+                  />
                 )
               })}
             </Carousel>
@@ -102,12 +100,13 @@ const FavoritesContainer = () => {
                 {favorites.map((favorite, index) => {
                   return (
                     <div
-                      className={`flex sm:w-1/3 md:w-1/4 justify-center tracking-wide border border-${colorTheme} bg-${theme} text-${colorTheme} hover:bg-${colorTheme} hover:text-${theme} rounded-2xl shadow-lg cursor-pointer text-center mx-3 my-3 px-6 py-6`}
-                      onClick={() => {
-                        selectFavoriteHandler(index)
-                      }}
-                      key={index}>
-                      {favorite.address.cityName.split(', ')[0]}
+                      className='m-2 sm:w-1/2 md:w-1/4 lg:w-1/3'
+                      key={favorite.latlong}>
+                      <FavoriteComponent
+                        key={favorite.latlong}
+                        favorite={favorite}
+                        favoriteSelected={() => selectFavoriteHandler(index)}
+                      />
                     </div>
                   )
                 })}
@@ -116,8 +115,8 @@ const FavoritesContainer = () => {
           </div>
 
           <div ref={weatherRef}>
-            {selectedFavorite.address !== undefined &&
-            favoriteWeather.weatherCurrent !== undefined ? (
+            {!isUndefined(selectedFavorite.address) &&
+            !isUndefined(favoriteWeather.weatherCurrent) ? (
               <Fragment>
                 <div className='flex justify-center px-5 py-10'>
                   <div
@@ -130,6 +129,7 @@ const FavoritesContainer = () => {
                       formattedDateTime={formattedDateTime}
                     />
                     <ForecastContainer
+                      cityName={selectedFavorite.address.cityName}
                       weatherForecast={favoriteWeather.weatherForecast}
                       formattedDateTime={formattedDateTime}
                     />
