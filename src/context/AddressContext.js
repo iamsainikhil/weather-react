@@ -64,8 +64,18 @@ class AddressContextProvider extends Component {
     }
   }
 
+  getFavorites = () => {
+    if (localStorage.getItem('favorites')) {
+      this.setState({
+        favorites: [...JSON.parse(localStorage.getItem('favorites'))]
+      })
+    }
+  }
+
   componentDidMount() {
     this.getAddressInfo()
+    // update favorites for the initial application load
+    this.getFavorites()
   }
 
   render() {

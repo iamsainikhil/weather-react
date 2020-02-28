@@ -6,6 +6,7 @@ import {AddressContextProvider} from '../../context/AddressContext'
 import {WeatherUnitContextProvider} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
 import HeaderComponent from '../../components/header/HeaderComponent'
+import ErrorBoundaryContainer from '../error-boundary/ErrorBoundaryContainer'
 const WeatherContainer = lazy(() => import('./../weather/WeatherContainer'))
 const FavoritesContainer = lazy(() => import('../favorites/FavoritesContainer'))
 
@@ -19,10 +20,15 @@ export class HomeContainer extends Component {
           <HeaderComponent />
           <AddressContextProvider>
             <AutoCompleteContainer />
-            <Suspense fallback={<LoaderComponent />}>
-              <WeatherContainer />
-              <FavoritesContainer />
-            </Suspense>
+            <ErrorBoundaryContainer>
+              <Suspense
+                fallback={
+                  <LoaderComponent loaderText={'Loading components'} />
+                }>
+                <WeatherContainer />
+                <FavoritesContainer />
+              </Suspense>
+            </ErrorBoundaryContainer>
           </AddressContextProvider>
         </WeatherUnitContextProvider>
       </div>

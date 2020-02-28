@@ -4,11 +4,11 @@ const SearchComponent = props => {
   return (
     <div className='h-12 mx-5 mt-5'>
       <div className='relative'>
-        <div className='absolute top-0 left-0 ml-4 mt-3'>
+        <div className='absolute top-0 left-0 ml-4 mt-4'>
           <img
             src='./city-weather-search.svg'
             alt='city search'
-            className='h-8 object-contain object-center'
+            className='h-6 object-contain object-center'
           />
         </div>
         <input
@@ -21,19 +21,19 @@ const SearchComponent = props => {
         />
         {props.showCaret && props.city.trim() ? (
           <div
-            className='flex right-0 absolute top-0 mr-4 mt-3 cursor-pointer'
+            className='flex right-0 absolute top-0 mr-4 mt-4 cursor-pointer'
             onClick={props.caretClicked}>
             {props.showAddresses ? (
               <img
                 src='./up-arrow.svg'
                 alt='arrow-up'
-                className='h-6 object-contain object-center'
+                className='h-4 object-contain object-center'
               />
             ) : (
               <img
                 src='./down-arrow.svg'
                 alt='arrow-down'
-                className='h-6 object-contain object-center'
+                className='h-4 object-contain object-center'
               />
             )}
           </div>

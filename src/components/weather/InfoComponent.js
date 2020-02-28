@@ -3,6 +3,7 @@ import {AddressContext} from '../../context/AddressContext'
 import dayjs from 'dayjs'
 import {ThemeContext} from '../../context/ThemeContext'
 import {imageExist, getImageDetails} from '../../utils/ImageDetails'
+import {sortBy} from 'lodash-es'
 
 const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
   const {updateFavorites} = useContext(AddressContext)
@@ -36,6 +37,7 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
   }
 
   const favoritesHandler = () => {
+    // first ever favorite item stored in localStorage
     if (!localStorage.getItem('favorites')) {
       localStorage.setItem(
         'favorites',
@@ -46,16 +48,18 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
       })
     } else {
       const favorites = JSON.parse(localStorage.getItem('favorites'))
+      // sort favorites by cityName
+      const sortedFavorites = sortBy(
+        [...favorites, {address, latlong, urbanArea}],
+        ['address.cityName']
+      )
       const duplicates = favorites.filter(
         favorite => favorite.address.cityName === address.cityName
       )
       if (!duplicates.length) {
-        localStorage.setItem(
-          'favorites',
-          JSON.stringify([...favorites, {address, latlong, urbanArea}])
-        )
+        localStorage.setItem('favorites', JSON.stringify(sortedFavorites))
         updateFavorites({
-          favorites: [...favorites, {address, latlong, urbanArea}]
+          favorites: sortedFavorites
         })
       } else {
         // remove it from favorites
@@ -64,11 +68,12 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
             favorite.address.cityName === duplicates[0].address.cityName
         )
         if (removeIndex !== -1) {
-          const newFavorites = [...favorites]
+          // sort the new favorites array by cityName
+          const newFavorites = sortBy([...favorites], ['address.cityName'])
           newFavorites.splice(removeIndex, 1)
-          localStorage.setItem('favorites', JSON.stringify([...newFavorites]))
+          localStorage.setItem('favorites', JSON.stringify(newFavorites))
           updateFavorites({
-            favorites: [...newFavorites]
+            favorites: newFavorites
           })
         }
       }
@@ -168,7 +173,7 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
             {isBookmarked() ? <span>&#9733;</span> : <span>&#9734;</span>}
           </div>
         </div>
-        <div className='hidden lg:block text-right bottom-0 right-0 lg:mt-10 px-2'>
+        <div className='hidden md:block text-right bottom-0 right-0 xl:mt-8 px-2'>
           {photographer && site ? (
             <p
               className='font-light tracking-wider'

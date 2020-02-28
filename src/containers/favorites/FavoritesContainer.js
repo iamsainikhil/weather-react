@@ -3,7 +3,7 @@ import {AddressContext} from '../../context/AddressContext'
 import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import ForecastContainer from '../forecast/ForecastContainer'
 import FetchWeatherData from './../../utils/FetchWeatherData'
-import {sortBy, isUndefined} from 'lodash-es'
+import {isUndefined} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import FormattedDateTime from './../../utils/FormattedDateTime'
@@ -11,7 +11,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 
 const FavoritesContainer = () => {
-  const {favorites, updateFavorites} = useContext(AddressContext)
+  const {favorites} = useContext(AddressContext)
   const {theme, colorTheme} = useContext(ThemeContext)
   const [selectedFavorite, setSelectedFavorite] = useState({})
   const [favoriteWeather, setFavoriteWeather] = useState({})
@@ -52,19 +52,8 @@ const FavoritesContainer = () => {
     const timer = setInterval(() => {
       fetchWeatherData()
     }, 3600000)
-    // update favorites
-    const timeout = setTimeout(() => {
-      if (localStorage.getItem('favorites')) {
-        const fav = JSON.parse(localStorage.getItem('favorites'))
-        // sort favorites by cityName
-        updateFavorites({
-          favorites: sortBy(fav, ['address.cityName'])
-        })
-      }
-    }, 1000)
     return () => {
       clearInterval(timer)
-      clearTimeout(timeout)
     }
     // eslint-disable-next-line
   }, [selectedFavorite])
@@ -94,13 +83,13 @@ const FavoritesContainer = () => {
             </Carousel>
           </div>
           {/* tablet and above devices */}
-          <div className='hidden sm:flex  justify-center items-center'>
-            <div className='sm:w-5/6 xl:w-1/2 px-5 py-5'>
+          <div className='hidden sm:flex justify-center items-center'>
+            <div className='sm:w-5/6 xl:w-3/4 px-5 py-5'>
               <div className='flex sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {
                   return (
                     <div
-                      className='m-2 sm:w-1/2 md:w-1/4 lg:w-1/3'
+                      className='m-2 sm:w-1/2 md:w-1/4'
                       key={favorite.latlong}>
                       <FavoriteComponent
                         key={favorite.latlong}
@@ -114,6 +103,9 @@ const FavoritesContainer = () => {
             </div>
           </div>
 
+          {/* 
+            TODO: utilize weather container here instead of code repeat
+          */}
           <div ref={weatherRef}>
             {!isUndefined(selectedFavorite.address) &&
             !isUndefined(favoriteWeather.weatherCurrent) ? (

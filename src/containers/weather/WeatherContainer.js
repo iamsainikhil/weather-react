@@ -15,10 +15,12 @@ const WeatherContainer = () => {
   const [weatherForecast, setWeatherForecast] = useState({})
   const [weatherCurrent, setWeatherCurrent] = useState({})
   const [formattedDateTime, setFormattedDateTime] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const previousLatLong = useRef('')
 
   const fetchWeatherData = async () => {
+    setIsLoading(true)
     const {weatherCurrent, weatherForecast} = await FetchWeatherData(
       addressContext
     )
@@ -26,6 +28,7 @@ const WeatherContainer = () => {
     setWeatherForecast(weatherForecast)
     const formattedString = await FormattedDateTime(addressContext.latlong)
     setFormattedDateTime(formattedString)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -95,9 +98,17 @@ const WeatherContainer = () => {
           </div>
         </Fragment>
       ) : (
-        <LoaderComponent
-          loaderText={`Fetching weather forecast for ${addressContext.address.cityName}`}
-        />
+        <Fragment>
+          {isLoading ? (
+            <LoaderComponent
+              loaderText={`Fetching weather forecast ${
+                !isEmpty(addressContext.address.cityName)
+                  ? `for ${addressContext.address.cityName}`
+                  : null
+              }`}
+            />
+          ) : null}
+        </Fragment>
       )}
     </Fragment>
   )

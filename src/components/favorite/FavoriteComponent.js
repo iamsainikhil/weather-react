@@ -20,7 +20,7 @@ const FavoriteComponent = ({favorite, favoriteSelected}) => {
       {imageExist(favorite.urbanArea) ? (
         <Fragment>
           <img
-            src={getImage(favorite.urbanArea).mobile}
+            src={getImage(favorite.urbanArea).web}
             alt='city'
             className='h-full w-full object-cover object-center rounded-2xl'
           />
