@@ -5,13 +5,15 @@ import {ThemeContext} from '../../context/ThemeContext'
 import IconComponent from '../icon/IconComponent'
 
 const HeaderComponent = () => {
-  const {theme, colorTheme, toggleTheme} = useContext(ThemeContext)
+  const {theme, toggleTheme} = useContext(ThemeContext)
   return (
     <div className='flex justify-between items-center px-5 py-5'>
       <div>
-        <i
-          className={`wi wi-cloudy text-3xl text-${colorTheme}`}
-          title='Weather App'></i>
+        <img
+          src='./logo.png'
+          alt='Logo'
+          className='h-12 w-12 object-contain object-center'
+        />
       </div>
       <div>
         <Toggle
