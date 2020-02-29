@@ -3,7 +3,7 @@ import {AddressContext} from '../../context/AddressContext'
 import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import ForecastContainer from '../forecast/ForecastContainer'
 import FetchWeatherData from './../../utils/FetchWeatherData'
-import {isUndefined} from 'lodash-es'
+import {isUndefined, isEmpty} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import FormattedDateTime from './../../utils/FormattedDateTime'
@@ -31,15 +31,17 @@ const FavoritesContainer = () => {
     setSlideIndex(index)
   }
 
-  const fetchWeatherData = () => {
+  const fetchWeatherData = async () => {
     if (
-      selectedFavorite !== undefined &&
+      !isUndefined(selectedFavorite) &&
       Object.keys(selectedFavorite).length
     ) {
-      FetchWeatherData(selectedFavorite).then(data => {
+      const data = await FetchWeatherData(selectedFavorite)
+      // set favoriteWeather only when the data is non-empty
+      if (!isEmpty(data) && !isUndefined(data)) {
         setFavoriteWeather(state => ({...state, ...data}))
         scrollHandler()
-      })
+      }
     }
   }
 
@@ -107,7 +109,7 @@ const FavoritesContainer = () => {
             TODO: utilize weather container here instead of code repeat
           */}
           <div ref={weatherRef}>
-            {!isUndefined(selectedFavorite.address) &&
+            {!isEmpty(favoriteWeather.weatherCurrent) &&
             !isUndefined(favoriteWeather.weatherCurrent) ? (
               <Fragment>
                 <div className='flex justify-center px-5 py-10'>

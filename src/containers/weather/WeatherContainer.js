@@ -19,13 +19,21 @@ const WeatherContainer = () => {
 
   const previousLatLong = useRef('')
 
+  const setWeatherData = (current, forecast) => {
+    if (!isEmpty(current) && !isEmpty(forecast)) {
+      setWeatherCurrent(weatherCurrent)
+      setWeatherForecast(weatherForecast)
+    }
+  }
+
   const fetchWeatherData = async () => {
     setIsLoading(true)
     const {weatherCurrent, weatherForecast} = await FetchWeatherData(
       addressContext
     )
-    setWeatherCurrent(weatherCurrent)
-    setWeatherForecast(weatherForecast)
+    // set the weatherCurrent and weatherForecast only when the data is non-empty
+    // this way, the old fetched data can be preserved when api call fail or limit exceed
+    setWeatherData(weatherCurrent, weatherForecast)
     const formattedString = await FormattedDateTime(addressContext.latlong)
     setFormattedDateTime(formattedString)
     setIsLoading(false)

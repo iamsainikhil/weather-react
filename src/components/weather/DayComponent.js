@@ -1,21 +1,32 @@
 import React, {useContext} from 'react'
 import dayjs from 'dayjs'
-import FormatTime from '../../utils/FormatTime'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
 import getWeatherIcon from '../../utils/WeatherIcon'
+import {fToC} from '../../utils/TemperatureConvert'
 
 const DayComponent = props => {
-  const {day, icon, iconDesc, index, selectedIndex} = props
+  const {day, index, selectedIndex} = props
   const {weatherUnit} = useContext(WeatherUnitContext)
   const {theme, colorTheme} = useContext(ThemeContext)
 
+  /**
+   * type can be 'High' or 'Low'
+   * @param {String} type
+   */
   const computedTempValue = type => {
-    return Math.round(day[`temp_${type}_${weatherUnit.toLowerCase()}`])
+    return weatherUnit === 'F'
+      ? day[`temperature${type}`]
+      : fToC(day[`temperature${type}`])
+  }
+
+  // format sunrise & sunset
+  const formatTime = timestamp => {
+    return dayjs(timestamp).format('hh:mm')
   }
 
   const selectedDay = () => {
-    props.selectedDay({day, index})
+    props.selectedDay({day})
   }
 
   return (
@@ -24,35 +35,30 @@ const DayComponent = props => {
         index === selectedIndex ? `sm:bg-${colorTheme} sm:text-${theme}` : ''
       } transition-colors duration-1000 ease-in-out`}
       onClick={selectedDay}>
-      <p className='font-medium'>
-        {dayjs(
-          day.date
-            .split('/')
-            .reverse()
-            .join(', ')
-        ).format('ddd')}
-      </p>
+      <p className='font-medium'>{dayjs(day.time).format('ddd')}</p>
       <i
-        title={iconDesc}
-        className={`mx-auto text-xl wi wi-${getWeatherIcon(icon)}`}></i>
+        title={day.summary}
+        className={`mx-auto text-xl wi wi-forecast-io-${getWeatherIcon(
+          day.icon
+        )}`}></i>
       <div className='flex flex-row justify-center items-center font-light'>
         <p className='mx-2 text-sm'>
-          {computedTempValue('max')}
+          {computedTempValue('High')}
           <sup>o</sup>
         </p>
         <p className='mx-2 text-xs'>
-          {computedTempValue('min')}
+          {computedTempValue('Low')}
           <sup>o</sup>
         </p>
       </div>
       <div className='flex flex-row justify-center sm:flex-col font-light mt-1'>
         <div className='flex flex-row justify-center items-center mx-2'>
           <i className='text-sm wi wi-sunrise text-sun' title='sunrise'></i>
-          <p className='text-sm ml-2'>{FormatTime(`${day.sunrise_time}`)}</p>
+          <p className='text-sm ml-2'>{formatTime(day.sunriseTime)}</p>
         </div>
         <div className='flex flex-row justify-center items-center mx-2'>
           <i className='text-sm wi wi-sunset text-sun' title='sunset'></i>
-          <p className='text-sm ml-2'>{FormatTime(`${day.sunset_time}`)}</p>
+          <p className='text-sm ml-2'>{formatTime(day.sunsetTime)}</p>
         </div>
       </div>
     </div>

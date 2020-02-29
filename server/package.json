@@ -1,0 +1,12 @@
+{
+  "description": "Proxy API server",
+  "name": "proxy-api-server",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.15.2"
+  },
+  "scripts": {
+    "server": "node server.js"
+  }
+}

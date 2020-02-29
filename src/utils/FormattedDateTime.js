@@ -13,7 +13,7 @@ const FormattedDateTime = async latlong => {
   // fetch formattedDateTime only when latlong is valid to avoid uneccessary API calls
   if (!isUndefined(latlong) && !isEmpty(latlong)) {
     try {
-      const URL = `http://api.timezonedb.com/v2.1/get-time-zone?key=${APP_KEY}&format=json&by=position&lat=${lat}&lng=${long}`
+      const URL = `https://api.timezonedb.com/v2.1/get-time-zone?key=${APP_KEY}&format=json&by=position&lat=${lat}&lng=${long}`
       const {data} = await axios.get(URL)
       if (!isUndefined(data) && !isEmpty(data)) {
         formattedDateTime = data.formatted

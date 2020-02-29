@@ -1,15 +1,27 @@
 import React, {useContext} from 'react'
-import FormatTime from '../../utils/FormatTime'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
 import getWeatherIcon from '../../utils/WeatherIcon'
+import {fToC} from '../../utils/TemperatureConvert'
+import dayjs from 'dayjs'
 
 const TimeframeComponent = ({Timeframe}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
   const {theme} = useContext(ThemeContext)
 
+  /**
+   * type can be `temperature` or `apparentTemperature`
+   * @param {String} type
+   */
   const computedTempValue = type => {
-    return Math.round(Timeframe[`${type}_${weatherUnit.toLowerCase()}`])
+    return weatherUnit === 'F'
+      ? Timeframe[`${type}`]
+      : fToC(Timeframe[`${type}`])
+  }
+
+  // format time
+  const formatTime = timestamp => {
+    return dayjs(timestamp).format('H:mm A')
   }
 
   return (
@@ -18,17 +30,19 @@ const TimeframeComponent = ({Timeframe}) => {
         theme === 'light' ? 'dark' : 'light'
       }`}>
       <i
-        title={Timeframe.wx_desc}
-        className={`wi wi-${getWeatherIcon(Timeframe.wx_icon)} text-xl`}></i>
+        title={Timeframe.summary}
+        className={`wi wi-forecast-io-${getWeatherIcon(
+          Timeframe.icon
+        )} text-xl`}></i>
       <p className='text-xl'>
-        {computedTempValue('temp')}
+        {computedTempValue('temperature')}
         <sup>o</sup>
       </p>
       <p className='text-sm italic'>
-        {computedTempValue('feelslike')}
+        {computedTempValue('apparentTemperature')}
         <sup>o</sup>
       </p>
-      <p className='text-sm font-medium'>{FormatTime(`${Timeframe.time}`)}</p>
+      <p className='text-sm font-medium'>{formatTime(`${Timeframe.time}`)}</p>
     </div>
   )
 }

@@ -3,10 +3,10 @@
  * @param {String} type
  * time or day or favorite
  */
-const CarouselSettings = type => ({
+const CarouselSettings = (type, resolution = 'mobile') => ({
   width: '100%',
-  slidesToShow: type === 'time' ? 3 : 1,
-  slidesToScroll: type === 'time' ? 3 : 1,
+  slidesToShow: type === 'time' ? (resolution === 'tablet' ? 8 : 3) : 1,
+  slidesToScroll: type === 'time' ? (resolution === 'tablet' ? 8 : 3) : 1,
   initialSlideHeight: type === 'time' ? 100 : 200,
   slideWidth: type === 'time' ? 0.95 : 1.0,
   speed: 1000,

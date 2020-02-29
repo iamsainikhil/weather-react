@@ -2,6 +2,8 @@ import React, {Fragment, useContext} from 'react'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import getWindDirection from '../../utils/WindDirection'
 import getWeatherIcon from '../../utils/WeatherIcon'
+import {mToK} from '../../utils/SpeedConvert'
+import {fToC} from '../../utils/TemperatureConvert'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
@@ -11,17 +13,19 @@ const InfoDetailComponent = ({weatherCurrent}) => {
   }
 
   /**
-   * type can be `temp` or `feels_like`
+   * type can be `temperature` or `apparentTemperature`
    * @param {String} type
    */
   const computedTempValue = type => {
-    return Math.round(weatherCurrent[`${type}_${weatherUnit.toLowerCase()}`])
+    return weatherUnit === 'F'
+      ? weatherCurrent[`${type}`]
+      : fToC(weatherCurrent[`${type}`])
   }
 
   const computedSpeedValue = () => {
     return weatherUnit === 'F'
-      ? `${Math.round(weatherCurrent.windspd_mph)} mph`
-      : `${Math.round(weatherCurrent.windspd_kmh)} kmph`
+      ? `${weatherCurrent.windSpeed} mph`
+      : `${mToK(weatherCurrent.windSpeed)} kmph`
   }
 
   return (
@@ -31,15 +35,15 @@ const InfoDetailComponent = ({weatherCurrent}) => {
           <div className='flex flex-row items-center'>
             <div>
               <i
-                className={`wi wi-${getWeatherIcon(
-                  weatherCurrent.wx_icon
+                className={`wi wi-forecast-io-${getWeatherIcon(
+                  weatherCurrent.icon
                 )} text-4xl mt-3 mr-2`}
-                title={weatherCurrent.wx_desc}></i>
+                title={weatherCurrent.summary}></i>
             </div>
             <div className='flex justify-start items-center'>
               <div>
                 <span className='text-5xl font-bold'>
-                  {computedTempValue('temp')}
+                  {computedTempValue('temperature')}
                 </span>
               </div>
               <div className='text-2xl -mt-6'>
@@ -57,12 +61,12 @@ const InfoDetailComponent = ({weatherCurrent}) => {
               </div>
             </div>
           </div>
-          <p className='sm:ml-3 capitalize'>{weatherCurrent.wx_desc}</p>
+          <p className='sm:ml-3 capitalize'>{weatherCurrent.summary}</p>
         </div>
         <div className='sm:w-full lg:w-1/2'>
           <p>
             <span className='font-light'>Humidity:</span>&nbsp;
-            {weatherCurrent.humid_pct}%
+            {Math.round(weatherCurrent.humidity)}%
           </p>
           <div className='flex items-center'>
             <p>
@@ -72,7 +76,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
             <p>
               <i
                 className={`mx-2 mt-2 text-3xl wi wi-direction-${getWindDirection(
-                  weatherCurrent.winddir_deg
+                  weatherCurrent.windBearing
                 )}`}></i>
             </p>
           </div>

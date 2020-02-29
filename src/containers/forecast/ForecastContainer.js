@@ -1,59 +1,55 @@
 import React, {useState, useEffect, Fragment} from 'react'
 import dayjs from 'dayjs'
-import {findIndex, isEmpty} from 'lodash-es'
+import {isEmpty, isUndefined} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import DayComponent from '../../components/weather/DayComponent'
 import TimeframeComponent from '../../components/weather/TimeframeComponent'
 import LoaderComponent from '../../components/loader/LoaderComponent'
-import GroupedDayIcons from '../../utils/GroupedDayIcons'
 import CarouselSettings from '../../utils/CarouselSettings'
 import ErrorComponent from './../../components/error/ErrorComponent'
 import ErrorBoundaryContainer from '../error-boundary/ErrorBoundaryContainer'
 
 const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
   const [errorMessage, setErrorMessage] = useState('')
-  const [selectedDayIndex, setSelectedDayIndex] = useState(-1)
-  const [dayIcons, setDayIcons] = useState({})
+  const [selectedDay, setSelectedDay] = useState('')
 
-  // set the selectedDayIndex to the current day by fetching current city date and time from FormattedDateTime
+  // set the selectedDay to the current day by fetching current city date and time from FormattedDateTime
   const updateSelectedDay = async () => {
     // show forecast elements when formattedDateTime is not an empty string & an error message starting with Failed
     if (formattedDateTime && !formattedDateTime.includes('Failed')) {
       const today = dayjs(formattedDateTime).format('DD/MM/YYYY')
-      const todayIndex = findIndex(weatherForecast.Days, ['date', today])
-      setSelectedDayIndex(todayIndex < 0 ? 0 : todayIndex)
+      // check if today key exist in days
+      if (!isEmpty(weatherForecast) && !isUndefined(weatherForecast)) {
+        setSelectedDay(weatherForecast.days[today] ? today : '')
+      }
     } else {
       setErrorMessage(formattedDateTime)
     }
   }
 
-  const daySelectHandler = index => {
-    setSelectedDayIndex(index)
-  }
-
-  // find weather icon and desc for every day in weatherForecast Days based on the most common weather_icon of the timeframes
-  const updateDayIcons = () => {
-    const icons = GroupedDayIcons(weatherForecast, 'wx_icon')
-    const iconsDesc = GroupedDayIcons(weatherForecast, 'wx_desc')
-    setDayIcons({icons: [...icons], iconDesc: [...iconsDesc]})
+  /**
+   * day is a date '02/28/2020'
+   * @param {String} day
+   */
+  const daySelectHandler = day => {
+    setSelectedDay(day)
   }
 
   useEffect(() => {
     updateSelectedDay()
-    updateDayIcons()
     // eslint-disable-next-line
   }, [formattedDateTime])
 
   return (
     <ErrorBoundaryContainer>
       <Fragment>
-        {!isEmpty(weatherForecast.Days) && selectedDayIndex !== -1 ? (
+        {!isEmpty(weatherForecast.days) && !isEmpty(selectedDay) ? (
           <Fragment>
             {/* mobile */}
             <div className='sm:hidden py-3'>
               <Carousel {...CarouselSettings('time')}>
-                {weatherForecast.Days[selectedDayIndex]
-                  ? weatherForecast.Days[selectedDayIndex].Timeframes.map(
+                {weatherForecast.timeFrames[selectedDay]
+                  ? weatherForecast.timeFrames[selectedDay].map(
                       (Timeframe, index) => {
                         return (
                           <TimeframeComponent
@@ -68,34 +64,43 @@ const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
             </div>
             {/* tablet and above devices */}
             <div className='hidden sm:flex py-3'>
-              {weatherForecast.Days[selectedDayIndex]
-                ? weatherForecast.Days[selectedDayIndex].Timeframes.map(
-                    (Timeframe, index) => {
-                      return (
-                        <TimeframeComponent Timeframe={Timeframe} key={index} />
-                      )
-                    }
-                  )
-                : null}
+              <Carousel {...CarouselSettings('time', 'tablet')}>
+                {weatherForecast.timeFrames[selectedDay]
+                  ? weatherForecast.timeFrames[selectedDay].map(
+                      (Timeframe, index) => {
+                        return (
+                          <TimeframeComponent
+                            Timeframe={Timeframe}
+                            key={index}
+                          />
+                        )
+                      }
+                    )
+                  : null}
+              </Carousel>
             </div>
 
             {/* mobile */}
             <div className='sm:hidden py-3'>
               <Carousel
                 {...CarouselSettings('day')}
-                slideIndex={selectedDayIndex}
-                afterSlide={slideIndex => daySelectHandler(slideIndex)}>
-                {weatherForecast.Days
-                  ? weatherForecast.Days.map((day, index) => {
+                slideIndex={Object.keys(weatherForecast.days).findIndex(
+                  selectedDay
+                )}
+                afterSlide={slideIndex =>
+                  daySelectHandler(
+                    Object.keys(weatherForecast.days)[slideIndex]
+                  )
+                }>
+                {Object.keys(weatherForecast.days)
+                  ? Object.keys(weatherForecast.days).map((day, index) => {
                       return (
                         <DayComponent
-                          day={day}
+                          day={weatherForecast.days[day]}
                           key={index}
-                          index={index}
-                          icon={dayIcons.icons[index]}
-                          iconDesc={dayIcons.iconDesc[index]}
-                          selectedIndex={selectedDayIndex}
-                          selectedDay={() => daySelectHandler(index)}
+                          index={day}
+                          selectedIndex={selectedDay}
+                          selectedDay={() => daySelectHandler(day)}
                         />
                       )
                     })
@@ -104,17 +109,15 @@ const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
             </div>
             {/* table and above devices */}
             <div className={`hidden sm:flex w-full rounded sm:visible`}>
-              {weatherForecast.Days
-                ? weatherForecast.Days.map((day, index) => {
+              {Object.keys(weatherForecast.days)
+                ? Object.keys(weatherForecast.days).map((day, index) => {
                     return (
                       <DayComponent
-                        day={day}
+                        day={weatherForecast.days[day]}
                         key={index}
-                        index={index}
-                        icon={dayIcons.icons[index]}
-                        iconDesc={dayIcons.iconDesc[index]}
-                        selectedIndex={selectedDayIndex}
-                        selectedDay={() => daySelectHandler(index)}
+                        index={day}
+                        selectedIndex={selectedDay}
+                        selectedDay={() => daySelectHandler(day)}
                       />
                     )
                   })
@@ -123,10 +126,10 @@ const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
           </Fragment>
         ) : (
           <div className='mb-3'>
-            {isEmpty(weatherForecast.Days) || errorMessage ? (
+            {isEmpty(weatherForecast.days) || errorMessage ? (
               <ErrorComponent
                 errorMessage={
-                  isEmpty(weatherForecast.Days)
+                  isEmpty(weatherForecast.days)
                     ? 'No forecast data available for this city!'
                     : errorMessage
                 }

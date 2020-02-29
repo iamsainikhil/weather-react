@@ -12,6 +12,7 @@ const FavoritesContainer = lazy(() => import('../favorites/FavoritesContainer'))
 
 export class HomeContainer extends Component {
   static contextType = ThemeContext
+
   render() {
     return (
       <div
