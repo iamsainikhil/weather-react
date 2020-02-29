@@ -1,30 +1,36 @@
-const getWeatherIcon = code => {
+import moment from 'moment-timezone'
+
+const getWeatherIcon = (code, timezone) => {
+  const hour = moment()
+    .tz(timezone)
+    .format('H')
+  const type = hour >= 6 && hour < 18 ? 'day' : 'night-alt'
   if (code) {
     switch (code) {
-      case 'day-sunny':
-        return 'clear-day'
-      case 'night-clear':
-        return 'clear-night'
+      case 'clear-day':
+        return 'day-sunny'
+      case 'clear-night':
+        return 'night-clear'
       case 'rain':
-        return 'rain'
+        return `${type}-rain`
       case 'snow':
-        return 'snow'
+        return `${type}-snow`
       case 'sleet':
-        return 'sleet'
-      case 'strong-wind':
-        return 'wind'
-      case 'fog':
-        return 'fog'
+        return `${type}-sleet`
+      case 'wind':
+        return `${type === 'night-alt' ? 'night-alt-cloudy' : 'day'}-windy`
+      case 'Fog':
+        return type === 'day' ? 'day-fog' : 'night-fog'
       case 'cloudy':
         return 'cloudy'
-      case 'day-cloudy':
-        return 'partly-cloudy-day'
-      case 'night-cloudy':
-        return 'partly-cloudy-night'
+      case 'partly-cloudy-day':
+        return 'day-cloudy'
+      case 'partly-cloudy-night':
+        return 'night-alt-cloudy'
       case 'hail':
-        return 'hail'
+        return `${type}-hail`
       case 'thunderstorm':
-        return 'thunderstorm'
+        return `${type}-thunderstorm`
       case 'tornado':
         return 'tornado'
       default:

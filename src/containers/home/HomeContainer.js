@@ -1,5 +1,4 @@
 import React, {Component, Suspense, lazy} from 'react'
-import './HomeStyle.scss'
 import AutoCompleteContainer from '../autocomplete/AutoCompleteContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import {AddressContextProvider} from '../../context/AddressContext'
@@ -16,7 +15,7 @@ export class HomeContainer extends Component {
   render() {
     return (
       <div
-        className={`bg-${this.context.theme} absolute top-0 right-0 bottom-0 left-0 tracking-wide`}>
+        className={`bg-${this.context.theme} absolute top-0 right-0 bottom-0 left-0 m-0 tracking-wide`}>
         <WeatherUnitContextProvider>
           <HeaderComponent />
           <AddressContextProvider>

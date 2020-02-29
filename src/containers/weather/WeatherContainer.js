@@ -21,8 +21,8 @@ const WeatherContainer = () => {
 
   const setWeatherData = (current, forecast) => {
     if (!isEmpty(current) && !isEmpty(forecast)) {
-      setWeatherCurrent(weatherCurrent)
-      setWeatherForecast(weatherForecast)
+      setWeatherCurrent(current)
+      setWeatherForecast(forecast)
     }
   }
 
@@ -58,9 +58,9 @@ const WeatherContainer = () => {
     <Fragment>
       {!isUndefined(weatherCurrent) && !isEmpty(weatherCurrent) ? (
         <Fragment>
-          <div className={`flex justify-center px-5 py-10 bg-${theme}`}>
+          <div className={`flex justify-center px-5 pt-10 bg-${theme}`}>
             <div
-              className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
+              className={`sm:w-full lg:w-5/6 xl:w-2/3 border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
               <CurrentWeatherContainer
                 weatherCurrent={weatherCurrent}
                 address={addressContext.address}
@@ -75,6 +75,17 @@ const WeatherContainer = () => {
               />
             </div>
           </div>
+          <p
+            className={`mx-auto text-center pt-2 pb-10 text-xs italic font-light text-${colorTheme} bg-${theme}`}>
+            Powered by&nbsp;
+            <a
+              href='https://darksky.net/poweredby/'
+              target='_blank'
+              rel='noreferrer noopener'
+              className={`hover:no-underline hover:font-medium hover:text-${colorTheme}`}>
+              Dark Sky
+            </a>
+          </p>
           <div className={`bg-${theme}`}>
             {addressContext.urbanArea.slug ? (
               <div className={`mx-auto text-center pb-5`}>

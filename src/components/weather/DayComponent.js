@@ -1,9 +1,10 @@
 import React, {useContext} from 'react'
 import dayjs from 'dayjs'
+import moment from 'moment-timezone'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
-import getWeatherIcon from '../../utils/WeatherIcon'
 import {fToC} from '../../utils/TemperatureConvert'
+import getWeatherIcon from '../../utils/WeatherIcon'
 
 const DayComponent = props => {
   const {day, index, selectedIndex} = props
@@ -16,13 +17,14 @@ const DayComponent = props => {
    */
   const computedTempValue = type => {
     return weatherUnit === 'F'
-      ? day[`temperature${type}`]
+      ? Math.round(day[`temperature${type}`])
       : fToC(day[`temperature${type}`])
   }
 
   // format sunrise & sunset
   const formatTime = timestamp => {
-    return dayjs(timestamp).format('hh:mm')
+    // use the timezone in the day to format the timestamp
+    return moment.tz(timestamp * 1000, day.timezone).format('HH:mm')
   }
 
   const selectedDay = () => {
@@ -35,11 +37,12 @@ const DayComponent = props => {
         index === selectedIndex ? `sm:bg-${colorTheme} sm:text-${theme}` : ''
       } transition-colors duration-1000 ease-in-out`}
       onClick={selectedDay}>
-      <p className='font-medium'>{dayjs(day.time).format('ddd')}</p>
+      <p className='font-medium'>{dayjs(day.time * 1000).format('ddd')}</p>
       <i
         title={day.summary}
-        className={`mx-auto text-xl wi wi-forecast-io-${getWeatherIcon(
-          day.icon
+        className={`mx-auto text-xl wi wi-${getWeatherIcon(
+          day.icon,
+          day.timezone
         )}`}></i>
       <div className='flex flex-row justify-center items-center font-light'>
         <p className='mx-2 text-sm'>

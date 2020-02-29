@@ -8,7 +8,7 @@ const CarouselSettings = (type, resolution = 'mobile') => ({
   slidesToShow: type === 'time' ? (resolution === 'tablet' ? 8 : 3) : 1,
   slidesToScroll: type === 'time' ? (resolution === 'tablet' ? 8 : 3) : 1,
   initialSlideHeight: type === 'time' ? 100 : 200,
-  slideWidth: type === 'time' ? 0.95 : 1.0,
+  slideWidth: type === 'time' ? (resolution === 'tablet' ? 1.0 : 0.95) : 1.0,
   speed: 1000,
   easing: 'easeCircleOut',
   edgeEasing: 'easeCircleOut',

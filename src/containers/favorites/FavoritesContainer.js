@@ -63,7 +63,7 @@ const FavoritesContainer = () => {
   return (
     <Fragment>
       {favorites.length > 0 ? (
-        <div className={`bg-${theme} py-10`}>
+        <div className={`bg-${theme} pt-10 pb-24 mb-0`}>
           <p className={`text-center font-bold text-2xl text-${colorTheme}`}>
             Favorites
           </p>
@@ -112,9 +112,9 @@ const FavoritesContainer = () => {
             {!isEmpty(favoriteWeather.weatherCurrent) &&
             !isUndefined(favoriteWeather.weatherCurrent) ? (
               <Fragment>
-                <div className='flex justify-center px-5 py-10'>
+                <div className='flex justify-center px-5 pt-10'>
                   <div
-                    className={`sm:w-full md:w-5/6 xl:w-1/2 border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
+                    className={`sm:w-full lg:w-5/6 xl:w-2/3 border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
                     <CurrentWeatherContainer
                       weatherCurrent={favoriteWeather.weatherCurrent}
                       address={selectedFavorite.address}
@@ -129,7 +129,18 @@ const FavoritesContainer = () => {
                     />
                   </div>
                 </div>
-                <div>
+                <p
+                  className={`mx-auto text-center pt-2 pb-10 text-xs italic font-light text-${colorTheme} bg-${theme}`}>
+                  Powered by&nbsp;
+                  <a
+                    href='https://darksky.net/poweredby/'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                    className={`hover:no-underline hover:font-medium hover:text-${colorTheme}`}>
+                    Dark Sky
+                  </a>
+                </p>
+                <div className={`bg-${theme}`}>
                   {selectedFavorite.urbanArea.slug ? (
                     <div className='mx-auto text-center pb-5'>
                       <p>

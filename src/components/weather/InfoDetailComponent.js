@@ -18,13 +18,13 @@ const InfoDetailComponent = ({weatherCurrent}) => {
    */
   const computedTempValue = type => {
     return weatherUnit === 'F'
-      ? weatherCurrent[`${type}`]
+      ? Math.round(weatherCurrent[`${type}`])
       : fToC(weatherCurrent[`${type}`])
   }
 
   const computedSpeedValue = () => {
     return weatherUnit === 'F'
-      ? `${weatherCurrent.windSpeed} mph`
+      ? `${Math.round(weatherCurrent.windSpeed)} mph`
       : `${mToK(weatherCurrent.windSpeed)} kmph`
   }
 
@@ -35,8 +35,9 @@ const InfoDetailComponent = ({weatherCurrent}) => {
           <div className='flex flex-row items-center'>
             <div>
               <i
-                className={`wi wi-forecast-io-${getWeatherIcon(
-                  weatherCurrent.icon
+                className={`wi wi-${getWeatherIcon(
+                  weatherCurrent.icon,
+                  weatherCurrent.timezone
                 )} text-4xl mt-3 mr-2`}
                 title={weatherCurrent.summary}></i>
             </div>
@@ -82,7 +83,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
           </div>
           <p>
             <span className='font-light'>Feels like:</span>&nbsp;
-            {computedTempValue('feelslike')}
+            {computedTempValue('apparentTemperature')}
             <sup>o</sup>
           </p>
         </div>

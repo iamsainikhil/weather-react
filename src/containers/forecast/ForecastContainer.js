@@ -17,7 +17,7 @@ const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
   const updateSelectedDay = async () => {
     // show forecast elements when formattedDateTime is not an empty string & an error message starting with Failed
     if (formattedDateTime && !formattedDateTime.includes('Failed')) {
-      const today = dayjs(formattedDateTime).format('DD/MM/YYYY')
+      const today = dayjs(formattedDateTime).format('MM/DD/YYYY')
       // check if today key exist in days
       if (!isEmpty(weatherForecast) && !isUndefined(weatherForecast)) {
         setSelectedDay(weatherForecast.days[today] ? today : '')
@@ -47,44 +47,46 @@ const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
           <Fragment>
             {/* mobile */}
             <div className='sm:hidden py-3'>
-              <Carousel {...CarouselSettings('time')}>
-                {weatherForecast.timeFrames[selectedDay]
-                  ? weatherForecast.timeFrames[selectedDay].map(
-                      (Timeframe, index) => {
-                        return (
-                          <TimeframeComponent
-                            Timeframe={Timeframe}
-                            key={index}
-                          />
-                        )
-                      }
-                    )
-                  : null}
-              </Carousel>
+              {weatherForecast.timeFrames[selectedDay] ? (
+                <Carousel {...CarouselSettings('time')}>
+                  {weatherForecast.timeFrames[selectedDay].map(
+                    (Timeframe, index) => {
+                      return (
+                        <TimeframeComponent Timeframe={Timeframe} key={index} />
+                      )
+                    }
+                  )}
+                </Carousel>
+              ) : (
+                <ErrorComponent
+                  errorMessage={`No hourly forecast available for ${selectedDay}`}
+                />
+              )}
             </div>
             {/* tablet and above devices */}
-            <div className='hidden sm:flex py-3'>
-              <Carousel {...CarouselSettings('time', 'tablet')}>
-                {weatherForecast.timeFrames[selectedDay]
-                  ? weatherForecast.timeFrames[selectedDay].map(
-                      (Timeframe, index) => {
-                        return (
-                          <TimeframeComponent
-                            Timeframe={Timeframe}
-                            key={index}
-                          />
-                        )
-                      }
-                    )
-                  : null}
-              </Carousel>
+            <div className='hidden sm:flex py-3 mb-3'>
+              {weatherForecast.timeFrames[selectedDay] ? (
+                <Carousel {...CarouselSettings('time', 'tablet')}>
+                  {weatherForecast.timeFrames[selectedDay].map(
+                    (Timeframe, index) => {
+                      return (
+                        <TimeframeComponent Timeframe={Timeframe} key={index} />
+                      )
+                    }
+                  )}
+                </Carousel>
+              ) : (
+                <ErrorComponent
+                  errorMessage={`No hourly forecast available for ${selectedDay}`}
+                />
+              )}
             </div>
 
             {/* mobile */}
             <div className='sm:hidden py-3'>
               <Carousel
                 {...CarouselSettings('day')}
-                slideIndex={Object.keys(weatherForecast.days).findIndex(
+                slideIndex={Object.keys(weatherForecast.days).indexOf(
                   selectedDay
                 )}
                 afterSlide={slideIndex =>
@@ -92,36 +94,34 @@ const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
                     Object.keys(weatherForecast.days)[slideIndex]
                   )
                 }>
-                {Object.keys(weatherForecast.days)
-                  ? Object.keys(weatherForecast.days).map((day, index) => {
-                      return (
-                        <DayComponent
-                          day={weatherForecast.days[day]}
-                          key={index}
-                          index={day}
-                          selectedIndex={selectedDay}
-                          selectedDay={() => daySelectHandler(day)}
-                        />
-                      )
-                    })
-                  : null}
+                {Object.keys(weatherForecast.days).map((day, index) => {
+                  return (
+                    <DayComponent
+                      day={weatherForecast.days[day]}
+                      key={index}
+                      index={day}
+                      selectedIndex={selectedDay}
+                      selectedDay={() => daySelectHandler(day)}
+                    />
+                  )
+                })}
               </Carousel>
             </div>
             {/* table and above devices */}
             <div className={`hidden sm:flex w-full rounded sm:visible`}>
-              {Object.keys(weatherForecast.days)
-                ? Object.keys(weatherForecast.days).map((day, index) => {
-                    return (
-                      <DayComponent
-                        day={weatherForecast.days[day]}
-                        key={index}
-                        index={day}
-                        selectedIndex={selectedDay}
-                        selectedDay={() => daySelectHandler(day)}
-                      />
-                    )
-                  })
-                : null}
+              {Object.keys(weatherForecast.days).map((day, index) => {
+                // day is key in weatherForecast.days -> '02/28/2020'
+                // index is the position of key -> 0
+                return (
+                  <DayComponent
+                    day={weatherForecast.days[day]}
+                    key={index}
+                    index={day}
+                    selectedIndex={selectedDay}
+                    selectedDay={() => daySelectHandler(day)}
+                  />
+                )
+              })}
             </div>
           </Fragment>
         ) : (

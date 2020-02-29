@@ -143,7 +143,7 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
           <div className='pt-4 px-4'>
             <p
               className={`font-bold ${
-                imageExist(urbanArea) ? 'text-2xl' : ''
+                imageExist(urbanArea) ? 'sm:text-2xl' : ''
               }`}>
               {address.cityName}
             </p>

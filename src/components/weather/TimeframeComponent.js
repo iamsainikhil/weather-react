@@ -1,9 +1,9 @@
 import React, {useContext} from 'react'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
-import getWeatherIcon from '../../utils/WeatherIcon'
 import {fToC} from '../../utils/TemperatureConvert'
 import dayjs from 'dayjs'
+import getWeatherIcon from '../../utils/WeatherIcon'
 
 const TimeframeComponent = ({Timeframe}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
@@ -15,24 +15,26 @@ const TimeframeComponent = ({Timeframe}) => {
    */
   const computedTempValue = type => {
     return weatherUnit === 'F'
-      ? Timeframe[`${type}`]
+      ? Math.round(Timeframe[`${type}`])
       : fToC(Timeframe[`${type}`])
   }
 
   // format time
   const formatTime = timestamp => {
-    return dayjs(timestamp).format('H:mm A')
+    // format unix timestamp to '1:00 AM'
+    return dayjs(timestamp * 1000).format('h:mm A')
   }
 
   return (
     <div
-      className={`border-none flex flex-col justify-start items-center mx-3 mb-3 w-full font-light text-${
+      className={`border-none flex flex-col justify-start items-center mx-3 mb-3 pt-2 w-full font-light text-${
         theme === 'light' ? 'dark' : 'light'
       }`}>
       <i
         title={Timeframe.summary}
-        className={`wi wi-forecast-io-${getWeatherIcon(
-          Timeframe.icon
+        className={`wi wi-${getWeatherIcon(
+          Timeframe.icon,
+          Timeframe.timezone
         )} text-xl`}></i>
       <p className='text-xl'>
         {computedTempValue('temperature')}

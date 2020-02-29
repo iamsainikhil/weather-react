@@ -7,7 +7,7 @@ const API_KEY = process.env.REACT_APP_DARKSKY_API_KEY
  * @param {String} latlong
  */
 const getURL = latlong => {
-  return `/weather?latlong=${latlong}`
+  return `https://api.darksky.net/forecast/${API_KEY}/${latlong}?extend=hourly`
   // return 'https://api.darksy.net/forecast'
 }
 
@@ -21,10 +21,14 @@ const FetchWeatherData = async ({latlong}) => {
       const weatherData = await axios
         .get(getURL(latlong))
         .then(response => response.data)
-      // replace summary of currently with miuntely summary since weatherData fetch for every hour and
-      // this minutely summary is good for an hour rather than the boring currently summary
-      weatherData.currently.summary = weatherData.minutely.summary
+
+      // NOTE: add timezone property to current, days, and timeFrame data to use it later for
+      // displaying weatherIcon with day or night variants specific to location timezone
+      // parsing sunriseTime & sunsetTime according to the timezone
+      const timezone = weatherData.timezone
+
       weatherCurrent = {
+        timezone,
         ...weatherData.currently
       }
 
@@ -36,9 +40,9 @@ const FetchWeatherData = async ({latlong}) => {
       weatherData.hourly.data.forEach(hour => {
         const date = dayjs(hour.time * 1000).format('MM/DD/YYYY')
         if (Object.keys(timeFrames).includes(date)) {
-          timeFrames[date].push(hour)
+          timeFrames[date].push({timezone, ...hour})
         } else {
-          timeFrames[date] = [hour]
+          timeFrames[date] = [{timezone, ...hour}]
         }
       })
       const days = {}
@@ -48,7 +52,7 @@ const FetchWeatherData = async ({latlong}) => {
         const date = dayjs(day.time * 1000).format('MM/DD/YYYY')
         // since there will be unique day objects in days
         // just create a 'date' key with day object as value for as many days
-        days[date] = day
+        days[date] = {timezone, ...day}
       })
 
       weatherForecast = {timeFrames, days}
