@@ -8,8 +8,7 @@ const CurrentWeatherContainer = ({
   weatherCurrent,
   address,
   latlong,
-  urbanArea,
-  formattedDateTime
+  urbanArea
 }) => {
   return (
     <ErrorBoundaryContainer>
@@ -20,7 +19,7 @@ const CurrentWeatherContainer = ({
               address={address}
               latlong={latlong}
               urbanArea={urbanArea}
-              formattedDateTime={formattedDateTime}
+              weatherCurrent={weatherCurrent}
             />
             <InfoDetailComponent weatherCurrent={weatherCurrent} />
           </div>

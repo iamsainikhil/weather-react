@@ -2,7 +2,7 @@ import {isUndefined, isEmpty} from 'lodash-es'
 
 // check if there any image exist for an urban area
 const imageExist = urbanArea => {
-  return isUndefined(urbanArea) && isEmpty(urbanArea)
+  return isUndefined(urbanArea.photos) && isEmpty(urbanArea.photos)
     ? false
     : urbanArea.photos.length > 0
 }

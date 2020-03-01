@@ -6,6 +6,7 @@ import {WeatherUnitContextProvider} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
 import HeaderComponent from '../../components/header/HeaderComponent'
 import ErrorBoundaryContainer from '../error-boundary/ErrorBoundaryContainer'
+import FooterComponent from '../../components/footer/FooterComponent'
 const WeatherContainer = lazy(() => import('./../weather/WeatherContainer'))
 const FavoritesContainer = lazy(() => import('../favorites/FavoritesContainer'))
 
@@ -14,22 +15,28 @@ export class HomeContainer extends Component {
 
   render() {
     return (
-      <div
-        className={`bg-${this.context.theme} absolute top-0 right-0 bottom-0 left-0 m-0 tracking-wide`}>
+      <div className='wrapper'>
         <WeatherUnitContextProvider>
-          <HeaderComponent />
-          <AddressContextProvider>
-            <AutoCompleteContainer />
-            <ErrorBoundaryContainer>
-              <Suspense
-                fallback={
-                  <LoaderComponent loaderText={'Loading components'} />
-                }>
-                <WeatherContainer />
-                <FavoritesContainer />
-              </Suspense>
-            </ErrorBoundaryContainer>
-          </AddressContextProvider>
+          <div>
+            <HeaderComponent />
+          </div>
+          <div>
+            <AddressContextProvider>
+              <AutoCompleteContainer />
+              <ErrorBoundaryContainer>
+                <Suspense
+                  fallback={
+                    <LoaderComponent loaderText={'Loading components'} />
+                  }>
+                  <WeatherContainer />
+                  <FavoritesContainer />
+                </Suspense>
+              </ErrorBoundaryContainer>
+            </AddressContextProvider>
+          </div>
+          <div>
+            <FooterComponent />
+          </div>
         </WeatherUnitContextProvider>
       </div>
     )

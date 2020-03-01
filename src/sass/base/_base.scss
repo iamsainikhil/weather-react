@@ -8,6 +8,9 @@
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
+  background: transparent;
+  margin: 0;
+  padding: 0;
 }
 /**
  * Make all elements from the DOM inherit from the parent box-sizing
@@ -28,8 +31,35 @@ a {
   color: $brand-color;
   text-decoration: none;
 
-  @include on-event {
+  &:hover {
     color: $text-color;
-    text-decoration: underline;
+    text-decoration: none;
+  }
+}
+
+/*
+* These styles creates the underlining of link with class 'special link'
+*/
+
+.special-link {
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  &::after {
+    content: '';
+    background-color: rgba(#da972c, 0.4);
+    position: absolute;
+    left: 12px;
+    bottom: -4px;
+    width: calc(100% - 10px);
+    height: calc(100% - 12px);
+    z-index: -1;
+    transition: 0.35s cubic-bezier(0.25, 0.1, 0, 2.05);
+  }
+  &:hover:after {
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 100%;
   }
 }

@@ -1,5 +1,4 @@
 import React, {useState, useEffect, Fragment} from 'react'
-import dayjs from 'dayjs'
 import {isEmpty, isUndefined} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import DayComponent from '../../components/weather/DayComponent'
@@ -8,22 +7,21 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import CarouselSettings from '../../utils/CarouselSettings'
 import ErrorComponent from './../../components/error/ErrorComponent'
 import ErrorBoundaryContainer from '../error-boundary/ErrorBoundaryContainer'
+import FormatTime from './../../utils/FormatTime'
 
-const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
-  const [errorMessage, setErrorMessage] = useState('')
+const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
   const [selectedDay, setSelectedDay] = useState('')
+  const {time, timezone} = weatherCurrent
 
-  // set the selectedDay to the current day by fetching current city date and time from FormattedDateTime
+  // set the selectedDay to the current day by fetching current city date from weatherCurrent timestamp
   const updateSelectedDay = async () => {
     // show forecast elements when formattedDateTime is not an empty string & an error message starting with Failed
-    if (formattedDateTime && !formattedDateTime.includes('Failed')) {
-      const today = dayjs(formattedDateTime).format('MM/DD/YYYY')
+    if (!isUndefined(weatherCurrent.time)) {
+      const today = FormatTime(time, timezone, 'MM/DD/YYYY')
       // check if today key exist in days
       if (!isEmpty(weatherForecast) && !isUndefined(weatherForecast)) {
         setSelectedDay(weatherForecast.days[today] ? today : '')
       }
-    } else {
-      setErrorMessage(formattedDateTime)
     }
   }
 
@@ -38,7 +36,7 @@ const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
   useEffect(() => {
     updateSelectedDay()
     // eslint-disable-next-line
-  }, [formattedDateTime])
+  }, [weatherForecast])
 
   return (
     <ErrorBoundaryContainer>
@@ -126,13 +124,9 @@ const ForecastContainer = ({cityName, weatherForecast, formattedDateTime}) => {
           </Fragment>
         ) : (
           <div className='mb-3'>
-            {isEmpty(weatherForecast.days) || errorMessage ? (
+            {isEmpty(weatherForecast.days) ? (
               <ErrorComponent
-                errorMessage={
-                  isEmpty(weatherForecast.days)
-                    ? 'No forecast data available for this city!'
-                    : errorMessage
-                }
+                errorMessage={'No forecast data available for this city!'}
                 showCloseBtn={false}
               />
             ) : (

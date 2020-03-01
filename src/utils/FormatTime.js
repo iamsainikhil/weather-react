@@ -1,12 +1,11 @@
+import moment from 'moment-timezone'
+
 /**
- * @param {String} t
+ * @param {Number} timestamp
+ * @param {String} timezone
  */
-const FormatTime = t => {
-  // check if the 't' is sunrise/set time or timeframe time
-  // 06:00 or 600 exception being 0 & 1000
-  if (t === '0') return '0:00'
-  else if (t === '1000') return '10:00'
-  return t.includes(':') ? t : `${t.split('0')[0]}:00`
+const FormatTime = (timestamp, timezone, formatType) => {
+  return moment.tz(timestamp * 1000, timezone).format(formatType)
 }
 
 export default FormatTime

@@ -38,7 +38,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                 className={`wi wi-${getWeatherIcon(
                   weatherCurrent.icon,
                   weatherCurrent.timezone
-                )} text-4xl mt-3 mr-2`}
+                )} text-5xl mt-3 mr-2 sm:mx-3`}
                 title={weatherCurrent.summary}></i>
             </div>
             <div className='flex justify-start items-center'>

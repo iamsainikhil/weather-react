@@ -1,10 +1,9 @@
 import React, {useContext} from 'react'
-import dayjs from 'dayjs'
-import moment from 'moment-timezone'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
 import {fToC} from '../../utils/TemperatureConvert'
 import getWeatherIcon from '../../utils/WeatherIcon'
+import FormatTime from './../../utils/FormatTime'
 
 const DayComponent = props => {
   const {day, index, selectedIndex} = props
@@ -21,12 +20,6 @@ const DayComponent = props => {
       : fToC(day[`temperature${type}`])
   }
 
-  // format sunrise & sunset
-  const formatTime = timestamp => {
-    // use the timezone in the day to format the timestamp
-    return moment.tz(timestamp * 1000, day.timezone).format('HH:mm')
-  }
-
   const selectedDay = () => {
     props.selectedDay({day})
   }
@@ -37,7 +30,7 @@ const DayComponent = props => {
         index === selectedIndex ? `sm:bg-${colorTheme} sm:text-${theme}` : ''
       } transition-colors duration-1000 ease-in-out`}
       onClick={selectedDay}>
-      <p className='font-medium'>{dayjs(day.time * 1000).format('ddd')}</p>
+      <p className='font-medium'>{FormatTime(day.time, day.timezone, 'ddd')}</p>
       <i
         title={day.summary}
         className={`mx-auto text-xl wi wi-${getWeatherIcon(
@@ -57,11 +50,15 @@ const DayComponent = props => {
       <div className='flex flex-row justify-center sm:flex-col font-light mt-1'>
         <div className='flex flex-row justify-center items-center mx-2'>
           <i className='text-sm wi wi-sunrise text-sun' title='sunrise'></i>
-          <p className='text-sm ml-2'>{formatTime(day.sunriseTime)}</p>
+          <p className='text-sm ml-2'>
+            {FormatTime(day.sunriseTime, day.timezone, 'HH:mm')}
+          </p>
         </div>
         <div className='flex flex-row justify-center items-center mx-2'>
           <i className='text-sm wi wi-sunset text-sun' title='sunset'></i>
-          <p className='text-sm ml-2'>{formatTime(day.sunsetTime)}</p>
+          <p className='text-sm ml-2'>
+            {FormatTime(day.sunsetTime, day.timezone, 'HH:mm')}
+          </p>
         </div>
       </div>
     </div>

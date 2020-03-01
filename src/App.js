@@ -1,15 +1,16 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {Switch, Route} from 'react-router-dom'
 import HomeContainer from './containers/home/HomeContainer'
-import {ThemeContextProvider} from './context/ThemeContext'
+import {ThemeContext} from './context/ThemeContext'
 
-function App() {
+const App = () => {
+  const {theme} = useContext(ThemeContext)
   return (
-    <ThemeContextProvider>
+    <div className={` bg-${theme} tracking-wide border-box`}>
       <Switch>
         <Route path='/' exact component={HomeContainer}></Route>
       </Switch>
-    </ThemeContextProvider>
+    </div>
   )
 }
 

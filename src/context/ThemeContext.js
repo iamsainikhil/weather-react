@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import dayjs from 'dayjs'
+import moment from 'moment-timezone'
 
 const ThemeContext = React.createContext({
   theme: 'light',
@@ -16,7 +16,7 @@ const ThemeContextProvider = ({children}) => {
   const colorTheme = theme === 'light' ? 'dark' : 'light'
 
   const daynightChecker = () => {
-    const hour = dayjs().format('H')
+    const hour = moment().format('H')
     if (hour >= 6 && hour < 18) {
       setTheme('light')
     } else {

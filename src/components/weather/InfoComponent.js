@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
-import dayjs from 'dayjs'
 import {ThemeContext} from '../../context/ThemeContext'
 import {imageExist, getImageDetails} from '../../utils/ImageDetails'
-import {sortBy} from 'lodash-es'
+import {sortBy, isUndefined, isEmpty} from 'lodash-es'
+import moment from 'moment-timezone'
 
-const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
+const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   const {updateFavorites} = useContext(AddressContext)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
@@ -21,7 +21,7 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
     borderTopRightRadius: '1rem'
   }
 
-  // store ref to formattedDateTime and update it for the first api call fetch
+  // store formattedDateTime moment date object in the ref and update it for the first api call fetch
   // this ref will be used to update date and time every second without making additional api calls
   const formattedDateTimeRef = useRef()
 
@@ -80,31 +80,25 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
     }
   }
 
-  // check if formattedDateTime is not an empty string & an error message starting with Failed
-  const isValidFormattedDateTime =
-    formattedDateTime && !formattedDateTime.includes('Failed')
-
   // format and set date & time based on the dateObj
   const datetimeSetter = dateObj => {
-    setDate(dateObj ? dateObj.format('MMMM DD, YYYY') : '')
-    setTime(dateObj ? dateObj.format('dddd h:mm A') : '')
+    setDate(!isUndefined(dateObj) ? dateObj.format('MMMM Do, YYYY') : '')
+    setTime(!isUndefined(dateObj) ? dateObj.format('dddd h:mm A') : '')
     formattedDateTimeRef.current = dateObj ? dateObj : null
   }
 
   useEffect(() => {
-    // reset date & time whenever formattedDateTime change
-    datetimeSetter('')
-    // set date & time when formattedDateTime is valid
-    if (isValidFormattedDateTime) {
-      datetimeSetter(dayjs(formattedDateTime))
-    }
+    // reset date & time whenever weatherCurrent change
+    datetimeSetter(
+      moment(weatherCurrent.time * 1000).tz(weatherCurrent.timezone)
+    )
+
     const dateTimer = setInterval(() => {
-      if (isValidFormattedDateTime) {
-        // update date and time every second only when there is a valid formattedDateTime
-        const formattedDateTimeObj = dayjs(formattedDateTimeRef.current).add(
-          1,
-          'second'
-        )
+      if (weatherCurrent.time) {
+        // update date and time every second only when there is a valid timestamp
+        const formattedDateTimeObj = moment
+          .tz(formattedDateTimeRef.current, weatherCurrent.timezone)
+          .add(1, 's')
         datetimeSetter(formattedDateTimeObj)
       }
     }, 1000)
@@ -112,7 +106,7 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
       clearInterval(dateTimer)
     }
     // eslint-disable-next-line
-  }, [formattedDateTime])
+  }, [weatherCurrent])
 
   return (
     <div className='relative'>
@@ -151,7 +145,7 @@ const InfoComponent = ({address, latlong, urbanArea, formattedDateTime}) => {
               className={`sm:flex-col md:flex md:flex-row ${
                 imageExist(urbanArea) ? 'font-medium' : 'font-light'
               }`}>
-              {date && time ? (
+              {!isEmpty(date) && !isEmpty(time) ? (
                 <Fragment>
                   <p>
                     {date}

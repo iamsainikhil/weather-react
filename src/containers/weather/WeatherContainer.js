@@ -3,7 +3,6 @@ import ForecastContainer from '../forecast/ForecastContainer'
 import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from '../../utils/FetchWeatherData'
-import FormattedDateTime from './../../utils/FormattedDateTime'
 import {ThemeContext} from '../../context/ThemeContext'
 import {isUndefined, isEmpty} from 'lodash-es'
 import LoaderComponent from '../../components/loader/LoaderComponent'
@@ -14,7 +13,6 @@ const WeatherContainer = () => {
 
   const [weatherForecast, setWeatherForecast] = useState({})
   const [weatherCurrent, setWeatherCurrent] = useState({})
-  const [formattedDateTime, setFormattedDateTime] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const previousLatLong = useRef('')
@@ -34,8 +32,6 @@ const WeatherContainer = () => {
     // set the weatherCurrent and weatherForecast only when the data is non-empty
     // this way, the old fetched data can be preserved when api call fail or limit exceed
     setWeatherData(weatherCurrent, weatherForecast)
-    const formattedString = await FormattedDateTime(addressContext.latlong)
-    setFormattedDateTime(formattedString)
     setIsLoading(false)
   }
 
@@ -66,23 +62,22 @@ const WeatherContainer = () => {
                 address={addressContext.address}
                 latlong={addressContext.latlong}
                 urbanArea={addressContext.urbanArea}
-                formattedDateTime={formattedDateTime}
               />
               <ForecastContainer
                 cityName={addressContext.address.cityName}
+                weatherCurrent={weatherCurrent}
                 weatherForecast={weatherForecast}
-                formattedDateTime={formattedDateTime}
               />
             </div>
           </div>
           <p
-            className={`mx-auto text-center pt-2 pb-10 text-xs italic font-light text-${colorTheme} bg-${theme}`}>
+            className={`mx-auto text-center pt-2 pb-10 text-xs font-light text-${colorTheme} bg-${theme}`}>
             Powered by&nbsp;
             <a
               href='https://darksky.net/poweredby/'
               target='_blank'
               rel='noreferrer noopener'
-              className={`hover:no-underline hover:font-medium hover:text-${colorTheme}`}>
+              className={`font-bold hover:text-${colorTheme}`}>
               Dark Sky
             </a>
           </p>
@@ -101,14 +96,13 @@ const WeatherContainer = () => {
                     </button>
                   </a>
                 </p>
-                <p
-                  className={`py-1 text-xs italic font-light text-${colorTheme}`}>
+                <p className={`py-1 text-xs font-light text-${colorTheme}`}>
                   Powered by&nbsp;
                   <a
                     href='https://teleport.org/'
                     target='_blank'
                     rel='noreferrer noopener'
-                    className={`hover:no-underline hover:font-medium hover:text-${colorTheme}`}>
+                    className={`font-bold hover:text-${colorTheme}`}>
                     Teleport
                   </a>
                 </p>

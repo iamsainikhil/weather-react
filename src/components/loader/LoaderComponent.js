@@ -12,7 +12,7 @@ const LoaderComponent = ({loaderText}) => {
       </div>
       {loaderText && (
         <div
-          className={`text-sm font-light text-${
+          className={`mx-auto text-center text-sm font-light text-${
             theme === 'light' ? 'dark' : 'light'
           }`}>
           {loaderText}

@@ -5,7 +5,10 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:300,400&display=swap");
 html {
   box-sizing: border-box;
-  scroll-behavior: smooth; }
+  scroll-behavior: smooth;
+  background: transparent;
+  margin: 0;
+  padding: 0; }
 
 /**
  * Make all elements from the DOM inherit from the parent box-sizing
@@ -24,9 +27,32 @@ html {
 a {
   color: #e50050;
   text-decoration: none; }
-  a:hover, a:active, a:focus {
+  a:hover {
     color: #222222;
-    text-decoration: underline; }
+    text-decoration: none; }
+
+/*
+* These styles creates the underlining of link with class 'special link'
+*/
+.special-link {
+  position: relative;
+  overflow: hidden;
+  text-decoration: none; }
+  .special-link::after {
+    content: '';
+    background-color: rgba(218, 151, 44, 0.4);
+    position: absolute;
+    left: 12px;
+    bottom: -4px;
+    width: calc(100% - 10px);
+    height: calc(100% - 12px);
+    z-index: -1;
+    transition: 0.35s cubic-bezier(0.25, 0.1, 0, 2.05); }
+  .special-link:hover:after {
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 100%; }
 
 /** @format */
 /**
@@ -47,51 +73,14 @@ body {
   display: table; }
 
 /**
- * Main content containers
- * 1. Make the container full-width with a maximum width
- * 2. Center it in the viewport
- * 3. Leave some space on the edges, especially valuable on small screens
- */
-.container {
-  max-width: 1180px;
-  /* 1 */
-  margin-left: auto;
-  /* 2 */
-  margin-right: auto;
-  /* 2 */
-  padding-left: 20px;
-  /* 3 */
-  padding-right: 20px;
-  /* 3 */
-  width: 100%;
-  /* 1 */ }
-
-/**
- * Hide text while making it readable for screen readers
- * 1. Needed in WebKit-based browsers because of an implementation bug;
- *    See: https://code.google.com/p/chromium/issues/detail?id=457146
- */
-.hide-text {
-  overflow: hidden;
-  padding: 0;
-  /* 1 */
-  text-indent: 101%;
-  white-space: nowrap; }
-
-/**
- * Hide element while making it readable for screen readers
- * Shamelessly borrowed from HTML5Boilerplate:
- * https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css#L119-L133
- */
-.visually-hidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px; }
+* Sticky footer at the bottom using CSS Grid
+* header > content > footer
+*/
+.wrapper {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%; }
 
 /*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
 /**

@@ -4,10 +4,13 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import './styles/main.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
+import {ThemeContextProvider} from './context/ThemeContext'
 
 const app = (
   <Router basename={process.env.PUBLIC_URL}>
-    <App />
+    <ThemeContextProvider>
+      <App />
+    </ThemeContextProvider>
   </Router>
 )
 

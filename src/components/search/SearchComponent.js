@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import {ThemeContext} from '../../context/ThemeContext'
 
 const SearchComponent = props => {
+  const {theme} = useContext(ThemeContext)
   return (
     <div className='h-12 mx-5 mt-5'>
       <div className='relative'>
@@ -12,7 +14,10 @@ const SearchComponent = props => {
           />
         </div>
         <input
-          className={`block appearance-none w-full bg-gray-300 border-none rounded-full shadow py-3 pl-12 pr-4 mb-3 leading-tight focus:outline-none focus:bg-light truncate`}
+          style={{
+            backgroundColor: `${theme === 'dark' ? '#3a3a3a' : '#e2e8f0'}`
+          }}
+          className={`block appearance-none w-full border-none rounded-full shadow py-3 pl-12 pr-4 mb-3 leading-tight focus:outline-none focus:bg-gray-200 truncate`}
           id='grid-first-name'
           type='text'
           placeholder='Type city name to find weather forecast'

@@ -2,8 +2,8 @@ import React, {useContext} from 'react'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
 import {ThemeContext} from '../../context/ThemeContext'
 import {fToC} from '../../utils/TemperatureConvert'
-import dayjs from 'dayjs'
 import getWeatherIcon from '../../utils/WeatherIcon'
+import FormatTime from './../../utils/FormatTime'
 
 const TimeframeComponent = ({Timeframe}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
@@ -17,12 +17,6 @@ const TimeframeComponent = ({Timeframe}) => {
     return weatherUnit === 'F'
       ? Math.round(Timeframe[`${type}`])
       : fToC(Timeframe[`${type}`])
-  }
-
-  // format time
-  const formatTime = timestamp => {
-    // format unix timestamp to '1:00 AM'
-    return dayjs(timestamp * 1000).format('h:mm A')
   }
 
   return (
@@ -44,7 +38,9 @@ const TimeframeComponent = ({Timeframe}) => {
         {computedTempValue('apparentTemperature')}
         <sup>o</sup>
       </p>
-      <p className='text-sm font-medium'>{formatTime(`${Timeframe.time}`)}</p>
+      <p className='text-sm font-medium'>
+        {FormatTime(Timeframe.time, Timeframe.timezone, 'h:mm A')}
+      </p>
     </div>
   )
 }

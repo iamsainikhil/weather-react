@@ -6,7 +6,6 @@ import FetchWeatherData from './../../utils/FetchWeatherData'
 import {isUndefined, isEmpty} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
-import FormattedDateTime from './../../utils/FormattedDateTime'
 import {ThemeContext} from '../../context/ThemeContext'
 import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 
@@ -16,7 +15,6 @@ const FavoritesContainer = () => {
   const [selectedFavorite, setSelectedFavorite] = useState({})
   const [favoriteWeather, setFavoriteWeather] = useState({})
   const [slideIndex, setSlideIndex] = useState(0)
-  const [formattedDateTime, setFormattedDateTime] = useState('')
   const weatherRef = useRef(null)
 
   // scroll to weather component when selectedFavorite is set
@@ -25,8 +23,6 @@ const FavoritesContainer = () => {
   const selectFavoriteHandler = async index => {
     if (favorites[index]) {
       setSelectedFavorite({...favorites[index]})
-      const formattedString = await FormattedDateTime(favorites[index].latlong)
-      setFormattedDateTime(formattedString)
     }
     setSlideIndex(index)
   }
@@ -120,23 +116,22 @@ const FavoritesContainer = () => {
                       address={selectedFavorite.address}
                       latlong={selectedFavorite.latlong}
                       urbanArea={selectedFavorite.urbanArea}
-                      formattedDateTime={formattedDateTime}
                     />
                     <ForecastContainer
                       cityName={selectedFavorite.address.cityName}
+                      weatherCurrent={favoriteWeather.weatherCurrent}
                       weatherForecast={favoriteWeather.weatherForecast}
-                      formattedDateTime={formattedDateTime}
                     />
                   </div>
                 </div>
                 <p
-                  className={`mx-auto text-center pt-2 pb-10 text-xs italic font-light text-${colorTheme} bg-${theme}`}>
+                  className={`mx-auto text-center pt-2 pb-10 text-xs font-light text-${colorTheme} bg-${theme}`}>
                   Powered by&nbsp;
                   <a
                     href='https://darksky.net/poweredby/'
                     target='_blank'
                     rel='noreferrer noopener'
-                    className={`hover:no-underline hover:font-medium hover:text-${colorTheme}`}>
+                    className={`font-bold hover:text-${colorTheme}`}>
                     Dark Sky
                   </a>
                 </p>
@@ -156,13 +151,13 @@ const FavoritesContainer = () => {
                         </a>
                       </p>
                       <p
-                        className={`py-1 text-xs italic font-light text-${colorTheme}`}>
+                        className={`py-1 text-xs font-light text-${colorTheme}`}>
                         Powered by&nbsp;
                         <a
                           href='https://teleport.org/'
                           target='_blank'
                           rel='noreferrer noopener'
-                          className={`hover:no-underline hover:font-medium hover:text-${colorTheme}`}>
+                          className={`font-bold hover:text-${colorTheme}`}>
                           Teleport
                         </a>
                       </p>
