@@ -15,6 +15,7 @@ const WeatherContainer = () => {
   const [weatherCurrent, setWeatherCurrent] = useState({})
   const [isLoading, setIsLoading] = useState(false)
 
+  // store ref to latlong
   const previousLatLong = useRef('')
 
   const setWeatherData = (current, forecast) => {
@@ -40,6 +41,8 @@ const WeatherContainer = () => {
       fetchWeatherData()
     }, 3600000)
 
+    // fetch weatherData only when latlong change
+    // to avoid uneccessary api calls for the same location or on page reload
     if (previousLatLong.current !== addressContext.latlong) {
       fetchWeatherData()
     }
@@ -77,7 +80,7 @@ const WeatherContainer = () => {
               href='https://darksky.net/poweredby/'
               target='_blank'
               rel='noreferrer noopener'
-              className={`font-bold hover:text-${colorTheme}`}>
+              className={`special-link z-0 font-medium hover:text-${theme}`}>
               Dark Sky
             </a>
           </p>
@@ -102,7 +105,7 @@ const WeatherContainer = () => {
                     href='https://teleport.org/'
                     target='_blank'
                     rel='noreferrer noopener'
-                    className={`font-bold hover:text-${colorTheme}`}>
+                    className={`special-link z-0 font-medium hover:text-${theme}`}>
                     Teleport
                   </a>
                 </p>

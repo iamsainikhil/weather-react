@@ -1,8 +1,9 @@
 import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
+import {PropTypes} from 'prop-types'
 
 const SearchComponent = props => {
-  const {theme} = useContext(ThemeContext)
+  const {theme, colorTheme} = useContext(ThemeContext)
   return (
     <div className='h-12 mx-5 mt-5'>
       <div className='relative'>
@@ -17,7 +18,7 @@ const SearchComponent = props => {
           style={{
             backgroundColor: `${theme === 'dark' ? '#3a3a3a' : '#e2e8f0'}`
           }}
-          className={`block appearance-none w-full border-none rounded-full shadow py-3 pl-12 pr-4 mb-3 leading-tight focus:outline-none focus:bg-gray-200 truncate`}
+          className={`block appearance-none w-full border-none rounded-full shadow py-3 pl-12 pr-4 mb-3 leading-tight focus:outline-none focus:bg-gray-200 truncate text-${colorTheme}`}
           id='grid-first-name'
           type='text'
           placeholder='Type city name to find weather forecast'
@@ -49,3 +50,11 @@ const SearchComponent = props => {
 }
 
 export default SearchComponent
+
+SearchComponent.propTypes = {
+  city: PropTypes.string,
+  cityName: PropTypes.string,
+  showCaret: PropTypes.bool,
+  showAddresses: PropTypes.bool,
+  caretClicked: PropTypes.func
+}

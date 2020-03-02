@@ -20,7 +20,7 @@ const FavoritesContainer = () => {
   // scroll to weather component when selectedFavorite is set
   const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
 
-  const selectFavoriteHandler = async index => {
+  const selectFavoriteHandler = index => {
     if (favorites[index]) {
       setSelectedFavorite({...favorites[index]})
     }
@@ -131,7 +131,7 @@ const FavoritesContainer = () => {
                     href='https://darksky.net/poweredby/'
                     target='_blank'
                     rel='noreferrer noopener'
-                    className={`font-bold hover:text-${colorTheme}`}>
+                    className={`special-link z-0 font-medium hover:text-${theme}`}>
                     Dark Sky
                   </a>
                 </p>
@@ -157,7 +157,7 @@ const FavoritesContainer = () => {
                           href='https://teleport.org/'
                           target='_blank'
                           rel='noreferrer noopener'
-                          className={`font-bold hover:text-${colorTheme}`}>
+                          className={`special-link z-0 font-medium hover:text-${theme}`}>
                           Teleport
                         </a>
                       </p>

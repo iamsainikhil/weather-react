@@ -1,4 +1,5 @@
 import React from 'react'
+import {PropTypes} from 'prop-types'
 
 const IconComponent = ({iconType}) => {
   return (
@@ -13,3 +14,7 @@ const IconComponent = ({iconType}) => {
 }
 
 export default IconComponent
+
+IconComponent.propTypes = {
+  iconType: PropTypes.string
+}

@@ -1,5 +1,10 @@
 import moment from 'moment-timezone'
 
+/**
+ *
+ * @param {String} code (cloudy)
+ * @param {String} timezone (Pacific/Auckland)
+ */
 const getWeatherIcon = (code, timezone) => {
   const hour = moment()
     .tz(timezone)
@@ -19,7 +24,7 @@ const getWeatherIcon = (code, timezone) => {
         return `${type}-sleet`
       case 'wind':
         return `${type === 'night-alt' ? 'night-alt-cloudy' : 'day'}-windy`
-      case 'Fog':
+      case 'fog':
         return type === 'day' ? 'day-fog' : 'night-fog'
       case 'cloudy':
         return 'cloudy'

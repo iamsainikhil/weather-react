@@ -4,6 +4,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import {fToC} from '../../utils/TemperatureConvert'
 import getWeatherIcon from '../../utils/WeatherIcon'
 import FormatTime from './../../utils/FormatTime'
+import {PropTypes} from 'prop-types'
 
 const TimeframeComponent = ({Timeframe}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
@@ -46,3 +47,7 @@ const TimeframeComponent = ({Timeframe}) => {
 }
 
 export default TimeframeComponent
+
+TimeframeComponent.propTypes = {
+  Timeframe: PropTypes.object
+}

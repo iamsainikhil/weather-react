@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import axios from 'axios'
+import axiosRetry from 'axios-retry'
 import debounce from 'lodash/debounce'
 import './AutoCompleteStyle.scss'
 import AddressComponent from '../../components/address/AddressComponent'
@@ -8,6 +9,9 @@ import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
 import {isEmpty, isUndefined} from 'lodash-es'
+
+// Exponential back-off retry delay between requests
+axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
 
 class AutoCompleteContainer extends Component {
   static contextType = AddressContext

@@ -1,3 +1,6 @@
+/**
+ * @param {Number} deg
+ */
 const getWindDirection = deg => {
   if (deg >= 0 && deg <= 45) {
     return 'up'

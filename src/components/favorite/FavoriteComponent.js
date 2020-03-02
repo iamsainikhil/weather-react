@@ -1,6 +1,7 @@
 import React, {useContext, Fragment} from 'react'
 import {imageExist, getImageDetails} from '../../utils/ImageDetails'
 import {ThemeContext} from '../../context/ThemeContext'
+import {PropTypes} from 'prop-types'
 
 // get image details
 const getImage = urbanArea => {
@@ -41,3 +42,8 @@ const FavoriteComponent = ({favorite, favoriteSelected}) => {
 }
 
 export default FavoriteComponent
+
+FavoriteComponent.propTypes = {
+  favorite: PropTypes.object,
+  favoriteSelected: PropTypes.func
+}

@@ -4,6 +4,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import {fToC} from '../../utils/TemperatureConvert'
 import getWeatherIcon from '../../utils/WeatherIcon'
 import FormatTime from './../../utils/FormatTime'
+import {PropTypes} from 'prop-types'
 
 const DayComponent = props => {
   const {day, index, selectedIndex} = props
@@ -66,3 +67,10 @@ const DayComponent = props => {
 }
 
 export default DayComponent
+
+DayComponent.propTypes = {
+  day: PropTypes.object,
+  selectedDay: PropTypes.func,
+  index: PropTypes.string,
+  selectedIndex: PropTypes.string
+}

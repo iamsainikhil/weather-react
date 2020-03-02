@@ -4,6 +4,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import {imageExist, getImageDetails} from '../../utils/ImageDetails'
 import {sortBy, isUndefined, isEmpty} from 'lodash-es'
 import moment from 'moment-timezone'
+import {PropTypes} from 'prop-types'
 
 const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   const {updateFavorites} = useContext(AddressContext)
@@ -191,3 +192,10 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
 }
 
 export default InfoComponent
+
+InfoComponent.propTypes = {
+  address: PropTypes.objectOf(PropTypes.string),
+  latlong: PropTypes.string,
+  urbanArea: PropTypes.object,
+  weatherCurrent: PropTypes.object
+}

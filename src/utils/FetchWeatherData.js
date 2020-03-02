@@ -9,13 +9,14 @@ const CORS_URL = 'https://cors-anywhere.herokuapp.com'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
-/**
- * @param {String} latlong
- */
+
 const getURL = latlong => {
   return `${CORS_URL}/https://api.darksky.net/forecast/${API_KEY}/${latlong}?extend=hourly&exclude=minutely,flags`
 }
 
+/**
+ * @param {String} latlong (-43.53333,172.63333)
+ */
 const FetchWeatherData = async ({latlong}) => {
   let weatherCurrent = {}
   let weatherForecast = {}

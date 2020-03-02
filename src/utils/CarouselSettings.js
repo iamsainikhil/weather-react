@@ -1,7 +1,9 @@
 // modify carousel settings for timeframe, day, and favorites components
 /**
- * @param {String} type
  * time or day or favorite
+ * @param {String} type
+ * resolution can be mobile or tablet
+ * @param {*} resolution
  */
 const CarouselSettings = (type, resolution = 'mobile') => ({
   width: '100%',

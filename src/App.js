@@ -1,15 +1,39 @@
-import React, {useContext} from 'react'
+import React, {useContext, Suspense, lazy} from 'react'
 import {Switch, Route} from 'react-router-dom'
-import HomeContainer from './containers/home/HomeContainer'
 import {ThemeContext} from './context/ThemeContext'
+import HeaderComponent from './components/header/HeaderComponent'
+import FooterComponent from './components/footer/FooterComponent'
+import LoaderComponent from './components/loader/LoaderComponent'
+// import HomeContainer from './containers/home/HomeContainer'
+// import PrivacyPolicyComponent from './components/privacy-policy/PrivacyPolicyComponent'
+
+const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
+const PrivacyPolicyComponent = lazy(() =>
+  import('./components/privacy-policy/PrivacyPolicyComponent')
+)
 
 const App = () => {
   const {theme} = useContext(ThemeContext)
   return (
-    <div className={` bg-${theme} tracking-wide border-box`}>
-      <Switch>
-        <Route path='/' exact component={HomeContainer}></Route>
-      </Switch>
+    <div className={` bg-${theme} tracking-wide border-box wrapper`}>
+      <div>
+        <HeaderComponent />
+      </div>
+      <div>
+        <Suspense
+          fallback={<LoaderComponent loaderText='Loading components' />}>
+          <Switch>
+            <Route path='/' exact component={HomeContainer}></Route>
+            <Route
+              path='/privacy-policy'
+              exact
+              component={PrivacyPolicyComponent}></Route>
+          </Switch>
+        </Suspense>
+      </div>
+      <div>
+        <FooterComponent />
+      </div>
     </div>
   )
 }

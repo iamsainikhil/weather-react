@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
+import {PropTypes} from 'prop-types'
 
 const AddressComponent = props => {
   const {theme, colorTheme} = useContext(ThemeContext)
@@ -13,3 +14,8 @@ const AddressComponent = props => {
 }
 
 export default AddressComponent
+
+AddressComponent.propTypes = {
+  addressSelected: PropTypes.func,
+  address: PropTypes.objectOf(PropTypes.string)
+}

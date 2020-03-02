@@ -1,24 +1,61 @@
 import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 import moment from 'moment-timezone'
+import {Link} from 'react-router-dom'
 
 const FooterComponent = () => {
-  const {colorTheme} = useContext(ThemeContext)
+  const {theme, colorTheme} = useContext(ThemeContext)
   return (
     <div
-      className={`flex flex-col text-center sm:flex sm:flex-row justify-around p-5 text-${colorTheme}`}>
-      <p>Credits</p>
-      <p>
+      className={`text-${colorTheme} pb-3`}
+      style={{
+        backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee'
+      }}>
+      <div
+        className={`flex flex-col text-center sm:flex sm:flex-row justify-around p-5 text-${colorTheme} text-sm`}>
+        <p className='my-2 sm:my-0 w-full sm:w-1/3'>
+          <a
+            href='https://github.com/iamsainikhil/weather-react/'
+            target='_blank'
+            rel='noreferrer noopener'
+            className={`special-link z-0 hover:text-${theme}`}>
+            GitHub
+          </a>
+        </p>
+        <p className='flex flex-no-wrap justify-center my-2 sm:my-0 w-full sm:w-1/2'>
+          Made with&nbsp;
+          <span title='Love' role='img' aria-label='Love'>
+            💗
+          </span>
+          &nbsp;using&nbsp;
+          <img
+            src='./react.svg'
+            alt='React'
+            title='React'
+            className='ml-1 w-5 h-5 object-contain object-center'></img>
+          &nbsp; by&nbsp;
+          <span title='Sai Nikhil' role='img' aria-label='Sai Nikhil'>
+            👨‍💻
+          </span>
+        </p>
+        <p className='my-2 sm:my-0 w-full sm:w-1/3'>
+          <Link
+            to='/privacy-policy'
+            className={`special-link z-0 hover:text-${theme}`}>
+            Privacy Policy
+          </Link>
+        </p>
+      </div>
+      <p className='mx-auto text-center text-sm'>
         &copy; {moment().format('YYYY')}{' '}
         <a
-          className={`special-link z-0 hover:text-${colorTheme}`}
+          className={`special-link z-0 hover:text-${theme}`}
           href='https://iamsainikhil.github.io'
           target='_blank'
           rel='noreferrer noopener'>
           Sai Nikhil
         </a>
       </p>
-      <p>Privacy Policy</p>
     </div>
   )
 }

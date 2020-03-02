@@ -8,6 +8,7 @@ import CarouselSettings from '../../utils/CarouselSettings'
 import ErrorComponent from './../../components/error/ErrorComponent'
 import ErrorBoundaryContainer from '../error-boundary/ErrorBoundaryContainer'
 import FormatTime from './../../utils/FormatTime'
+import {PropTypes} from 'prop-types'
 
 const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
   const [selectedDay, setSelectedDay] = useState('')
@@ -44,7 +45,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
         {!isEmpty(weatherForecast.days) && !isEmpty(selectedDay) ? (
           <Fragment>
             {/* mobile */}
-            <div className='sm:hidden py-3'>
+            <div className='sm:hidden py-3 sm:mb-3'>
               {weatherForecast.timeFrames[selectedDay] ? (
                 <Carousel {...CarouselSettings('time')}>
                   {weatherForecast.timeFrames[selectedDay].map(
@@ -61,8 +62,9 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
                 />
               )}
             </div>
+
             {/* tablet and above devices */}
-            <div className='hidden sm:flex py-3 mb-3'>
+            <div className='hidden sm:flex py-3 sm:mb-3'>
               {weatherForecast.timeFrames[selectedDay] ? (
                 <Carousel {...CarouselSettings('time', 'tablet')}>
                   {weatherForecast.timeFrames[selectedDay].map(
@@ -142,3 +144,9 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
 }
 
 export default ForecastContainer
+
+ForecastContainer.propTypes = {
+  cityName: PropTypes.string,
+  weatherCurrent: PropTypes.object,
+  weatherForecast: PropTypes.object
+}

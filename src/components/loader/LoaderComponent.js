@@ -1,6 +1,7 @@
 import React, {useContext} from 'react'
 import './LoaderStyle.scss'
 import {ThemeContext} from '../../context/ThemeContext'
+import {PropTypes} from 'prop-types'
 
 const LoaderComponent = ({loaderText}) => {
   const {theme} = useContext(ThemeContext)
@@ -24,3 +25,7 @@ const LoaderComponent = ({loaderText}) => {
 }
 
 export default LoaderComponent
+
+LoaderComponent.propTypes = {
+  loaderText: PropTypes.string
+}

@@ -4,6 +4,7 @@ import getWindDirection from '../../utils/WindDirection'
 import getWeatherIcon from '../../utils/WeatherIcon'
 import {mToK} from '../../utils/SpeedConvert'
 import {fToC} from '../../utils/TemperatureConvert'
+import {PropTypes} from 'prop-types'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
@@ -93,3 +94,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
 }
 
 export default InfoDetailComponent
+
+InfoDetailComponent.propTypes = {
+  weatherCurrent: PropTypes.object
+}
