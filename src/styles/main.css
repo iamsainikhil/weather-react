@@ -4,7 +4,7 @@
  * Set up a decent box model on the root element
  */
 
-@import url("https://fonts.googleapis.com/css?family=Lato:300,400&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400&display=swap');
 
 html {
   box-sizing: border-box;
@@ -45,13 +45,13 @@ a:hover {
 * These styles creates the underlining of link with class 'special link'
 */
 
-.special-link {
+.link {
   position: relative;
   text-decoration: none;
   transition: color ease 0.3s;
 }
 
-.special-link::after {
+.link::after {
   content: '';
   position: absolute;
   z-index: -1;
@@ -63,11 +63,35 @@ a:hover {
   transition: all ease 0.3s;
 }
 
-.special-link:hover::after {
+.link:hover::after {
   height: 100%;
 }
 
 /** @format */
+
+@font-face {
+  font-family: 'SpaceGrotesk';
+
+  src: url('../fonts/SpaceGrotesk-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk-Light';
+
+  src: url('../fonts/SpaceGrotesk-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk-Medium';
+
+  src: url('../fonts/SpaceGrotesk-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk-Bold';
+
+  src: url('../fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+}
 
 /**
  * Basic typography style for copy text
@@ -77,7 +101,8 @@ a:hover {
 
 body {
   color: #222222;
-  font: normal 125%/1.4 "Lato", "Open Sans", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font: normal 125%/1.4 'SpaceGrotesk', 'Lato', 'Open Sans',
+    'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 
 /**
@@ -415,9 +440,9 @@ select {
  */
 
 button,
-html [type="button"],
-[type="reset"],
-[type="submit"] {
+html [type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
   /* 2 */
 }
@@ -427,9 +452,9 @@ html [type="button"],
  */
 
 button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
   border-style: none;
   padding: 0;
 }
@@ -439,9 +464,9 @@ button::-moz-focus-inner,
  */
 
 button:-moz-focusring,
-[type="button"]:-moz-focusring,
-[type="reset"]:-moz-focusring,
-[type="submit"]:-moz-focusring {
+[type='button']:-moz-focusring,
+[type='reset']:-moz-focusring,
+[type='submit']:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
 
@@ -502,8 +527,8 @@ textarea {
  * 2. Remove the padding in IE 10-.
  */
 
-[type="checkbox"],
-[type="radio"] {
+[type='checkbox'],
+[type='radio'] {
   box-sizing: border-box;
   /* 1 */
   padding: 0;
@@ -514,8 +539,8 @@ textarea {
  * Correct the cursor style of increment and decrement buttons in Chrome.
  */
 
-[type="number"]::-webkit-inner-spin-button,
-[type="number"]::-webkit-outer-spin-button {
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
   height: auto;
 }
 
@@ -524,7 +549,7 @@ textarea {
  * 2. Correct the outline style in Safari.
  */
 
-[type="search"] {
+[type='search'] {
   -webkit-appearance: textfield;
   /* 1 */
   outline-offset: -2px;
@@ -535,8 +560,8 @@ textarea {
  * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.
  */
 
-[type="search"]::-webkit-search-cancel-button,
-[type="search"]::-webkit-search-decoration {
+[type='search']::-webkit-search-cancel-button,
+[type='search']::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
@@ -628,7 +653,9 @@ template {
 @font-face {
   font-family: 'weathericons';
 
-  src: url("../fonts/weathericons-regular-webfont.woff2") format("woff2"), url("../fonts/weathericons-regular-webfont.woff") format("woff"), url("../fonts/weathericons-regular-webfont.ttf") format("truetype");
+  src: url('../fonts/weathericons-regular-webfont.woff2') format('woff2'),
+    url('../fonts/weathericons-regular-webfont.woff') format('woff'),
+    url('../fonts/weathericons-regular-webfont.ttf') format('truetype');
 
   font-weight: normal;
 
@@ -2684,7 +2711,9 @@ template {
 @font-face {
   font-family: 'weathericons';
 
-  src: url("../fonts/weathericons-regular-webfont.woff2") format("woff2"), url("../fonts/weathericons-regular-webfont.woff") format("woff"), url("../fonts/weathericons-regular-webfont.ttf") format("truetype");
+  src: url('../fonts/weathericons-regular-webfont.woff2') format('woff2'),
+    url('../fonts/weathericons-regular-webfont.woff') format('woff'),
+    url('../fonts/weathericons-regular-webfont.ttf') format('truetype');
 
   font-weight: normal;
 
@@ -7788,7 +7817,7 @@ video {
 }
 
 .font-sans{
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "SpaceGrotesk", "Lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .font-serif{
@@ -12565,7 +12594,7 @@ video {
   }
 
   .sm\:font-sans{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, "SpaceGrotesk", "Lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 
   .sm\:font-serif{
@@ -17343,7 +17372,7 @@ video {
   }
 
   .md\:font-sans{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, "SpaceGrotesk", "Lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 
   .md\:font-serif{
@@ -22121,7 +22150,7 @@ video {
   }
 
   .lg\:font-sans{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, "SpaceGrotesk", "Lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 
   .lg\:font-serif{
@@ -26899,7 +26928,7 @@ video {
   }
 
   .xl\:font-sans{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, "SpaceGrotesk", "Lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 
   .xl\:font-serif{

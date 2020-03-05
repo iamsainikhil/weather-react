@@ -9,6 +9,7 @@ import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
 import {isEmpty, isUndefined} from 'lodash-es'
+import getLatLongUrbanArea from '../../utils/LatLongUrbanArea'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -49,8 +50,8 @@ class AutoCompleteContainer extends Component {
         `https://api.teleport.org/api/cities/?search=${this.state.city}`
       )
 
-      // if matching cities exist
-      if (!isEmpty(data) && !isUndefined(data) && data.count) {
+      // populate addresses and show them if matching cities exist
+      if (!isEmpty(data) && !isUndefined(data) && data.count > 0) {
         const results = data._embedded['city:search-results'].map(result => ({
           cityName: result.matching_full_name,
           cityId: result._links['city:item'].href.split('/')[5]
@@ -83,59 +84,21 @@ class AutoCompleteContainer extends Component {
     })
   }
 
-  setCity = address => {
+  setCity = async address => {
     if (address) {
       this.setState({
         city: address.cityName,
         showAddresses: false
       })
-      this.getLatLong(address)
+      // get latlong and urbanArea and update addressContext state for
+      // address, latlong, and urbanArea
+      const {latlong, urbanArea} = await getLatLongUrbanArea(address.cityId)
+      this.context.updateState({
+        address: address,
+        latlong: latlong,
+        urbanArea: urbanArea
+      })
     }
-  }
-
-  async getLatLong(address) {
-    // defaults
-    let lat = ''
-    let long = ''
-    let name = ''
-    let slug = ''
-    let photos = []
-
-    // get lat, long, and name
-    const {data} = await axios.get(
-      `https://api.teleport.org/api/cities/${address.cityId}`
-    )
-
-    if (!isEmpty(data) && !isUndefined(data)) {
-      const {latitude, longitude} = data.location.latlon
-      lat = latitude
-      long = longitude
-      if (data._links['city:urban_area']) {
-        name = data._links['city:urban_area'].name
-      }
-    }
-
-    // get slug and photos
-    if (localStorage.getItem('urban-areas') && name !== undefined) {
-      const urbanAreas = JSON.parse(localStorage.getItem('urban-areas'))
-      if (Object.keys(urbanAreas).includes(name)) {
-        slug = urbanAreas[name]
-        const {data} = await axios.get(
-          `https://api.teleport.org/api/urban_areas/slug:${slug}/images`
-        )
-        photos = !isEmpty(data) && !isUndefined(data) ? data.photos : []
-      }
-    }
-
-    this.context.updateState({
-      address: address,
-      latlong: `${lat},${long}`,
-      urbanArea: {
-        name,
-        slug,
-        photos
-      }
-    })
   }
 
   clearState() {

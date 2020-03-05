@@ -15,7 +15,7 @@ const PrivacyPolicyComponent = lazy(() =>
 const App = () => {
   const {theme} = useContext(ThemeContext)
   return (
-    <div className={` bg-${theme} tracking-wide border-box wrapper`}>
+    <div className={` bg-${theme} tracking-wider border-box wrapper`}>
       <div>
         <HeaderComponent />
       </div>

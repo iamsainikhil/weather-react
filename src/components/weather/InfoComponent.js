@@ -158,7 +158,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
             </div>
           </div>
           <div
-            className='mt-4 mr-4 cursor-pointer'
+            className='mt-4 mr-4 cursor-pointer text-xl'
             title={
               isBookmarked()
                 ? 'Remove this city from favorites'
@@ -170,14 +170,12 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
         </div>
         <div className='hidden md:block text-right bottom-0 right-0 xl:mt-8 px-2'>
           {photographer && site ? (
-            <p
-              className='font-light tracking-wider'
-              style={{fontSize: '0.5rem'}}>
+            <p className='font-light' style={{fontSize: '0.5rem'}}>
               Photo by&nbsp;
-              <span className='italic font-normal'>{photographer}</span>
+              <span className='font-medium'>{photographer}</span>
               &nbsp;on&nbsp;
               <a
-                className='italic font-normal hover:no-underline hover:font-medium hover:text-light'
+                className='link z-0 font-medium hover:no-underline hover:font-medium hover:text-light'
                 href={source}
                 target='_blank'
                 rel='noreferrer noopener'>

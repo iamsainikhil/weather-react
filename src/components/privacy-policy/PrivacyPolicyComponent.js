@@ -8,7 +8,7 @@ const PrivacyPolicyComponent = () => {
       <div
         className={`text-${colorTheme} p-2 sm:p-5 max-w-xs sm:max-w-2xl lg:max-w-4xl xl:max-w-6xl`}>
         <h2 className='font-bold text-center'>Privacy Policy</h2>
-        <div className='py-2 break-words text-sm tracking-wider'>
+        <div className='py-2 break-words text-sm'>
           <p>
             This privacy policy has been compiled to better serve those who are
             concerned with how their 'Personally Identifiable Information' (PII)
@@ -23,7 +23,7 @@ const PrivacyPolicyComponent = () => {
           </p>
           <br />
 
-          <h4 className='py-1 font-bold'>PERSONAL INFORMATION I COLLECT</h4>
+          <h4 className='py-1 font-semibold'>PERSONAL INFORMATION I COLLECT</h4>
           <p>
             When you visit the Site, I automatically collect certain information
             about your device, including information about your web browser, IP
@@ -78,7 +78,7 @@ const PrivacyPolicyComponent = () => {
             </li>
           </ul>
           <br />
-          <h4 className='py-1 font-bold'>
+          <h4 className='py-1 font-semibold'>
             HOW DO I USE YOUR PERSONAL INFORMATION?
           </h4>
           <p>
@@ -89,7 +89,9 @@ const PrivacyPolicyComponent = () => {
             the Site).
           </p>
           <br />
-          <h4 className='py-1 font-bold'>SHARING YOUR PERSONAL INFORMATION</h4>
+          <h4 className='py-1 font-semibold'>
+            SHARING YOUR PERSONAL INFORMATION
+          </h4>
           <p>
             I use Yandex.Metrica to help me understand how my users use the
             Site. You can read more about how Yandex uses your Personal
@@ -98,7 +100,7 @@ const PrivacyPolicyComponent = () => {
               href='https://yandex.com/legal/confidential/'
               target='_blank'
               rel='noopener noreferrer'
-              className='special-link z-0'>
+              className='link z-0'>
               https://yandex.com/legal/confidential/
             </a>
             . You can also opt-out of Yandex.Metrica here:&nbsp;
@@ -106,14 +108,16 @@ const PrivacyPolicyComponent = () => {
               href='https://yandex.com/support/metrica/general/opt-out.html'
               target='_blank'
               rel='noopener noreferrer'
-              className='special-link z-0'>
+              className='link z-0'>
               https://yandex.com/support/metrica/general/opt-out.html
             </a>
             .
           </p>
           <br />
 
-          <h4 className='py-1 font-bold'>HOW DO I PROTECT YOUR INFORMATION?</h4>
+          <h4 className='py-1 font-semibold'>
+            HOW DO I PROTECT YOUR INFORMATION?
+          </h4>
           <p>
             My website is scanned on a regular basis for security issues and
             known vulnerabilities in order to make your visit to my site as safe
@@ -132,13 +136,13 @@ const PrivacyPolicyComponent = () => {
             information to maintain the safety of your personalinformation.
           </p>
           <br />
-          <h4 className='py-1 font-bold'>DO NOT TRACK</h4>
+          <h4 className='py-1 font-semibold'>DO NOT TRACK</h4>
           <p>
             Please note that I do not alter my Site’s data collection and use
             practices when I see a Do Not Track signal from your browser.
           </p>
           <br />
-          <h4 className='py-1 font-bold'>DATA RETENTION</h4>
+          <h4 className='py-1 font-semibold'>DATA RETENTION</h4>
           <p>
             The data I collection through google analytics will be stored for a
             maximum of 24 months and any comments data will be stored forever.
@@ -146,7 +150,7 @@ const PrivacyPolicyComponent = () => {
             me.
           </p>
           <br />
-          <h4 className='py-1 font-bold'>CHANGES</h4>
+          <h4 className='py-1 font-semibold'>CHANGES</h4>
           <p>
             I may update this privacy policy from time to time in order to
             reflect, for example, changes to my practices or for other
@@ -162,7 +166,7 @@ const PrivacyPolicyComponent = () => {
               href='mailto:contact@iamsainikhil.com'
               target='_blank'
               rel='noopener noreferrer'
-              className='special-link z-0'>
+              className='link z-0'>
               contact@iamsainikhil.com
             </a>
           </p>

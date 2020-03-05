@@ -3,6 +3,7 @@ import axios from 'axios'
 import axiosRetry from 'axios-retry'
 import {PropTypes} from 'prop-types'
 import {isEmpty, isUndefined} from 'lodash-es'
+import getLatLongUrbanArea from '../utils/LatLongUrbanArea'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
@@ -35,25 +36,49 @@ class AddressContextProvider extends Component {
   }
 
   fetchAddressInfo = async () => {
+    // defaults
+    let cityId = ''
+    let urbanAreaInfo = {
+      name: '',
+      slug: '',
+      photos: []
+    }
     const {data} = await axios.get('https://ipapi.co/json')
 
     if (!isEmpty(data) && !isUndefined(data)) {
+      const cityName = `${data.city}, ${data.region}, ${data.country_name}`
+      const cityInfo = await axios
+        .get(`https://api.teleport.org/api/cities/?search=${cityName}`)
+        .then(response => response.data)
+
+      // get cityId if matching cities exist
+      if (!isEmpty(cityInfo) && !isUndefined(cityInfo) && cityInfo.count > 0) {
+        const cityIdArr = cityInfo._embedded['city:search-results'].map(
+          result => ({
+            cityId: result._links['city:item'].href.split('/')[5]
+          })
+        )
+
+        cityId = cityIdArr[0].cityId
+
+        // update urbanArea with the known cityId
+        const {urbanArea} = await getLatLongUrbanArea(cityId)
+        urbanAreaInfo = urbanArea
+      }
+
       this.updateState({
         address: {
-          cityName: `${data.city}, ${data.region}, ${data.country_name}`,
-          cityId: ''
+          cityName: cityName,
+          cityId: cityId
         },
-        latlong: `${data.latitude},${data.longitude}`
+        latlong: `${data.latitude},${data.longitude}`,
+        urbanArea: urbanAreaInfo
       })
     }
   }
 
   async getAddressInfo() {
     try {
-      // use ipapi.co API instead of using browser's default geolocation API
-      // since cityName is important and cannot be fetched using browser geolocation API
-      this.fetchAddressInfo()
-
       // fetch and store urban areas list in localStorage
       if (!localStorage.getItem('urban-areas')) {
         const urban_areas = await axios
@@ -63,6 +88,10 @@ class AddressContextProvider extends Component {
           .then(response => response.data)
         localStorage.setItem('urban-areas', JSON.stringify(urban_areas))
       }
+
+      // use ipapi.co API instead of using browser's default geolocation API
+      // since cityName is important and cannot be fetched using browser geolocation API
+      this.fetchAddressInfo()
     } catch (error) {
       console.log(error)
     }

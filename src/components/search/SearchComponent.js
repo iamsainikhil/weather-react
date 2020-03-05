@@ -7,7 +7,7 @@ const SearchComponent = props => {
   return (
     <div className='h-12 mx-5 mt-5'>
       <div className='relative'>
-        <div className='absolute top-0 left-0 ml-4 mt-4'>
+        <div className='absolute top-0 left-0 ml-4 mt-3'>
           <img
             src='./city-weather-search.svg'
             alt='city search'
@@ -16,7 +16,8 @@ const SearchComponent = props => {
         </div>
         <input
           style={{
-            backgroundColor: `${theme === 'dark' ? '#3a3a3a' : '#e2e8f0'}`
+            backgroundColor: `${theme === 'dark' ? '#3a3a3a' : '#e2e8f0'}`,
+            letterSpacing: '0.05em'
           }}
           className={`block appearance-none w-full border-none rounded-full shadow py-3 pl-12 pr-4 mb-3 leading-tight focus:outline-none focus:bg-gray-200 truncate text-${colorTheme}`}
           id='grid-first-name'

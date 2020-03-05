@@ -32,7 +32,7 @@ const FavoriteComponent = ({favorite, favoriteSelected}) => {
           imageExist(favorite.urbanArea)
             ? 'absolute top-0 left-0 right-0 bottom-0 text-light'
             : `h-16 text-${colorTheme} border border-${colorTheme} bg-${theme} text-${colorTheme} hover:bg-${colorTheme} hover:text-${theme}`
-        } pt-4 lg:pt-1/2 font-medium rounded-2xl shadow-lg cursor-pointer text-center justify-center tracking-wide`}
+        } pt-4 lg:pt-1/2 font-semibold rounded-2xl shadow-lg cursor-pointer text-center justify-center`}
         style={imageExist(favorite.urbanArea) ? imageOverlay : null}
         onClick={favoriteSelected}>
         {favorite.address.cityName.split(', ')[0]}

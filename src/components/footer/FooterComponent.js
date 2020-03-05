@@ -18,13 +18,13 @@ const FooterComponent = () => {
             href='https://github.com/iamsainikhil/weather-react/'
             target='_blank'
             rel='noreferrer noopener'
-            className={`special-link z-0 hover:text-${theme}`}>
+            className={`link z-0 hover:text-${theme}`}>
             GitHub
           </a>
         </p>
         <p className='flex flex-no-wrap justify-center my-2 sm:my-0 w-full sm:w-1/2'>
           Made with&nbsp;
-          <span title='Love' role='img' aria-label='Love'>
+          <span title='Love' role='img' aria-label='Love' className='w-5 h-5'>
             💗
           </span>
           &nbsp;using&nbsp;
@@ -32,16 +32,14 @@ const FooterComponent = () => {
             src='./react.svg'
             alt='React'
             title='React'
-            className='ml-1 w-5 h-5 object-contain object-center'></img>
-          &nbsp; by&nbsp;
+            className='w-4 h-4 object-contain object-center'></img>
+          &nbsp;by&nbsp;
           <span title='Sai Nikhil' role='img' aria-label='Sai Nikhil'>
             👨‍💻
           </span>
         </p>
         <p className='my-2 sm:my-0 w-full sm:w-1/3'>
-          <Link
-            to='/privacy-policy'
-            className={`special-link z-0 hover:text-${theme}`}>
+          <Link to='/privacy-policy' className={`link z-0 hover:text-${theme}`}>
             Privacy Policy
           </Link>
         </p>
@@ -49,7 +47,7 @@ const FooterComponent = () => {
       <p className='mx-auto text-center text-sm'>
         &copy; {moment().format('YYYY')}{' '}
         <a
-          className={`special-link z-0 hover:text-${theme}`}
+          className={`link z-0 hover:text-${theme}`}
           href='https://iamsainikhil.github.io'
           target='_blank'
           rel='noreferrer noopener'>

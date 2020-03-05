@@ -131,7 +131,7 @@ const FavoritesContainer = () => {
                     href='https://darksky.net/poweredby/'
                     target='_blank'
                     rel='noreferrer noopener'
-                    className={`special-link z-0 font-medium hover:text-${theme}`}>
+                    className={`link z-0 font-medium hover:text-${theme}`}>
                     Dark Sky
                   </a>
                 </p>
@@ -145,7 +145,7 @@ const FavoritesContainer = () => {
                           rel='noreferrer noopener'
                           className='hover:no-underline'>
                           <button
-                            className={`bg-${colorTheme} text-${theme} font-bold py-3 px-6 rounded-full capitalize`}>
+                            className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}>
                             Explore life in {selectedFavorite.urbanArea.name}
                           </button>
                         </a>
@@ -157,7 +157,7 @@ const FavoritesContainer = () => {
                           href='https://teleport.org/'
                           target='_blank'
                           rel='noreferrer noopener'
-                          className={`special-link z-0 font-medium hover:text-${theme}`}>
+                          className={`link z-0 font-medium hover:text-${theme}`}>
                           Teleport
                         </a>
                       </p>

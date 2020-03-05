@@ -1,7 +1,6 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 import {isUndefined, isEmpty} from 'lodash-es'
-import {weatherData} from './weatherData'
 import FormatTime from './FormatTime'
 
 const API_KEY = process.env.REACT_APP_DARKSKY_API_KEY
@@ -24,9 +23,9 @@ const FetchWeatherData = async ({latlong}) => {
   // fetch weather data only when latlong is valid to avoid uneccessary API calls
   if (!isUndefined(latlong) && !isEmpty(latlong)) {
     try {
-      // const weatherData = await axios
-      //   .get(getURL(latlong))
-      //   .then(response => response.data)
+      const weatherData = await axios
+        .get(getURL(latlong))
+        .then(response => response.data)
 
       // NOTE: add timezone property to current, days, and timeFrame data to use it later for
       // displaying weatherIcon with day or night variants specific to location timezone

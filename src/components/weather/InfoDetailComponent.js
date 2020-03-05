@@ -39,10 +39,10 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                 className={`wi wi-${getWeatherIcon(
                   weatherCurrent.icon,
                   weatherCurrent.timezone
-                )} text-5xl mt-3 mr-2 sm:mx-3`}
+                )} text-5xl mt-3 mr-2 mx-3`}
                 title={weatherCurrent.summary}></i>
             </div>
-            <div className='flex justify-start items-center'>
+            <div className='flex justify-start items-center ml-3'>
               <div>
                 <span className='text-5xl font-bold'>
                   {computedTempValue('temperature')}
@@ -63,9 +63,11 @@ const InfoDetailComponent = ({weatherCurrent}) => {
               </div>
             </div>
           </div>
-          <p className='sm:ml-3 capitalize'>{weatherCurrent.summary}</p>
+          <p className='font-medium ml-3 capitalize'>
+            {weatherCurrent.summary}
+          </p>
         </div>
-        <div className='sm:w-full lg:w-1/2'>
+        <div className='mt-6 ml-3 sm:mt-0 sm:w-full lg:w-1/2'>
           <p>
             <span className='font-light'>Humidity:</span>&nbsp;
             {Math.round(weatherCurrent.humidity)}%

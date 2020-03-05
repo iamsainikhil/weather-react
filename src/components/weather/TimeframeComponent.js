@@ -30,12 +30,12 @@ const TimeframeComponent = ({Timeframe}) => {
         className={`wi wi-${getWeatherIcon(
           Timeframe.icon,
           Timeframe.timezone
-        )} text-xl`}></i>
+        )} text-2xl my-1`}></i>
       <p className='text-xl'>
         {computedTempValue('temperature')}
         <sup>o</sup>
       </p>
-      <p className='text-sm italic'>
+      <p className='text-sm'>
         {computedTempValue('apparentTemperature')}
         <sup>o</sup>
       </p>
