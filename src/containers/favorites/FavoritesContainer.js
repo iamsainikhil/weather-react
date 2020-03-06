@@ -10,6 +10,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
+import * as Sentry from '@sentry/browser'
 
 const FavoritesContainer = () => {
   const {favorites} = useContext(AddressContext)
@@ -55,7 +56,7 @@ const FavoritesContainer = () => {
             scrollHandler()
           }
         })
-        .catch(err => console.error(err))
+        .catch(err => Sentry.captureException(err))
         .finally(() => setIsLoading(false))
     }
   }

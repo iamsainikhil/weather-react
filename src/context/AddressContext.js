@@ -4,6 +4,7 @@ import axiosRetry from 'axios-retry'
 import {PropTypes} from 'prop-types'
 import {isEmpty, isUndefined} from 'lodash-es'
 import getLatLongUrbanArea from '../utils/LatLongUrbanArea'
+import * as Sentry from '@sentry/browser'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
@@ -72,10 +73,10 @@ class AddressContextProvider extends Component {
                   .then(response => {
                     urbanArea = response.urbanArea
                   })
-                  .catch(err => console.log(err))
+                  .catch(err => Sentry.captureException(err))
               }
             })
-            .catch(err => console.error(err))
+            .catch(err => Sentry.captureException(err))
 
           this.updateState({
             address: {
@@ -87,7 +88,7 @@ class AddressContextProvider extends Component {
           })
         }
       })
-      .catch(err => console.error(err))
+      .catch(err => Sentry.captureException(err))
   }
 
   async getAddressInfo() {
@@ -106,7 +107,7 @@ class AddressContextProvider extends Component {
       // since cityName is important and cannot be fetched using browser geolocation API
       this.fetchAddressInfo()
     } catch (error) {
-      console.error(error)
+      Sentry.captureException(error)
     }
   }
 

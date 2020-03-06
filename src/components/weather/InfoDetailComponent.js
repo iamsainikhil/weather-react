@@ -67,7 +67,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
             {weatherCurrent.summary}
           </p>
         </div>
-        <div className='mt-6 ml-3 sm:mt-0 sm:w-full lg:w-1/2'>
+        <div className='mt-6 ml-3 sm:mt-1 sm:w-full lg:w-1/2'>
           <p>
             <span className='font-light'>Humidity:</span>&nbsp;
             {Math.round(weatherCurrent.humidity)}%

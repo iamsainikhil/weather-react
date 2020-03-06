@@ -7,6 +7,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import {isUndefined, isEmpty} from 'lodash-es'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
+import * as Sentry from '@sentry/browser'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
@@ -47,7 +48,7 @@ const WeatherContainer = () => {
         setWeatherData(weatherCurrent, weatherForecast)
       })
       .catch(err => {
-        console.error(err)
+        Sentry.captureException(err)
       })
       .finally(() => {
         setIsLoading(false)

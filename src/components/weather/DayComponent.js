@@ -34,7 +34,7 @@ const DayComponent = props => {
       <p className='font-medium'>{FormatTime(day.time, day.timezone, 'ddd')}</p>
       <i
         title={day.summary}
-        className={`my-2 mx-auto text-2xl wi wi-${getWeatherIcon(
+        className={`mt-1 mb-3 mx-auto text-2xl wi wi-${getWeatherIcon(
           day.icon,
           day.timezone
         )}`}></i>
