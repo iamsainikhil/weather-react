@@ -11,6 +11,14 @@ const FooterComponent = () => {
       style={{
         backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee'
       }}>
+      {/* refresh button to enable page reloads in a PWA added to homescreen on ios */}
+      <div className='pt-6 mx-auto flex justify-center text-center'>
+        <button
+          className={`sm:hidden font-semibold py-2 px-4 rounded-full capitalize cursor-pointer text-${theme} bg-${colorTheme}`}
+          onClick={() => window.location.reload()}>
+          Refresh page
+        </button>
+      </div>
       <div
         className={`flex flex-col text-center sm:flex sm:flex-row justify-around p-5 text-${colorTheme} text-sm`}>
         <p className='my-2 sm:my-0 w-full sm:w-1/3'>

@@ -113,6 +113,27 @@ const PrivacyPolicyComponent = () => {
             </a>
             .
           </p>
+          <p>
+            I use Hotjar to help me understand how my users use the Site. You
+            can read more about how Hotjar uses your Personal Information
+            here:&nbsp;
+            <a
+              href='https://www.hotjar.com/legal/policies/privacy/'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='link z-0'>
+              https://www.hotjar.com/legal/policies/privacy/
+            </a>
+            . You can also opt-out of Hotjar here:&nbsp;
+            <a
+              href='https://www.hotjar.com/legal/compliance/opt-out/'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='link z-0'>
+              https://www.hotjar.com/legal/compliance/opt-out/
+            </a>
+            .
+          </p>
           <br />
 
           <h4 className='py-1 font-semibold'>
@@ -141,6 +162,96 @@ const PrivacyPolicyComponent = () => {
             Please note that I do not alter my Site’s data collection and use
             practices when I see a Do Not Track signal from your browser.
           </p>
+          <br />
+          <h4 className='py-1 font-semibold'>
+            California Online Privacy Protection Act
+          </h4>
+          <p>
+            CalOPPA is the first state law in the nation to require commercial
+            websites and online services to post a privacy policy. The law's
+            reach stretches well beyond California to require any person or
+            company in the United States (and conceivably the world) that
+            operates websites collecting Personally Identifiable Information
+            from California consumers to post a conspicuous privacy policy on
+            its website stating exactly the information being collected and
+            those individuals or companies with whom it is being shared. - See
+            more at:{' '}
+            <a
+              href='http://consumercal.org/california-online-privacy-protection-act-caloppa/#sthash.0FdRbT51.dpuf'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='link z-0'>
+              http://consumercal.org/california-online-privacy-protection-act-caloppa/#sthash.0FdRbT51.dpuf
+            </a>
+            .
+          </p>
+          <h5 className='font-medium py-1'>
+            According to CalOPPA, I agree to the following:
+          </h5>
+          <p>Users can visit my site anonymously.</p>
+          <p>
+            Once this privacy policy is created, I will add a link to it on my
+            home page or as a minimum, on the first significant page after
+            entering my website.
+          </p>
+          <p>
+            You will be notified of any Privacy Policy changes:
+            <ul className='list-disc pl-6'>
+              <li>On my Privacy Policy page</li>
+            </ul>
+          </p>
+          <p>
+            Can change your personal information:
+            <ul className='list-disc pl-6'>
+              <li>By emailing me</li>
+            </ul>
+          </p>
+          <br />
+          <h4 className='py-1 font-semibold'>CAN SPAM ACT</h4>
+          <p>
+            The CAN-SPAM Act is a law that sets the rules for commercial email,
+            establishes requirements for commercial messages, gives recipients
+            the right to have emails stopped from being sent to them, and spells
+            out tough penalties for violations.
+          </p>
+          <h5 className='font-medium py-1'>
+            I collect your email address when you share your feedback by
+            including your email or email me through contact page in order to:
+          </h5>
+          <ul className='list-disc pl-6'>
+            <li>Send feedback and/or other requests or questions</li>
+          </ul>
+          <h5 className='font-medium py-1'>
+            To be in accordance with CANSPAM, I agree to the following:
+          </h5>
+          <ul className='list-disc pl-6'>
+            <li>Not use false or misleading subjects or email addresses.</li>
+            <li>
+              Identify the message as an advertisement in some reasonable way.
+            </li>
+            <li>
+              Include the physical address of our business or site headquarters.
+            </li>
+            <li>
+              Monitor third-party email marketing services for compliance, if
+              one is used
+            </li>
+            <li>Honor opt-out/unsubscribe requests quickly.</li>
+            <li>
+              Allow users to unsubscribe by using the link at the bottom of each
+              email.
+            </li>
+          </ul>
+          <h5 className='font-medium py-1'>
+            If at any time you would like to unsubscribe from receiving future
+            emails, you can email me at
+          </h5>
+          <ul className='list-disc pl-6'>
+            <li>
+              Follow the instructions at the bottom of each email and I will
+              promptly remove you from ALL correspondence.
+            </li>
+          </ul>
           <br />
           <h4 className='py-1 font-semibold'>DATA RETENTION</h4>
           <p>

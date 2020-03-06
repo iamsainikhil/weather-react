@@ -24,12 +24,6 @@ export class HomeContainer extends Component {
                 }>
                 <WeatherContainer />
                 <FavoritesContainer />
-                {/* refresh button to enable page reloads in a PWA added to homescreen on ios */}
-                <button
-                  className={`mx-auto my-4 flex justify-center text-center sm:hidden font-semibold py-2 px-4 rounded-full capitalize cursor-pointer text-${this.context.theme} bg-${this.context.colorTheme}`}
-                  onClick={() => window.location.reload()}>
-                  Refresh page
-                </button>
               </Suspense>
             </ErrorBoundaryContainer>
           </AddressContextProvider>
