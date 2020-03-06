@@ -8,17 +8,31 @@ import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import {ThemeContext} from '../../context/ThemeContext'
 import FavoriteComponent from '../../components/favorite/FavoriteComponent'
+import LoaderComponent from '../../components/loader/LoaderComponent'
+import ErrorComponent from '../../components/error/ErrorComponent'
 
 const FavoritesContainer = () => {
   const {favorites} = useContext(AddressContext)
   const {theme, colorTheme} = useContext(ThemeContext)
   const [selectedFavorite, setSelectedFavorite] = useState({})
   const [favoriteWeather, setFavoriteWeather] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
   const [slideIndex, setSlideIndex] = useState(0)
   const weatherRef = useRef(null)
 
   // scroll to weather component when selectedFavorite is set
   const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
+
+  // check whether the cityName is valid
+  const validCityName = () => {
+    if (!isEmpty(selectedFavorite) && !isUndefined(selectedFavorite)) {
+      return (
+        !isEmpty(selectedFavorite.address.cityName) &&
+        !isUndefined(selectedFavorite.address.cityName)
+      )
+    }
+    return false
+  }
 
   const selectFavoriteHandler = index => {
     if (favorites[index]) {
@@ -32,12 +46,17 @@ const FavoritesContainer = () => {
       !isUndefined(selectedFavorite) &&
       Object.keys(selectedFavorite).length
     ) {
-      const data = await FetchWeatherData(selectedFavorite)
-      // set favoriteWeather only when the data is non-empty
-      if (!isEmpty(data) && !isUndefined(data)) {
-        setFavoriteWeather(state => ({...state, ...data}))
-        scrollHandler()
-      }
+      setIsLoading(true)
+      await FetchWeatherData(selectedFavorite)
+        .then(response => {
+          // set favoriteWeather only when the data is non-empty
+          if (!isEmpty(response) && !isUndefined(response)) {
+            setFavoriteWeather(state => ({...state, ...response}))
+            scrollHandler()
+          }
+        })
+        .catch(err => console.error(err))
+        .finally(() => setIsLoading(false))
     }
   }
 
@@ -165,7 +184,38 @@ const FavoritesContainer = () => {
                   ) : null}
                 </div>
               </Fragment>
-            ) : null}
+            ) : (
+              <Fragment>
+                {isLoading ? (
+                  <LoaderComponent
+                    loaderText={`Fetching weather forecast ${
+                      validCityName()
+                        ? `for ${selectedFavorite.address.cityName}`
+                        : ''
+                    } 😎`}
+                  />
+                ) : (
+                  <div>
+                    {validCityName() ? (
+                      // show error component only when selectedFavorite cityName is valid
+                      // since by default on component load, selectedFavorite is empty
+                      // this extra check will hide error and show only when api call fetch fail for selectedFavorite
+                      <div className='flex justify-center'>
+                        <div className='sm:w-full lg:w-2/3 xl:w-1/2'>
+                          <ErrorComponent
+                            errorMessage={`Something went wrong. Failed to fetch weather forecast ${
+                              validCityName()
+                                ? `for ${selectedFavorite.address.cityName}`
+                                : ''
+                            }! 😢`}
+                          />
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
+              </Fragment>
+            )}
           </div>
         </div>
       ) : null}

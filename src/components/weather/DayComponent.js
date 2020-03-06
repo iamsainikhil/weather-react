@@ -50,14 +50,16 @@ const DayComponent = props => {
       </div>
       <div className='flex flex-row justify-center sm:flex-col font-light mt-1'>
         <div className='flex flex-row justify-center items-center mx-2'>
-          <i className='text-sm wi wi-sunrise text-sun' title='sunrise'></i>
-          <p className='text-sm ml-2'>
-            {FormatTime(day.sunriseTime, day.timezone, 'HH:mm')}
+          <i
+            className='text-sm wi wi-sunrise text-sun mr-2'
+            title='sunrise'></i>
+          <p className='text-sm'>
+            {FormatTime(day.sunriseTime, day.timezone, 'h:mm')}
           </p>
         </div>
         <div className='flex flex-row justify-center items-center mx-2'>
-          <i className='text-sm wi wi-sunset text-sun' title='sunset'></i>
-          <p className='text-sm ml-2'>
+          <i className='text-sm wi wi-sunset text-sun mr-1' title='sunset'></i>
+          <p className='text-sm'>
             {FormatTime(day.sunsetTime, day.timezone, 'HH:mm')}
           </p>
         </div>

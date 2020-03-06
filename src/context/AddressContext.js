@@ -38,43 +38,56 @@ class AddressContextProvider extends Component {
   fetchAddressInfo = async () => {
     // defaults
     let cityId = ''
-    let urbanAreaInfo = {
+    let urbanArea = {
       name: '',
       slug: '',
       photos: []
     }
-    const {data} = await axios.get('https://ipapi.co/json')
+    await axios
+      .get('https://ipapi.co/json')
+      .then(async response => {
+        const {data} = response
+        if (!isEmpty(data) && !isUndefined(data)) {
+          const cityName = `${data.city}, ${data.region}, ${data.country_name}`
+          await axios
+            .get(`https://api.teleport.org/api/cities/?search=${cityName}`)
+            .then(async response => {
+              const cityInfo = response.data
+              // get cityId if matching cities exist
+              if (
+                !isEmpty(cityInfo) &&
+                !isUndefined(cityInfo) &&
+                cityInfo.count > 0
+              ) {
+                const cityIdArr = cityInfo._embedded['city:search-results'].map(
+                  result => ({
+                    cityId: result._links['city:item'].href.split('/')[5]
+                  })
+                )
 
-    if (!isEmpty(data) && !isUndefined(data)) {
-      const cityName = `${data.city}, ${data.region}, ${data.country_name}`
-      const cityInfo = await axios
-        .get(`https://api.teleport.org/api/cities/?search=${cityName}`)
-        .then(response => response.data)
+                cityId = cityIdArr[0].cityId
 
-      // get cityId if matching cities exist
-      if (!isEmpty(cityInfo) && !isUndefined(cityInfo) && cityInfo.count > 0) {
-        const cityIdArr = cityInfo._embedded['city:search-results'].map(
-          result => ({
-            cityId: result._links['city:item'].href.split('/')[5]
+                // update urbanArea with the known cityId
+                await getLatLongUrbanArea(cityId)
+                  .then(response => {
+                    urbanArea = response.urbanArea
+                  })
+                  .catch(err => console.log(err))
+              }
+            })
+            .catch(err => console.error(err))
+
+          this.updateState({
+            address: {
+              cityName: cityName,
+              cityId: cityId
+            },
+            latlong: `${data.latitude},${data.longitude}`,
+            urbanArea
           })
-        )
-
-        cityId = cityIdArr[0].cityId
-
-        // update urbanArea with the known cityId
-        const {urbanArea} = await getLatLongUrbanArea(cityId)
-        urbanAreaInfo = urbanArea
-      }
-
-      this.updateState({
-        address: {
-          cityName: cityName,
-          cityId: cityId
-        },
-        latlong: `${data.latitude},${data.longitude}`,
-        urbanArea: urbanAreaInfo
+        }
       })
-    }
+      .catch(err => console.error(err))
   }
 
   async getAddressInfo() {
@@ -93,7 +106,7 @@ class AddressContextProvider extends Component {
       // since cityName is important and cannot be fetched using browser geolocation API
       this.fetchAddressInfo()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 

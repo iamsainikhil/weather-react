@@ -17,32 +17,34 @@ const getLatLongUrbanArea = async cityId => {
   let photos = []
 
   // get lat, long, and name
-  const {data} = await axios.get(
-    `https://api.teleport.org/api/cities/${cityId}`
-  )
+  await axios
+    .get(`https://api.teleport.org/api/cities/${cityId}`)
+    .then(async response => {
+      const {data} = response
+      if (!isEmpty(data) && !isUndefined(data)) {
+        const {latitude, longitude} = data.location.latlon
+        lat = latitude
+        long = longitude
+        if (data._links['city:urban_area']) {
+          name = data._links['city:urban_area'].name
+        }
+      }
 
-  if (!isEmpty(data) && !isUndefined(data)) {
-    const {latitude, longitude} = data.location.latlon
-    lat = latitude
-    long = longitude
-    if (data._links['city:urban_area']) {
-      name = data._links['city:urban_area'].name
-    }
-  }
-
-  // get slug and photos
-  if (localStorage.getItem('urban-areas') && name !== undefined) {
-    const urbanAreas = JSON.parse(localStorage.getItem('urban-areas'))
-    // get the value of the slug with the matched name in urbanAreas array
-    // i.e [{Washington, D.C.: "washington-dc"},...]
-    if (Object.keys(urbanAreas).includes(name)) {
-      slug = urbanAreas[name]
-      const {data} = await axios.get(
-        `https://api.teleport.org/api/urban_areas/slug:${slug}/images`
-      )
-      photos = !isEmpty(data) && !isUndefined(data) ? data.photos : []
-    }
-  }
+      // get slug and photos
+      if (localStorage.getItem('urban-areas') && name !== undefined) {
+        const urbanAreas = JSON.parse(localStorage.getItem('urban-areas'))
+        // get the value of the slug with the matched name in urbanAreas array
+        // i.e [{Washington, D.C.: "washington-dc"},...]
+        if (Object.keys(urbanAreas).includes(name)) {
+          slug = urbanAreas[name]
+          const {data} = await axios.get(
+            `https://api.teleport.org/api/urban_areas/slug:${slug}/images`
+          )
+          photos = !isEmpty(data) && !isUndefined(data) ? data.photos : []
+        }
+      }
+    })
+    .catch(err => console.err(err))
 
   return {
     latlong: `${lat},${long}`,

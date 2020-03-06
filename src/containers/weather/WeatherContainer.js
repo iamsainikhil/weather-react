@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
+import React, {useState, useEffect, useContext, Fragment} from 'react'
 import ForecastContainer from '../forecast/ForecastContainer'
 import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import {AddressContext} from '../../context/AddressContext'
@@ -6,6 +6,7 @@ import FetchWeatherData from '../../utils/FetchWeatherData'
 import {ThemeContext} from '../../context/ThemeContext'
 import {isUndefined, isEmpty} from 'lodash-es'
 import LoaderComponent from '../../components/loader/LoaderComponent'
+import ErrorComponent from '../../components/error/ErrorComponent'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
@@ -13,10 +14,21 @@ const WeatherContainer = () => {
 
   const [weatherForecast, setWeatherForecast] = useState({})
   const [weatherCurrent, setWeatherCurrent] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
-  // store ref to latlong
-  const previousLatLong = useRef('')
+  // check whether the cityName is valid
+  const validCityName = () => {
+    if (
+      !isEmpty(addressContext.address) &&
+      !isUndefined(addressContext.address)
+    ) {
+      return (
+        !isEmpty(addressContext.address.cityName) &&
+        !isUndefined(addressContext.address.cityName)
+      )
+    }
+    return false
+  }
 
   const setWeatherData = (current, forecast) => {
     if (!isEmpty(current) && !isEmpty(forecast)) {
@@ -27,26 +39,27 @@ const WeatherContainer = () => {
 
   const fetchWeatherData = async () => {
     setIsLoading(true)
-    const {weatherCurrent, weatherForecast} = await FetchWeatherData(
-      addressContext
-    )
-    // set the weatherCurrent and weatherForecast only when the data is non-empty
-    // this way, the old fetched data can be preserved when api call fail or limit exceed
-    setWeatherData(weatherCurrent, weatherForecast)
-    setIsLoading(false)
+    await FetchWeatherData(addressContext)
+      .then(response => {
+        const {weatherCurrent, weatherForecast} = response
+        // set the weatherCurrent and weatherForecast only when the data is non-empty
+        // this way, the old fetched data can be preserved when api call fail or limit exceed
+        setWeatherData(weatherCurrent, weatherForecast)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   useEffect(() => {
+    fetchWeatherData()
     const timer = setInterval(() => {
       fetchWeatherData()
     }, 3600000)
 
-    // fetch weatherData only when latlong change
-    // to avoid uneccessary api calls for the same location or on page reload
-    if (previousLatLong.current !== addressContext.latlong) {
-      fetchWeatherData()
-    }
-    previousLatLong.current = addressContext.latlong
     return () => {
       clearInterval(timer)
     }
@@ -118,12 +131,29 @@ const WeatherContainer = () => {
           {isLoading ? (
             <LoaderComponent
               loaderText={`Fetching weather forecast ${
-                !isEmpty(addressContext.address.cityName)
-                  ? `for ${addressContext.address.cityName}`
-                  : null
-              }`}
+                validCityName() ? `for ${addressContext.address.cityName}` : ''
+              } 😎`}
             />
-          ) : null}
+          ) : (
+            <div>
+              {validCityName() ? (
+                // show error component only when addressContext cityName is valid
+                // since by default on component load, addressContext address is empty
+                // this extra check will hide error and show only when api call fetch fail for fetching weatherData
+                <div className='flex justify-center'>
+                  <div className='sm:w-full lg:w-2/3 xl:w-1/2'>
+                    <ErrorComponent
+                      errorMessage={`Something went wrong. Failed to fetch weather forecast ${
+                        validCityName()
+                          ? `for ${addressContext.address.cityName}`
+                          : ''
+                      }! 😢`}
+                    />
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          )}
         </Fragment>
       )}
     </Fragment>

@@ -4,8 +4,6 @@ import {ThemeContext} from './context/ThemeContext'
 import HeaderComponent from './components/header/HeaderComponent'
 import FooterComponent from './components/footer/FooterComponent'
 import LoaderComponent from './components/loader/LoaderComponent'
-// import HomeContainer from './containers/home/HomeContainer'
-// import PrivacyPolicyComponent from './components/privacy-policy/PrivacyPolicyComponent'
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
 const PrivacyPolicyComponent = lazy(() =>

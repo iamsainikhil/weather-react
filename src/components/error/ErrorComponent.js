@@ -5,7 +5,7 @@ const ErrorComponent = props => {
   const {theme} = useContext(ThemeContext)
   return (
     <div
-      className={`w-5/6 ml-auto mr-auto h-auto bg-${theme} border border-red-400 text-red-700 mt-5 px-4 py-2 rounded relative`}
+      className={`w-full ml-auto mr-auto h-auto bg-${theme} border border-red-400 text-red-700 mt-5 px-4 py-2 rounded relative`}
       role='alert'>
       <span className='w-5/6 block break-words'>{props.errorMessage}</span>
       {props.showCloseBtn && (

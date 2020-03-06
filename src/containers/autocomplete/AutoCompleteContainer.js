@@ -145,13 +145,17 @@ class AutoCompleteContainer extends Component {
               )
             )}
             {this.state.errorMessage.length > 0 && (
-              <ErrorComponent
-                errorMessage={this.state.errorMessage}
-                showCloseBtn={true}
-                closeError={() => {
-                  this.setState({errorMessage: ''})
-                }}
-              />
+              <div className='flex justify-center'>
+                <div className='w-5/6'>
+                  <ErrorComponent
+                    errorMessage={this.state.errorMessage}
+                    showCloseBtn={true}
+                    closeError={() => {
+                      this.setState({errorMessage: ''})
+                    }}
+                  />
+                </div>
+              </div>
             )}
           </div>
         </div>
