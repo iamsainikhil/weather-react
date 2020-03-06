@@ -117,7 +117,7 @@ class AutoCompleteContainer extends Component {
     return (
       <Fragment>
         <div className='flex justify-center mt-5'>
-          <div className='w-full sm:w-5/6 md:w-2/3 xl:w-1/2'>
+          <div className='w-full sm:w-5/6 md:w-2/3 xl:max-w-5xl'>
             <SearchComponent
               city={this.state.city}
               showCaret={this.state.showCaret}

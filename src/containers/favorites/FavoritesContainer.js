@@ -102,7 +102,7 @@ const FavoritesContainer = () => {
           </div>
           {/* tablet and above devices */}
           <div className='hidden sm:flex justify-center items-center'>
-            <div className='sm:w-5/6 xl:w-3/4 px-5 py-5'>
+            <div className='sm:w-5/6 xl:max-w-6xl px-5 py-5'>
               <div className='flex sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {
                   return (
@@ -130,7 +130,7 @@ const FavoritesContainer = () => {
               <Fragment>
                 <div className='flex justify-center px-5 pt-10'>
                   <div
-                    className={`sm:w-full lg:w-5/6 xl:w-2/3 border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
+                    className={`sm:w-full lg:w-5/6 xl:max-w-6xl border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
                     <CurrentWeatherContainer
                       weatherCurrent={favoriteWeather.weatherCurrent}
                       address={selectedFavorite.address}

@@ -73,7 +73,7 @@ const WeatherContainer = () => {
         <Fragment>
           <div className={`flex justify-center px-5 pt-10 bg-${theme}`}>
             <div
-              className={`sm:w-full lg:w-5/6 xl:w-2/3 border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
+              className={`sm:w-full lg:w-5/6 xl:max-w-6xl border border-${colorTheme} bg-${theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
               <CurrentWeatherContainer
                 weatherCurrent={weatherCurrent}
                 address={addressContext.address}
