@@ -14,9 +14,9 @@ const FooterComponent = () => {
       {/* refresh button to enable page reloads in a PWA added to homescreen on ios */}
       <div className='pt-6 mx-auto flex justify-center text-center'>
         <button
-          className={`sm:hidden font-semibold py-2 px-4 rounded-full capitalize cursor-pointer text-${theme} bg-${colorTheme}`}
+          className={`sm:hidden font-semibold py-2 px-4 rounded-full capitalize cursor-pointer text-sm text-${theme} bg-${colorTheme}`}
           onClick={() => window.location.reload()}>
-          Refresh page
+          Refresh <span className='text-lg'>↻</span>
         </button>
       </div>
       <div
