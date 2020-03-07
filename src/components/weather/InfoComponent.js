@@ -5,6 +5,7 @@ import {imageExist, getImageDetails} from '../../utils/ImageDetails'
 import {sortBy, isUndefined, isEmpty} from 'lodash-es'
 import moment from 'moment-timezone'
 import {PropTypes} from 'prop-types'
+import {Event} from '../../utils/ReactAnalytics'
 
 const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   const {updateFavorites} = useContext(AddressContext)
@@ -20,6 +21,28 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
     background: 'rgba(0,0,0,0.55)',
     borderTopLeftRadius: '1rem',
     borderTopRightRadius: '1rem'
+  }
+
+  // track image source click event to GA
+  const emitImageSourceGA = () => {
+    Event({
+      category: 'City Image',
+      action: 'Click on Image Source',
+      label: 'Image source'
+    })
+  }
+
+  /**
+   * track select favorite click event to GA
+   * @param {String} type (add or remove)
+   * @param {String} favoriteCity (name)
+   */
+  const emitFavoriteCityGA = (type, favoriteCity) => {
+    Event({
+      category: 'Favorite City',
+      action: `${type} city`,
+      label: favoriteCity
+    })
   }
 
   // store formattedDateTime moment date object in the ref and update it for the first api call fetch
@@ -44,6 +67,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
         'favorites',
         JSON.stringify([{address, latlong, urbanArea}])
       )
+      emitFavoriteCityGA('add', address.cityName)
       updateFavorites({
         favorites: [{address, latlong, urbanArea}]
       })
@@ -59,6 +83,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
       )
       if (!duplicates.length) {
         localStorage.setItem('favorites', JSON.stringify(sortedFavorites))
+        emitFavoriteCityGA('add', address.cityName)
         updateFavorites({
           favorites: sortedFavorites
         })
@@ -73,6 +98,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
           const newFavorites = sortBy([...favorites], ['address.cityName'])
           newFavorites.splice(removeIndex, 1)
           localStorage.setItem('favorites', JSON.stringify(newFavorites))
+          emitFavoriteCityGA('remove', address.cityName)
           updateFavorites({
             favorites: newFavorites
           })
@@ -158,14 +184,18 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
             </div>
           </div>
           <div
-            className='mt-4 mr-4 cursor-pointer text-xl'
+            className='mt-6 mr-4 cursor-pointer text-xl'
             title={
               isBookmarked()
                 ? 'Remove this city from favorites'
                 : 'Favorite this city'
             }
             onClick={favoritesHandler}>
-            {isBookmarked() ? <span>&#9733;</span> : <span>&#9734;</span>}
+            {isBookmarked() ? (
+              <i className='icon-heart'></i>
+            ) : (
+              <i className='icon-heart-empty'></i>
+            )}
           </div>
         </div>
         <div className='hidden md:block text-right bottom-0 right-0 xl:mt-8 px-2'>
@@ -178,7 +208,8 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
                 className='link z-0 font-medium hover:no-underline hover:font-medium hover:text-light'
                 href={source}
                 target='_blank'
-                rel='noreferrer noopener'>
+                rel='noreferrer noopener'
+                onClick={emitImageSourceGA}>
                 {site}
               </a>
             </p>

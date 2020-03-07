@@ -5,11 +5,18 @@ import getWeatherIcon from '../../utils/WeatherIcon'
 import {mToK} from '../../utils/SpeedConvert'
 import {fToC} from '../../utils/TemperatureConvert'
 import {PropTypes} from 'prop-types'
+import {Event} from '../../utils/ReactAnalytics'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
 
   const unitClick = unit => {
+    // track event to GA
+    Event({
+      category: 'Weather Unit',
+      action: 'Set Unit',
+      label: unit
+    })
     updateWeatherUnit(unit)
   }
 
@@ -48,18 +55,24 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                   {computedTempValue('temperature')}
                 </span>
               </div>
-              <div className='text-2xl -mt-6'>
-                <i
-                  className={`wi wi-fahrenheit cursor-pointer mx-2 ${
-                    weatherUnit === 'F' ? 'font-bold underline' : ''
+              <div className='-mt-8 mx-2 text-sm'>
+                <sup>o</sup>
+                <span
+                  className={`cursor-pointer ${
+                    weatherUnit === 'F' ? 'font-bold underline' : 'font-light'
                   }`}
-                  onClick={() => unitClick('F')}></i>
-                |
-                <i
-                  className={`wi wi-celsius cursor-pointer mx-2 ${
-                    weatherUnit === 'C' ? 'font-bold underline' : ''
+                  onClick={() => unitClick('F')}>
+                  F
+                </span>
+                <span className='mx-1'>|</span>
+                <sup>o</sup>
+                <span
+                  className={`cursor-pointer ${
+                    weatherUnit === 'C' ? 'font-bold underline' : 'font-light'
                   }`}
-                  onClick={() => unitClick('C')}></i>
+                  onClick={() => unitClick('C')}>
+                  C
+                </span>
               </div>
             </div>
           </div>

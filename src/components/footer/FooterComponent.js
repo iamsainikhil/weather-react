@@ -2,23 +2,24 @@ import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 import moment from 'moment-timezone'
 import {Link} from 'react-router-dom'
+import {Event} from '../../utils/ReactAnalytics'
 
 const FooterComponent = () => {
   const {theme, colorTheme} = useContext(ThemeContext)
+
+  const emitGA = (action, label) => {
+    Event({
+      category: 'Footer Links',
+      action,
+      label
+    })
+  }
   return (
     <div
       className={`text-${colorTheme} pb-3`}
       style={{
         backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee'
       }}>
-      {/* refresh button to enable page reloads in a PWA added to homescreen on ios */}
-      <div className='pt-6 mx-auto flex justify-center text-center'>
-        <button
-          className={`sm:hidden font-semibold py-2 px-4 rounded-full capitalize cursor-pointer text-sm text-${theme} bg-${colorTheme}`}
-          onClick={() => window.location.reload()}>
-          Refresh <span className='text-lg'>↻</span>
-        </button>
-      </div>
       <div
         className={`flex flex-col text-center sm:flex sm:flex-row justify-around p-5 text-${colorTheme} text-sm`}>
         <p className='my-2 sm:my-0 w-full sm:w-1/3'>
@@ -26,14 +27,15 @@ const FooterComponent = () => {
             href='https://github.com/iamsainikhil/weather-react/'
             target='_blank'
             rel='noreferrer noopener'
-            className={`link z-0 hover:text-${theme}`}>
+            className={`link z-0 hover:text-${theme}`}
+            onClick={() => emitGA('Visit GitHub', 'GitHub Link')}>
             GitHub
           </a>
         </p>
         <p className='flex flex-no-wrap justify-center my-2 sm:my-0 w-full sm:w-1/2'>
           Made with&nbsp;
           <span title='Love' role='img' aria-label='Love' className='w-5 h-5'>
-            💗
+            ❤️
           </span>
           &nbsp;using&nbsp;
           <img
@@ -58,7 +60,8 @@ const FooterComponent = () => {
           className={`link z-0 hover:text-${theme}`}
           href='https://iamsainikhil.github.io'
           target='_blank'
-          rel='noreferrer noopener'>
+          rel='noreferrer noopener'
+          onClick={() => emitGA('Visit Portfolio', 'Portfolio Link')}>
           Sai Nikhil
         </a>
       </p>

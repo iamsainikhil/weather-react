@@ -11,6 +11,7 @@ import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import * as Sentry from '@sentry/browser'
+import emitGA from '../../utils/MiscTrackEvents'
 
 const FavoritesContainer = () => {
   const {favorites} = useContext(AddressContext)
@@ -37,6 +38,7 @@ const FavoritesContainer = () => {
 
   const selectFavoriteHandler = index => {
     if (favorites[index]) {
+      emitGA('favorites', favorites[index].address.cityName)
       setSelectedFavorite({...favorites[index]})
     }
     setSlideIndex(index)
@@ -151,7 +153,8 @@ const FavoritesContainer = () => {
                     href='https://darksky.net/poweredby/'
                     target='_blank'
                     rel='noreferrer noopener'
-                    className={`link z-0 font-medium hover:text-${theme}`}>
+                    className={`link z-0 font-medium hover:text-${theme}`}
+                    onClick={() => emitGA('powered-by', 'Dark Sky')}>
                     Dark Sky
                   </a>
                 </p>
@@ -163,7 +166,13 @@ const FavoritesContainer = () => {
                           href={`https://teleport.org/cities/${selectedFavorite.urbanArea.slug}`}
                           target='_blank'
                           rel='noreferrer noopener'
-                          className='hover:no-underline'>
+                          className='hover:no-underline'
+                          onClick={() =>
+                            emitGA(
+                              'explore-life',
+                              selectedFavorite.urbanArea.name
+                            )
+                          }>
                           <button
                             className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}>
                             Explore life in {selectedFavorite.urbanArea.name}
@@ -177,7 +186,8 @@ const FavoritesContainer = () => {
                           href='https://teleport.org/'
                           target='_blank'
                           rel='noreferrer noopener'
-                          className={`link z-0 font-medium hover:text-${theme}`}>
+                          className={`link z-0 font-medium hover:text-${theme}`}
+                          onClick={() => emitGA('powered-by', 'Teleport')}>
                           Teleport
                         </a>
                       </p>

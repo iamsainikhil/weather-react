@@ -1,10 +1,20 @@
 import React, {useState, useEffect} from 'react'
 import moment from 'moment-timezone'
+import {Event} from '../utils/ReactAnalytics'
 
 const ThemeContext = React.createContext({
   theme: 'light',
   toggleTheme: () => {}
 })
+
+// track theme toggles to GA
+const emitGA = theme => {
+  Event({
+    category: 'Theme',
+    action: 'Toggle Theme',
+    label: theme
+  })
+}
 
 const ThemeContextProvider = ({children}) => {
   const [theme, setTheme] = useState('')
@@ -12,6 +22,7 @@ const ThemeContextProvider = ({children}) => {
 
   const toggleTheme = () => {
     const selectedTheme = theme === 'light' ? 'dark' : 'light'
+    emitGA(selectedTheme)
     setTheme(selectedTheme)
     saveThemePreference(selectedTheme)
   }

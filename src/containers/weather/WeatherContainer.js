@@ -8,6 +8,7 @@ import {isUndefined, isEmpty} from 'lodash-es'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import * as Sentry from '@sentry/browser'
+import emitGA from '../../utils/MiscTrackEvents'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
@@ -94,7 +95,8 @@ const WeatherContainer = () => {
               href='https://darksky.net/poweredby/'
               target='_blank'
               rel='noreferrer noopener'
-              className={`link z-0 font-medium hover:text-${theme}`}>
+              className={`link z-0 font-medium hover:text-${theme}`}
+              onClick={() => emitGA('powered-by', 'Dark Sky')}>
               Dark Sky
             </a>
           </p>
@@ -106,7 +108,10 @@ const WeatherContainer = () => {
                     href={`https://teleport.org/cities/${addressContext.urbanArea.slug}`}
                     target='_blank'
                     rel='noreferrer noopener'
-                    className='hover:no-underline'>
+                    className='hover:no-underline'
+                    onClick={() =>
+                      emitGA('explore-life', addressContext.urbanArea.name)
+                    }>
                     <button
                       className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}>
                       Explore life in {addressContext.urbanArea.name}
@@ -119,7 +124,8 @@ const WeatherContainer = () => {
                     href='https://teleport.org/'
                     target='_blank'
                     rel='noreferrer noopener'
-                    className={`link z-0 font-medium hover:text-${theme}`}>
+                    className={`link z-0 font-medium hover:text-${theme}`}
+                    onClick={() => emitGA('powered-by', 'Teleport')}>
                     Teleport
                   </a>
                 </p>

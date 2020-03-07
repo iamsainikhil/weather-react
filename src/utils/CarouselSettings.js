@@ -12,8 +12,7 @@ const CarouselSettings = (type, resolution = 'mobile') => ({
   initialSlideHeight: type === 'time' ? 100 : 200,
   slideWidth: type === 'time' ? (resolution === 'tablet' ? 1.0 : 0.95) : 1.0,
   speed: 1000,
-  easing: 'easeCircleOut',
-  edgeEasing: 'easeCircleOut',
+  easing: 'easeSinInOut',
   defaultControlsConfig: {
     prevButtonStyle: {
       display: 'none'

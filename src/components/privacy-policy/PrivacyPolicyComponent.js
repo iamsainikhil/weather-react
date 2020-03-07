@@ -93,26 +93,27 @@ const PrivacyPolicyComponent = () => {
             SHARING YOUR PERSONAL INFORMATION
           </h4>
           <p>
-            I use Yandex.Metrica to help me understand how my users use the
-            Site. You can read more about how Yandex uses your Personal
+            I use Google Analytics to help me understand how my users use the
+            Site--you can read more about how Google uses your Personal
             Information here:&nbsp;
             <a
-              href='https://yandex.com/legal/confidential/'
+              href='https://www.google.com/intl/en/policies/privacy/'
               target='_blank'
               rel='noopener noreferrer'
               className='link z-0'>
-              https://yandex.com/legal/confidential/
+              https://www.google.com/intl/en/policies/privacy/
             </a>
-            . You can also opt-out of Yandex.Metrica here:&nbsp;
+            . You can also opt-out of Google Analytics here:&nbsp;
             <a
-              href='https://yandex.com/support/metrica/general/opt-out.html'
+              href='https://tools.google.com/dlpage/gaoptout'
               target='_blank'
               rel='noopener noreferrer'
               className='link z-0'>
-              https://yandex.com/support/metrica/general/opt-out.html
+              https://tools.google.com/dlpage/gaoptout
             </a>
             .
           </p>
+          <br />
           <p>
             I use Hotjar to help me understand how my users use the Site. You
             can read more about how Hotjar uses your Personal Information
@@ -185,6 +186,7 @@ const PrivacyPolicyComponent = () => {
             </a>
             .
           </p>
+          <br />
           <h5 className='font-medium py-1'>
             According to CalOPPA, I agree to the following:
           </h5>
@@ -214,6 +216,7 @@ const PrivacyPolicyComponent = () => {
             the right to have emails stopped from being sent to them, and spells
             out tough penalties for violations.
           </p>
+          <br />
           <h5 className='font-medium py-1'>
             I collect your email address when you share your feedback by
             including your email or email me through contact page in order to:
