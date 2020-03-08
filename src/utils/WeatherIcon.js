@@ -1,48 +1,49 @@
 import moment from 'moment-timezone'
 
 /**
- *
- * @param {String} code (cloudy)
- * @param {String} timezone (Pacific/Auckland)
+ * @param {Object} data (weatherCurrent, Timeframe, day)
+ * @param {String} icon (ex- cloudy)
+ * @param {String} timezone (ex- Pacific/Auckland)
  */
-const getWeatherIcon = (code, timezone) => {
+const getWeatherIcon = data => {
+  const {icon, timezone} = data
   const hour = moment()
     .tz(timezone)
     .format('H')
-  const type = hour >= 6 && hour < 18 ? 'day' : 'night-alt'
-  if (code) {
-    switch (code) {
+  const type = hour >= 6 && hour < 18 ? 'day' : 'night'
+  if (icon) {
+    switch (icon) {
       case 'clear-day':
-        return 'day-sunny'
+        return 'day'
       case 'clear-night':
-        return 'night-clear'
+        return 'night'
       case 'rain':
         return `${type}-rain`
       case 'snow':
         return `${type}-snow`
       case 'sleet':
-        return `${type}-sleet`
+        return 'sleet'
       case 'wind':
-        return `${type === 'night-alt' ? 'night-alt-cloudy' : 'day'}-windy`
+        return `wi wi-${type === 'night' ? 'night-alt-cloudy' : 'day'}-windy`
       case 'fog':
-        return type === 'day' ? 'day-fog' : 'night-fog'
+        return type === 'day' ? 'wi wi-day-fog' : 'wi wi-night-fog'
       case 'cloudy':
         return 'cloudy'
       case 'partly-cloudy-day':
         return 'day-cloudy'
       case 'partly-cloudy-night':
-        return 'night-alt-cloudy'
+        return 'night-cloudy'
       case 'hail':
-        return `${type}-hail`
+        return 'hail'
       case 'thunderstorm':
-        return `${type}-thunderstorm`
+        return 'thunder'
       case 'tornado':
-        return 'tornado'
+        return 'wi wi-tornado'
       default:
-        return 'na'
+        return 'wi wi-na'
     }
   }
-  return 'na'
+  return 'wi wi-na'
 }
 
 export default getWeatherIcon

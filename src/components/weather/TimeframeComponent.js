@@ -25,12 +25,20 @@ const TimeframeComponent = ({Timeframe}) => {
       className={`border-none flex flex-col justify-start items-center mx-3 mb-3 pt-2 w-full font-light text-${
         theme === 'light' ? 'dark' : 'light'
       }`}>
-      <i
-        title={Timeframe.summary}
-        className={`wi wi-${getWeatherIcon(
-          Timeframe.icon,
-          Timeframe.timezone
-        )} text-2xl my-1`}></i>
+      <div>
+        {getWeatherIcon(Timeframe).startsWith('wi') ? (
+          <i
+            title={Timeframe.summary}
+            className={`wi wi-${getWeatherIcon(Timeframe)} text-2xl my-1`}></i>
+        ) : (
+          <img
+            src={`./weather/${getWeatherIcon(Timeframe)}.svg`}
+            alt='icon'
+            title={Timeframe.summary}
+            className='w-16 h-16 object-contain'
+          />
+        )}
+      </div>
       <p className='text-xl'>
         {computedTempValue('temperature')}
         <sup>o</sup>

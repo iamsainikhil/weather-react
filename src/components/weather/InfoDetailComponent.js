@@ -42,12 +42,20 @@ const InfoDetailComponent = ({weatherCurrent}) => {
         <div className='flex-col sm:w-full lg:w-1/2'>
           <div className='flex flex-row items-center'>
             <div>
-              <i
-                className={`wi wi-${getWeatherIcon(
-                  weatherCurrent.icon,
-                  weatherCurrent.timezone
-                )} text-5xl mt-3 mr-2 mx-3`}
-                title={weatherCurrent.summary}></i>
+              {getWeatherIcon(weatherCurrent).startsWith('wi') ? (
+                <i
+                  className={`${getWeatherIcon(
+                    weatherCurrent
+                  )} text-5xl mt-3 mr-2 mx-3`}
+                  title={weatherCurrent.summary}></i>
+              ) : (
+                <img
+                  src={`./weather/${getWeatherIcon(weatherCurrent)}.svg`}
+                  alt='icon'
+                  title={weatherCurrent.summary}
+                  className='w-20 h-20 object-contain'
+                />
+              )}
             </div>
             <div className='flex justify-start items-center ml-3'>
               <div>

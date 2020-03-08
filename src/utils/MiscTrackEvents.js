@@ -1,3 +1,5 @@
+import {Event} from './ReactAnalytics'
+
 /**
  * @param {String} type
  * @param {String} value

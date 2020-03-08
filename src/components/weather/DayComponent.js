@@ -32,12 +32,22 @@ const DayComponent = props => {
       } transition-colors duration-1000 ease-in-out`}
       onClick={selectedDay}>
       <p className='font-medium'>{FormatTime(day.time, day.timezone, 'ddd')}</p>
-      <i
-        title={day.summary}
-        className={`mt-1 mb-3 mx-auto text-2xl wi wi-${getWeatherIcon(
-          day.icon,
-          day.timezone
-        )}`}></i>
+      <div>
+        {getWeatherIcon(day).startsWith('wi') ? (
+          <i
+            title={day.summary}
+            className={`mt-1 mb-3 mx-auto text-2xl wi wi-${getWeatherIcon(
+              day
+            )}`}></i>
+        ) : (
+          <img
+            src={`./weather/${getWeatherIcon(day)}.svg`}
+            alt='icon'
+            title={day.summary}
+            className='-mt-3 -mb-1 mx-auto w-16 h-16 object-contain'
+          />
+        )}
+      </div>
       <div className='flex flex-row justify-center items-center font-light'>
         <p className='mx-2 text-sm'>
           {computedTempValue('High')}
@@ -49,7 +59,7 @@ const DayComponent = props => {
         </p>
       </div>
       <div className='flex flex-row justify-center sm:flex-col font-light mt-1'>
-        <div className='flex flex-row justify-center items-center mx-2'>
+        <div className='flex flex-row justify-center items-center mx-2 sm:my-1'>
           <i
             className='text-sm wi wi-sunrise text-sun mr-2'
             title='sunrise'></i>
@@ -57,7 +67,7 @@ const DayComponent = props => {
             {FormatTime(day.sunriseTime, day.timezone, 'h:mm')}
           </p>
         </div>
-        <div className='flex flex-row justify-center items-center mx-2'>
+        <div className='flex flex-row justify-center items-center mx-2 sm:my-1'>
           <i className='text-sm wi wi-sunset text-sun mr-1' title='sunset'></i>
           <p className='text-sm'>
             {FormatTime(day.sunsetTime, day.timezone, 'HH:mm')}
