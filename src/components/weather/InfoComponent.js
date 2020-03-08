@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import {ThemeContext} from '../../context/ThemeContext'
 import {imageExist, getImageDetails} from '../../utils/ImageDetails'
-import {sortBy, isUndefined, isEmpty} from 'lodash-es'
+import {isUndefined, isEmpty} from 'lodash-es'
 import moment from 'moment-timezone'
 import {PropTypes} from 'prop-types'
 import {Event} from '../../utils/ReactAnalytics'
@@ -73,29 +73,26 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
       })
     } else {
       const favorites = JSON.parse(localStorage.getItem('favorites'))
-      // sort favorites by cityName
-      const sortedFavorites = sortBy(
-        [...favorites, {address, latlong, urbanArea}],
-        ['address.cityName']
-      )
       const duplicates = favorites.filter(
         favorite => favorite.address.cityName === address.cityName
       )
       if (!duplicates.length) {
-        localStorage.setItem('favorites', JSON.stringify(sortedFavorites))
+        // add newly added favorite to old favorites
+        const updatedFavorites = [...favorites, {address, latlong, urbanArea}]
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
         emitFavoriteCityGA('add', address.cityName)
         updateFavorites({
-          favorites: sortedFavorites
+          favorites: updatedFavorites
         })
       } else {
+        // if already favorite is selected
         // remove it from favorites
         const removeIndex = favorites.findIndex(
           favorite =>
             favorite.address.cityName === duplicates[0].address.cityName
         )
         if (removeIndex !== -1) {
-          // sort the new favorites array by cityName
-          const newFavorites = sortBy([...favorites], ['address.cityName'])
+          const newFavorites = [...favorites]
           newFavorites.splice(removeIndex, 1)
           localStorage.setItem('favorites', JSON.stringify(newFavorites))
           emitFavoriteCityGA('remove', address.cityName)

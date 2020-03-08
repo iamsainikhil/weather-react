@@ -14,7 +14,12 @@ const imageOverlay = {
   borderTopRightRadius: '1rem'
 }
 
-const FavoriteComponent = ({favorite, favoriteSelected}) => {
+const FavoriteComponent = ({
+  favorite,
+  favoriteSelected,
+  index,
+  selectedIndex
+}) => {
   const {theme, colorTheme} = useContext(ThemeContext)
   return (
     <div className='relative w-full h-16'>
@@ -30,9 +35,17 @@ const FavoriteComponent = ({favorite, favoriteSelected}) => {
       <div
         className={`${
           imageExist(favorite.urbanArea)
-            ? 'absolute top-0 left-0 right-0 bottom-0 text-light'
-            : `h-16 text-${colorTheme} border border-${colorTheme} bg-${theme} text-${colorTheme} hover:bg-${colorTheme} hover:text-${theme}`
-        } pt-5 lg:pt-1/2 font-semibold rounded-2xl shadow-lg cursor-pointer text-center justify-center`}
+            ? `absolute top-0 left-0 right-0 bottom-0 text-light ${
+                index === selectedIndex
+                  ? 'sm:shadow-outline'
+                  : 'sm:outline-none'
+              }`
+            : `h-16 text-${colorTheme} bg-${theme} hover:bg-${colorTheme} hover:text-${theme} border ${
+                index === selectedIndex
+                  ? 'sm:border-teal-600'
+                  : `sm:border-${colorTheme}`
+              }`
+        } pt-5 lg:pt-1/2 font-semibold rounded-2xl cursor-pointer text-center justify-center`}
         style={imageExist(favorite.urbanArea) ? imageOverlay : null}
         onClick={favoriteSelected}>
         {favorite.address.cityName.split(', ')[0]}
@@ -45,5 +58,7 @@ export default FavoriteComponent
 
 FavoriteComponent.propTypes = {
   favorite: PropTypes.object,
-  favoriteSelected: PropTypes.func
+  favoriteSelected: PropTypes.func,
+  index: PropTypes.number,
+  selectedIndex: PropTypes.number
 }

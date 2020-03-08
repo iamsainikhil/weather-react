@@ -3,7 +3,7 @@ import {AddressContext} from '../../context/AddressContext'
 import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
 import ForecastContainer from '../forecast/ForecastContainer'
 import FetchWeatherData from './../../utils/FetchWeatherData'
-import {isUndefined, isEmpty} from 'lodash-es'
+import {isUndefined, isEmpty, find} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import {ThemeContext} from '../../context/ThemeContext'
@@ -19,8 +19,11 @@ const FavoritesContainer = () => {
   const [selectedFavorite, setSelectedFavorite] = useState({})
   const [favoriteWeather, setFavoriteWeather] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const [slideIndex, setSlideIndex] = useState(0)
+  const [slideIndex, setSlideIndex] = useState(null)
   const weatherRef = useRef(null)
+
+  // favorites data length
+  const favoritesLength = useRef(0)
 
   // scroll to weather component when selectedFavorite is set
   const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
@@ -67,8 +70,39 @@ const FavoritesContainer = () => {
     scrollToRef(weatherRef)
   }
 
+  const favoritesChecker = () => {
+    // check for deleted selectedFavorite scenario
+    // i.e. selectedFavorite is not in the favorites
+    // to update it with the favorite at current slideIndex
+    if (!isEmpty(selectedFavorite) && !isUndefined(selectedFavorite)) {
+      if (
+        isUndefined(
+          find(
+            favorites,
+            favorite =>
+              favorite.address.cityName === selectedFavorite.address.cityName
+          )
+        )
+      ) {
+        selectFavoriteHandler(slideIndex)
+      } else {
+        // if favorites get updated
+        // i.e. a new favorite is added (favorites.length > favoritesLength)
+        // set selectedFavorite and slideIndex to the newly added favorite
+        // i.e. last favorite in favorites
+        if (favorites.length > favoritesLength.current) {
+          selectFavoriteHandler(favorites.length - 1)
+        }
+      }
+    }
+  }
+
   useEffect(() => {
     fetchWeatherData()
+    /* important edge case scenarios checker for deleted selectedFavorite & newly added favorite */
+    favoritesChecker()
+    // update favoritesLength
+    favoritesLength.current = favorites.length
     const timer = setInterval(() => {
       fetchWeatherData()
     }, 3600000)
@@ -76,7 +110,7 @@ const FavoritesContainer = () => {
       clearInterval(timer)
     }
     // eslint-disable-next-line
-  }, [selectedFavorite])
+  }, [selectedFavorite, favorites])
 
   return (
     <Fragment>
@@ -96,6 +130,8 @@ const FavoritesContainer = () => {
                   <FavoriteComponent
                     key={favorite.latlong}
                     favorite={favorite}
+                    index={index}
+                    selectedIndex={slideIndex}
                     favoriteSelected={() => selectFavoriteHandler(index)}
                   />
                 )
@@ -114,6 +150,8 @@ const FavoritesContainer = () => {
                       <FavoriteComponent
                         key={favorite.latlong}
                         favorite={favorite}
+                        index={index}
+                        selectedIndex={slideIndex}
                         favoriteSelected={() => selectFavoriteHandler(index)}
                       />
                     </div>

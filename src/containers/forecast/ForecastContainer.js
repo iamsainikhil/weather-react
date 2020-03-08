@@ -82,33 +82,9 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
               )}
             </div>
 
-            {/* mobile */}
-            <div className='sm:hidden py-3'>
-              <Carousel
-                {...CarouselSettings('day')}
-                slideIndex={Object.keys(weatherForecast.days).indexOf(
-                  selectedDay
-                )}
-                afterSlide={slideIndex =>
-                  daySelectHandler(
-                    Object.keys(weatherForecast.days)[slideIndex]
-                  )
-                }>
-                {Object.keys(weatherForecast.days).map((day, index) => {
-                  return (
-                    <DayComponent
-                      day={weatherForecast.days[day]}
-                      key={index}
-                      index={day}
-                      selectedIndex={selectedDay}
-                      selectedDay={() => daySelectHandler(day)}
-                    />
-                  )
-                })}
-              </Carousel>
-            </div>
-            {/* table and above devices */}
-            <div className={`hidden sm:flex w-full rounded sm:visible`}>
+            {/* day */}
+            <div
+              className={`flex flex-col mt-4 sm:mt-0 sm:flex-row w-full rounded`}>
               {Object.keys(weatherForecast.days).map((day, index) => {
                 // day is key in weatherForecast.days -> '02/28/2020'
                 // index is the position of key -> 0
