@@ -6,6 +6,8 @@ import {mToK} from '../../utils/SpeedConvert'
 import {fToC} from '../../utils/TemperatureConvert'
 import {PropTypes} from 'prop-types'
 import {Event} from '../../utils/ReactAnalytics'
+import {FiPercent} from 'react-icons/fi'
+import WeatherIconComponent from './WeatherIconComponent'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
@@ -41,26 +43,25 @@ const InfoDetailComponent = ({weatherCurrent}) => {
       <div className='sm:flex-col md:flex md:flex-row justify-between mt-5 mb-5 px-4'>
         <div className='flex-col sm:w-full lg:w-1/2'>
           <div className='flex flex-row items-start'>
-            <div className='flex flex-col'>
-              <div>
-                {getWeatherIcon(weatherCurrent).startsWith('wi') ? (
-                  <i
-                    className={`${getWeatherIcon(
-                      weatherCurrent
-                    )} text-5xl mr-2 mx-3`}
-                    title={weatherCurrent.summary}></i>
-                ) : (
-                  <img
-                    src={`./weather/${getWeatherIcon(weatherCurrent)}.svg`}
-                    alt='icon'
-                    title={weatherCurrent.summary}
-                    className='-mt-2 w-20 h-20 object-contain'
-                  />
-                )}
-              </div>
-              <p className='font-medium ml-3 capitalize'>
-                {weatherCurrent.summary}
-              </p>
+            <div>
+              {getWeatherIcon(weatherCurrent).startsWith('wi') ? (
+                <p
+                  className='text-5xl ml-6 mr-2'
+                  title={weatherCurrent.summary}>
+                  {
+                    <WeatherIconComponent
+                      type={getWeatherIcon(weatherCurrent)}
+                    />
+                  }
+                </p>
+              ) : (
+                <img
+                  src={`./weather/${getWeatherIcon(weatherCurrent)}.svg`}
+                  alt='icon'
+                  title={weatherCurrent.summary}
+                  className='-mt-2 w-20 h-20 object-contain'
+                />
+              )}
             </div>
             <div className='flex justify-start items-center ml-3'>
               <div>
@@ -89,22 +90,29 @@ const InfoDetailComponent = ({weatherCurrent}) => {
               </div>
             </div>
           </div>
+          <p className='font-medium ml-6 capitalize'>
+            {weatherCurrent.summary}
+          </p>
         </div>
         <div className='mt-6 ml-3 sm:mt-1 sm:w-full lg:w-1/2 text-sm sm:text-lg'>
-          <p>
-            <span className='font-light'>Humidity:</span>&nbsp;
-            {Math.round(weatherCurrent.humidity)}%
-          </p>
+          <div className='flex flex-row'>
+            <p className='font-light'>Humidity:</p>&nbsp;
+            <p className='mx-1'>{Math.round(weatherCurrent.humidity)}</p>
+            <p className='text-sm mt-1'>
+              <FiPercent />
+            </p>
+          </div>
           <div className='flex items-center'>
             <p>
               <span className='font-light'>Wind:</span>&nbsp;
               {computedSpeedValue()}{' '}
             </p>
-            <p>
-              <i
-                className={`mx-2 mt-2 text-3xl wi wi-direction-${getWindDirection(
-                  weatherCurrent.windBearing
-                )}`}></i>
+            <p className='text-3xl'>
+              {
+                <WeatherIconComponent
+                  type={getWindDirection(weatherCurrent.windBearing)}
+                />
+              }
             </p>
           </div>
           <p>

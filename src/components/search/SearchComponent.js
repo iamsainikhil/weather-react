@@ -1,6 +1,17 @@
 import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 import {PropTypes} from 'prop-types'
+import {FiSearch} from 'react-icons/fi'
+import {IoIosArrowUp, IoIosArrowDown} from 'react-icons/io'
+
+const IconComponent = ({type, color}) => {
+  const TYPES = {
+    search: <FiSearch />,
+    up: <IoIosArrowUp />,
+    down: <IoIosArrowDown />
+  }
+  return <p className={`opacity-75 text-2xl fill-${color}`}>{TYPES[type]}</p>
+}
 
 const SearchComponent = props => {
   const {theme, colorTheme} = useContext(ThemeContext)
@@ -8,7 +19,7 @@ const SearchComponent = props => {
     <div className='h-12 mx-5 mt-5'>
       <div className='relative'>
         <div className='absolute top-0 left-0 ml-5 mt-3'>
-          <i className={`icon-search opacity-50 text-${colorTheme}`}></i>
+          <IconComponent type='search' color={colorTheme} />
         </div>
         <input
           style={{
@@ -27,10 +38,9 @@ const SearchComponent = props => {
             className='flex right-0 absolute top-0 mr-4 mt-3 cursor-pointer'
             onClick={props.caretClicked}>
             {props.showAddresses ? (
-              <i className={`icon-up-arrow opacity-50 text-${colorTheme}`}></i>
+              <IconComponent type='up' color={colorTheme} />
             ) : (
-              <i
-                className={`icon-down-arrow opacity-50 text-${colorTheme}`}></i>
+              <IconComponent type='down' color={colorTheme} />
             )}
           </div>
         ) : null}

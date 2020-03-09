@@ -6,6 +6,7 @@ import {isUndefined, isEmpty} from 'lodash-es'
 import moment from 'moment-timezone'
 import {PropTypes} from 'prop-types'
 import {Event} from '../../utils/ReactAnalytics'
+import {FaRegHeart, FaHeart} from 'react-icons/fa'
 
 const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   const {updateFavorites} = useContext(AddressContext)
@@ -188,11 +189,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
                 : 'Favorite this city'
             }
             onClick={favoritesHandler}>
-            {isBookmarked() ? (
-              <i className='icon-heart'></i>
-            ) : (
-              <i className='icon-heart-empty'></i>
-            )}
+            {isBookmarked() ? <FaHeart /> : <FaRegHeart />}
           </div>
         </div>
         <div className='hidden md:block text-right bottom-0 right-0 xl:mt-8 px-2'>

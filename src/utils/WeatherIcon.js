@@ -24,9 +24,9 @@ const getWeatherIcon = data => {
       case 'sleet':
         return 'sleet'
       case 'wind':
-        return `wi wi-${type === 'night' ? 'night-alt-cloudy' : 'day'}-windy`
+        return `wi-${type}-windy`
       case 'fog':
-        return type === 'day' ? 'wi wi-day-fog' : 'wi wi-night-fog'
+        return `wi-${type}-fog`
       case 'cloudy':
         return 'cloudy'
       case 'partly-cloudy-day':
@@ -38,12 +38,12 @@ const getWeatherIcon = data => {
       case 'thunderstorm':
         return 'thunder'
       case 'tornado':
-        return 'wi wi-tornado'
+        return 'wi-tornado'
       default:
-        return 'wi wi-na'
+        return 'wi-na'
     }
   }
-  return 'wi wi-na'
+  return 'wi-na'
 }
 
 export default getWeatherIcon

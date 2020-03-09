@@ -5,6 +5,7 @@ import {fToC} from '../../utils/TemperatureConvert'
 import getWeatherIcon from '../../utils/WeatherIcon'
 import FormatTime from './../../utils/FormatTime'
 import {PropTypes} from 'prop-types'
+import WeatherIconComponent from './WeatherIconComponent'
 
 const TimeframeComponent = ({Timeframe}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
@@ -27,9 +28,9 @@ const TimeframeComponent = ({Timeframe}) => {
       }`}>
       <div>
         {getWeatherIcon(Timeframe).startsWith('wi') ? (
-          <i
-            title={Timeframe.summary}
-            className={`wi wi-${getWeatherIcon(Timeframe)} text-2xl my-1`}></i>
+          <p className='text-5xl mt-4' title={Timeframe.summary}>
+            <WeatherIconComponent type={getWeatherIcon(Timeframe)} />
+          </p>
         ) : (
           <img
             src={`./weather/${getWeatherIcon(Timeframe)}.svg`}
@@ -39,7 +40,7 @@ const TimeframeComponent = ({Timeframe}) => {
           />
         )}
       </div>
-      <p className='text-xl'>
+      <p className='text-lg'>
         {computedTempValue('temperature')}
         <sup>o</sup>
       </p>

@@ -3,6 +3,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import moment from 'moment-timezone'
 import {Link} from 'react-router-dom'
 import {Event} from '../../utils/ReactAnalytics'
+import {FaReact} from 'react-icons/fa'
 
 const FooterComponent = () => {
   const {theme, colorTheme} = useContext(ThemeContext)
@@ -34,15 +35,17 @@ const FooterComponent = () => {
         </p>
         <p className='flex flex-no-wrap justify-center my-2 sm:my-0 w-full sm:w-1/2'>
           Made with&nbsp;
-          <span title='Love' role='img' aria-label='Love' className='w-5 h-5'>
+          <span title='Love' role='img' aria-label='Love' className='text-lg'>
             ❤️
           </span>
           &nbsp;using&nbsp;
-          <img
-            src='./react.svg'
-            alt='React'
+          <span
             title='React'
-            className='w-4 h-4 object-contain object-center'></img>
+            role='img'
+            aria-label='React'
+            className='text-lg text-react'>
+            <FaReact />
+          </span>
           &nbsp;by&nbsp;
           <span title='Sai Nikhil' role='img' aria-label='Sai Nikhil'>
             👨‍💻

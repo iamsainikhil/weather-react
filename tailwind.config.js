@@ -12,6 +12,8 @@ module.exports = {
       light: '#F7f8f9',
       dark: '#181818',
       sun: '#E7AB4D',
+      react: '#2acef7',
+      toggle: '#ffa500',
       gray: {
         100: '#f7fafc',
         200: '#edf2f7',

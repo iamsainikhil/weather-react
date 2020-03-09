@@ -1,13 +1,18 @@
 import React from 'react'
 import {PropTypes} from 'prop-types'
+import {FaSun, FaMoon} from 'react-icons/fa'
 
 const IconComponent = ({iconType}) => {
   return (
     <div>
       {iconType === 'light' ? (
-        <img src='./sun.svg' alt='Light' />
+        <p className='text-toggle'>
+          <FaSun />
+        </p>
       ) : (
-        <img src='./moon.svg' alt='Dark' />
+        <p className='text-toggle'>
+          <FaMoon />
+        </p>
       )}
     </div>
   )

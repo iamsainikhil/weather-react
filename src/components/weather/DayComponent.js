@@ -5,6 +5,7 @@ import {fToC} from '../../utils/TemperatureConvert'
 import getWeatherIcon from '../../utils/WeatherIcon'
 import FormatTime from './../../utils/FormatTime'
 import {PropTypes} from 'prop-types'
+import WeatherIconComponent from './WeatherIconComponent'
 
 const DayComponent = props => {
   const {day, index, selectedIndex} = props
@@ -38,11 +39,11 @@ const DayComponent = props => {
         {/* icon */}
         <div className='flex w-1/6 sm:w-full'>
           {getWeatherIcon(day).startsWith('wi') ? (
-            <i
-              title={day.summary}
-              className={`sm:mt-1 sm:mb-3 mx-auto sm:text-2xl wi wi-${getWeatherIcon(
-                day
-              )}`}></i>
+            <p
+              className='my-1 sm:mt-1 sm:mb-3 mx-auto text-3xl'
+              title={day.summary}>
+              <WeatherIconComponent type={getWeatherIcon(day)} />
+            </p>
           ) : (
             <img
               src={`./weather/${getWeatherIcon(day)}.svg`}
@@ -69,11 +70,15 @@ const DayComponent = props => {
             index === selectedIndex ? 'flex' : 'flex'
           } flex-row justify-around sm:justify-center sm:flex sm:flex-col w-5/12 sm:w-full font-light mt-1`}>
           <div className='flex flex-row justify-center items-center mx-2 sm:my-1 text-xs sm:text-sm'>
-            <i className='wi wi-sunrise text-sun mr-2' title='sunrise'></i>
+            <p className='text-xl text-sun mr-2' title='sunrise'>
+              <WeatherIconComponent type='sunrise' />
+            </p>
             <p>{FormatTime(day.sunriseTime, day.timezone, 'h:mm')}</p>
           </div>
           <div className='flex flex-row justify-center items-center mx-2 sm:my-1 text-xs sm:text-sm'>
-            <i className='wi wi-sunset text-sun mr-1' title='sunset'></i>
+            <p className='text-xl text-sun mr-1' title='sunset'>
+              <WeatherIconComponent type='sunset' />
+            </p>
             <p>{FormatTime(day.sunsetTime, day.timezone, 'HH:mm')}</p>
           </div>
         </div>
