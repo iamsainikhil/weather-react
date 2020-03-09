@@ -40,13 +40,13 @@ const InfoDetailComponent = ({weatherCurrent}) => {
 
   return (
     <Fragment>
-      <div className='sm:flex-col md:flex md:flex-row justify-between mt-5 mb-5 px-4'>
+      <div className='sm:flex-col md:flex md:flex-row justify-between my-2 px-6 sm:mt-5 sm:mb-5 sm:px-4'>
         <div className='flex-col sm:w-full lg:w-1/2'>
-          <div className='flex flex-row justify-between  sm:justify-start'>
+          <div className='flex flex-row justify-between sm:justify-start'>
             <div>
               {getWeatherIcon(weatherCurrent).startsWith('wi') ? (
                 <p
-                  className='text-5xl ml-6 mr-2'
+                  className='text-6xl ml-0 sm:mx-2 mt-2'
                   title={weatherCurrent.summary}>
                   {
                     <WeatherIconComponent
@@ -59,13 +59,13 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                   src={`./weather/${getWeatherIcon(weatherCurrent)}.svg`}
                   alt='icon'
                   title={weatherCurrent.summary}
-                  className='-mt-2 w-24 h-24 object-contain'
+                  className='-mt-2 -ml-4 sm:mx-0 w-32 h-32 object-contain'
                 />
               )}
             </div>
-            <div className='flex justify-start items-center pr-6 sm:ml-3'>
+            <div className='flex justify-start items-center sm:ml-3'>
               <div>
-                <span className='text-5xl font-bold'>
+                <span className='text-6xl font-bold'>
                   {computedTempValue('temperature')}
                 </span>
               </div>
@@ -90,12 +90,12 @@ const InfoDetailComponent = ({weatherCurrent}) => {
               </div>
             </div>
           </div>
-          <p className='hidden sm:flex font-medium ml-6 capitalize'>
+          <p className='hidden sm:flex font-medium ml-4 capitalize'>
             {weatherCurrent.summary}
           </p>
         </div>
         <div className='flex flex-row justify-between sm:flex-col sm:mt-1 sm:w-full lg:w-1/2'>
-          <p className='sm:hidden font-medium ml-6 capitalize text-xl'>
+          <p className='sm:hidden font-medium capitalize text-xl ml-2'>
             {weatherCurrent.summary}
           </p>
           <div className='text-sm sm:text-lg'>
