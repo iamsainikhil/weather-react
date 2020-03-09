@@ -45,7 +45,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
         {!isEmpty(weatherForecast.days) && !isEmpty(selectedDay) ? (
           <Fragment>
             {/* mobile */}
-            <div className='sm:hidden py-3 sm:mb-3'>
+            <div className='sm:hidden pb-3'>
               {weatherForecast.timeFrames[selectedDay] ? (
                 <Carousel {...CarouselSettings('time')}>
                   {weatherForecast.timeFrames[selectedDay].map(

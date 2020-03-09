@@ -54,12 +54,12 @@ const DayComponent = props => {
           )}
         </div>
         {/* high & low */}
-        <div className='flex flex-row justify-center items-center font-light w-1/4 sm:w-full'>
-          <p className='mx-2 text-sm'>
+        <div className='flex flex-row justify-center items-center font-light w-1/4 sm:w-full mt-1 sm:mt-0'>
+          <p className='mx-2 text-xs sm:text-sm'>
             {computedTempValue('High')}
             <sup>o</sup>
           </p>
-          <p className='mx-2 mt-1 text-xs'>
+          <p className='mx-2 text-xs'>
             {computedTempValue('Low')}
             <sup>o</sup>
           </p>

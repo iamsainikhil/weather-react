@@ -42,7 +42,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
     <Fragment>
       <div className='sm:flex-col md:flex md:flex-row justify-between mt-5 mb-5 px-4'>
         <div className='flex-col sm:w-full lg:w-1/2'>
-          <div className='flex flex-row items-start'>
+          <div className='flex flex-row justify-between  sm:justify-start'>
             <div>
               {getWeatherIcon(weatherCurrent).startsWith('wi') ? (
                 <p
@@ -59,11 +59,11 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                   src={`./weather/${getWeatherIcon(weatherCurrent)}.svg`}
                   alt='icon'
                   title={weatherCurrent.summary}
-                  className='-mt-2 w-20 h-20 object-contain'
+                  className='-mt-2 w-24 h-24 object-contain'
                 />
               )}
             </div>
-            <div className='flex justify-start items-center ml-3'>
+            <div className='flex justify-start items-center pr-6 sm:ml-3'>
               <div>
                 <span className='text-5xl font-bold'>
                   {computedTempValue('temperature')}
@@ -90,36 +90,41 @@ const InfoDetailComponent = ({weatherCurrent}) => {
               </div>
             </div>
           </div>
-          <p className='font-medium ml-6 capitalize'>
+          <p className='hidden sm:flex font-medium ml-6 capitalize'>
             {weatherCurrent.summary}
           </p>
         </div>
-        <div className='mt-6 ml-3 sm:mt-1 sm:w-full lg:w-1/2 text-sm sm:text-lg'>
-          <div className='flex flex-row'>
-            <p className='font-light'>Humidity:</p>&nbsp;
-            <p className='mx-1'>{Math.round(weatherCurrent.humidity)}</p>
-            <p className='text-sm mt-1'>
-              <FiPercent />
-            </p>
-          </div>
-          <div className='flex items-center'>
-            <p>
-              <span className='font-light'>Wind:</span>&nbsp;
-              {computedSpeedValue()}{' '}
-            </p>
-            <p className='text-3xl'>
-              {
-                <WeatherIconComponent
-                  type={getWindDirection(weatherCurrent.windBearing)}
-                />
-              }
-            </p>
-          </div>
-          <p>
-            <span className='font-light'>Feels like:</span>&nbsp;
-            {computedTempValue('apparentTemperature')}
-            <sup>o</sup>
+        <div className='flex flex-row justify-between sm:flex-col sm:mt-1 sm:w-full lg:w-1/2'>
+          <p className='sm:hidden font-medium ml-6 capitalize text-xl'>
+            {weatherCurrent.summary}
           </p>
+          <div className='text-sm sm:text-lg'>
+            <div className='flex flex-row'>
+              <p className='font-light'>Humidity:</p>&nbsp;
+              <p className='mx-1'>{Math.round(weatherCurrent.humidity)}</p>
+              <p className='text-sm mt-1'>
+                <FiPercent />
+              </p>
+            </div>
+            <div className='flex items-center'>
+              <p>
+                <span className='font-light'>Wind:</span>&nbsp;
+                {computedSpeedValue()}{' '}
+              </p>
+              <p className='text-3xl'>
+                {
+                  <WeatherIconComponent
+                    type={getWindDirection(weatherCurrent.windBearing)}
+                  />
+                }
+              </p>
+            </div>
+            <p>
+              <span className='font-light'>Feels like:</span>&nbsp;
+              {computedTempValue('apparentTemperature')}
+              <sup>o</sup>
+            </p>
+          </div>
         </div>
       </div>
     </Fragment>
