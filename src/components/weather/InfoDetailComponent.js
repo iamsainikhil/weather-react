@@ -70,7 +70,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
           )}
         </div>
         <div
-          className='absolute top-0 bottom-0 left-0 right-0 my-auto mx-auto'
+          className='absolute top-0 bottom-0 left-0 right-0 my-auto mx-auto text-light'
           style={{background: 'rgba(0,0,0,0.2)'}}>
           <div className='sm:flex-col md:flex md:flex-row justify-between my-2 px-6 sm:mt-5 sm:mb-5 sm:px-4'>
             <div className='flex-col sm:w-full lg:w-1/2'>
@@ -100,7 +100,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                     {weatherCurrent.summary}
                   </p>
                 </div>
-                <div className='flex justify-start items-center sm:ml-3'>
+                <div className='flex justify-start items-center sm:-mt-3 sm:ml-3'>
                   <div>
                     <span className='text-6xl font-bold'>
                       {computedTempValue('temperature')}
