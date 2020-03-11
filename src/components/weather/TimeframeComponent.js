@@ -23,7 +23,7 @@ const TimeframeComponent = ({Timeframe}) => {
 
   return (
     <div
-      className={`border-none flex flex-col justify-start items-center mx-3 mb-3 pt-2 w-full font-light text-${
+      className={`border-none flex flex-col justify-start items-center mx-3 mb-3 w-full font-light text-${
         theme === 'light' ? 'dark' : 'light'
       }`}>
       <div>
