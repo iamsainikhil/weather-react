@@ -19,7 +19,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   const {image, photographer, site, source} = getImageDetails(urbanArea)
 
   const imageOverlay = {
-    background: 'rgba(0,0,0,0.55)',
+    background: 'rgba(0,0,0,0.7)',
     borderTopLeftRadius: '1rem',
     borderTopRightRadius: '1rem'
   }

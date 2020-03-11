@@ -64,7 +64,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
             </div>
 
             {/* tablet and above devices */}
-            <div className='hidden sm:flex sm:pb-3'>
+            <div className='hidden sm:flex sm:pb-3 sm:mb-4'>
               {weatherForecast.timeFrames[selectedDay] ? (
                 <Carousel {...CarouselSettings('time', 'tablet')}>
                   {weatherForecast.timeFrames[selectedDay].map(
