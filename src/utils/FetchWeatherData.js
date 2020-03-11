@@ -35,7 +35,9 @@ const FetchWeatherData = async ({latlong}) => {
 
           weatherCurrent = {
             timezone,
-            ...weatherData.currently
+            ...weatherData.currently,
+            sunrise: weatherData.daily.data[0].sunriseTime,
+            sunset: weatherData.daily.data[0].sunsetTime
           }
 
           // group 168 hours into days as keys in timeFrames
