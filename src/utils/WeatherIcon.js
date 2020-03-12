@@ -24,9 +24,9 @@ const getWeatherIcon = data => {
       case 'sleet':
         return 'sleet'
       case 'wind':
-        return `wi-${type}-windy`
+        return `${type}-cloudy`
       case 'fog':
-        return `wi-${type}-fog`
+        return `${type}-cloudy`
       case 'cloudy':
         return 'cloudy'
       case 'partly-cloudy-day':

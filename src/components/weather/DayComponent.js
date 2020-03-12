@@ -1,6 +1,5 @@
 import React, {useContext} from 'react'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
-import {ThemeContext} from '../../context/ThemeContext'
 import {fToC} from '../../utils/TemperatureConvert'
 import getWeatherIcon from '../../utils/WeatherIcon'
 import FormatTime from './../../utils/FormatTime'
@@ -10,7 +9,6 @@ import WeatherIconComponent from './WeatherIconComponent'
 const DayComponent = props => {
   const {day, index, selectedIndex} = props
   const {weatherUnit} = useContext(WeatherUnitContext)
-  const {theme, colorTheme} = useContext(ThemeContext)
 
   /**
    * type can be 'High' or 'Low'
@@ -28,8 +26,8 @@ const DayComponent = props => {
 
   return (
     <div
-      className={`sm:border-t sm:border-r sm:border-b-0 sm:border-l-0 sm:border-${colorTheme} sm:hover:bg-${colorTheme} sm:hover:text-${theme} items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer ${
-        index === selectedIndex ? `bg-${colorTheme} text-${theme}` : ''
+      className={`sm:border-t sm:border-r sm:border-b-0 sm:border-l-0 sm:border-light sm:hover:bg-light sm:hover:text-black items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer ${
+        index === selectedIndex ? `bg-light text-black` : ''
       } transition-all duration-1000 ease-in-out`}
       onClick={selectedDay}>
       <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>

@@ -1,6 +1,5 @@
 import React, {useContext} from 'react'
 import {WeatherUnitContext} from '../../context/WeatherUnitContext'
-import {ThemeContext} from '../../context/ThemeContext'
 import {fToC} from '../../utils/TemperatureConvert'
 import getWeatherIcon from '../../utils/WeatherIcon'
 import FormatTime from './../../utils/FormatTime'
@@ -9,7 +8,6 @@ import WeatherIconComponent from './WeatherIconComponent'
 
 const TimeframeComponent = ({Timeframe}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
-  const {theme} = useContext(ThemeContext)
 
   /**
    * type can be `temperature` or `apparentTemperature`
@@ -22,10 +20,7 @@ const TimeframeComponent = ({Timeframe}) => {
   }
 
   return (
-    <div
-      className={`border-none flex flex-col justify-start items-center mx-3 mb-3 w-full font-light text-${
-        theme === 'light' ? 'dark' : 'light'
-      }`}>
+    <div className='border-none flex flex-col justify-start items-center mx-3 mb-3 w-full font-light text-light'>
       <div>
         {getWeatherIcon(Timeframe).startsWith('wi') ? (
           <p className='text-5xl mt-4' title={Timeframe.summary}>
