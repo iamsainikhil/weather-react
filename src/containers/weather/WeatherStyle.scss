@@ -1,0 +1,8 @@
+.weather-background {
+  @media (max-width: 768px) {
+    min-height: 24rem;
+  }
+  @media (min-width: 768px) {
+    height: 35.625rem; // 570px
+  }
+}

@@ -1,7 +1,5 @@
 import React, {useState, useEffect, useContext, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
-import {ThemeContext} from '../../context/ThemeContext'
-import {imageExist, getImageDetails} from '../../utils/ImageDetails'
 import {isUndefined, isEmpty} from 'lodash-es'
 import moment from 'moment-timezone'
 import {PropTypes} from 'prop-types'
@@ -12,26 +10,6 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   const {updateFavorites} = useContext(AddressContext)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
-
-  const {colorTheme} = useContext(ThemeContext)
-
-  // get image details
-  const {image, photographer, site, source} = getImageDetails(urbanArea)
-
-  const imageOverlay = {
-    background: 'rgba(0,0,0,0.7)',
-    borderTopLeftRadius: '1rem',
-    borderTopRightRadius: '1rem'
-  }
-
-  // track image source click event to GA
-  const emitImageSourceGA = () => {
-    Event({
-      category: 'City Image',
-      action: 'Click on Image Source',
-      label: 'Image source'
-    })
-  }
 
   /**
    * track select favorite click event to GA
@@ -134,81 +112,30 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   }, [weatherCurrent])
 
   return (
-    <div className='relative'>
-      <div>
-        {imageExist(urbanArea) ? (
-          <Fragment>
-            <img
-              src={image.mobile}
-              alt='city'
-              className='block sm:hidden h-40 w-full object-cover object-center rounded-t-2xl'
-            />
-            <img
-              src={image.web}
-              alt='city'
-              className='hidden sm:block sm:h-32 md:h-24 xl:h-32 w-full object-cover object-center rounded-t-2xl'
-            />
-          </Fragment>
-        ) : null}
-      </div>
-      <div
-        className={`${
-          imageExist(urbanArea)
-            ? 'absolute top-0 left-0 right-0 bottom-0 text-light'
-            : `text-${colorTheme}`
-        }`}
-        style={imageExist(urbanArea) ? imageOverlay : null}>
-        <div className='flex justify-between items-start'>
-          <div className='pt-4 px-4'>
-            <p
-              className={`font-bold ${
-                imageExist(urbanArea) ? 'sm:text-2xl' : ''
-              }`}>
-              {address.cityName}
-            </p>
-            <div
-              className={`sm:flex-col md:flex md:flex-row ${
-                imageExist(urbanArea) ? 'font-medium' : 'font-light'
-              }`}>
-              {!isEmpty(date) && !isEmpty(time) ? (
-                <Fragment>
-                  <p>
-                    {date}
-                    <span className='invisible md:visible'>&nbsp;|&nbsp;</span>
-                  </p>
-                  <p>{time}</p>
-                </Fragment>
-              ) : null}
-            </div>
-          </div>
-          <div
-            className='mt-6 mr-4 cursor-pointer text-xl'
-            title={
-              isBookmarked()
-                ? 'Remove this city from favorites'
-                : 'Favorite this city'
-            }
-            onClick={favoritesHandler}>
-            {isBookmarked() ? <FaHeart /> : <FaRegHeart />}
-          </div>
-        </div>
-        <div className='hidden md:block text-right bottom-0 right-0 xl:mt-8 px-2'>
-          {photographer && site ? (
-            <p className='font-light' style={{fontSize: '0.5rem'}}>
-              Photo by&nbsp;
-              <span className='font-medium'>{photographer}</span>
-              &nbsp;on&nbsp;
-              <a
-                className='link z-0 font-medium hover:no-underline hover:font-medium hover:text-light'
-                href={source}
-                target='_blank'
-                rel='noreferrer noopener'
-                onClick={emitImageSourceGA}>
-                {site}
-              </a>
-            </p>
+    <div className='flex justify-between items-start'>
+      <div className='pt-4 px-4'>
+        <p className='font-bold'>{address.cityName}</p>
+        <div className='sm:flex-col md:flex md:flex-row font-light'>
+          {!isEmpty(date) && !isEmpty(time) ? (
+            <Fragment>
+              <p>
+                {date}
+                <span className='invisible md:visible'>&nbsp;|&nbsp;</span>
+              </p>
+              <p>{time}</p>
+            </Fragment>
           ) : null}
         </div>
+      </div>
+      <div
+        className='mt-6 mr-4 cursor-pointer text-xl'
+        title={
+          isBookmarked()
+            ? 'Remove this city from favorites'
+            : 'Favorite this city'
+        }
+        onClick={favoritesHandler}>
+        {isBookmarked() ? <FaHeart /> : <FaRegHeart />}
       </div>
     </div>
   )
