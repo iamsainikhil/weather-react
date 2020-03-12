@@ -5,9 +5,11 @@ import getWeatherIcon from '../../utils/WeatherIcon'
 import FormatTime from './../../utils/FormatTime'
 import {PropTypes} from 'prop-types'
 import WeatherIconComponent from './WeatherIconComponent'
+import {ThemeContext} from '../../context/ThemeContext'
 
 const TimeframeComponent = ({Timeframe}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
+  const {colorTheme} = useContext(ThemeContext)
 
   /**
    * type can be `temperature` or `apparentTemperature`
@@ -20,7 +22,8 @@ const TimeframeComponent = ({Timeframe}) => {
   }
 
   return (
-    <div className='border-none flex flex-col justify-start items-center mx-3 mb-3 w-full font-light text-light'>
+    <div
+      className={`border-none flex flex-col justify-start items-center mx-3 mb-3 w-full font-light text-${colorTheme} md:text-light`}>
       <div>
         {getWeatherIcon(Timeframe).startsWith('wi') ? (
           <p className='text-5xl mt-4' title={Timeframe.summary}>
