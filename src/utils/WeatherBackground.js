@@ -29,13 +29,15 @@ const getWeatherBackground = data => {
   const sunsetHour = getHour('sunset', sunset, timezone)
   const hour = getHour('hour', 0, timezone)
   const type = hour >= sunriseHour && hour <= sunsetHour ? 'day' : 'night'
+  // to show sunrise weather background 1hr before the sunrise
+  const dawn = hour === sunriseHour - 1
   // to show sunset weather background 1hr before the sunset
-  const dusk = hour >= sunsetHour - 1 && hour <= sunsetHour
+  const dusk = hour === sunsetHour - 1
 
   if (icon) {
     switch (icon) {
       case 'clear-day':
-        return dusk ? 'dusk' : 'clear-day'
+        return dusk ? 'dusk' : dawn ? 'dawn' : 'clear-day'
       case 'clear-night':
         return 'clear-night'
       case 'rain':
