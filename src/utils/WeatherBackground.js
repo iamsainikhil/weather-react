@@ -63,10 +63,10 @@ const getWeatherBackground = data => {
       case 'tornado':
         return 'tornado'
       default:
-        return `clear-${type}`
+        return 'clear-day'
     }
   }
-  return `clear-${type}`
+  return 'clear-day'
 }
 
 export default getWeatherBackground
