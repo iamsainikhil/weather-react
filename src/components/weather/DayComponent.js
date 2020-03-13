@@ -26,11 +26,19 @@ const DayComponent = props => {
     props.selectedDay({day})
   }
 
+  const specialBorder = () => {
+    return `md:border-r${
+      index === 7 || index === selectedIndex - 1 ? '-0' : ''
+    } md:border-l${index === 0 || index === selectedIndex + 1 ? '-0' : ''}`
+  }
+
   return (
     <div
-      className={`sm:border-t sm:border-r sm:border-b-0 sm:border-l-0 md:border-light md:hover:bg-light md:hover:text-black items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer ${
-        index === selectedIndex ? `bg-${colorTheme} text-${theme}` : ''
-      } transition-all duration-1000 ease-in-out`}
+      className={`md:border-t md:border-b-0 md:border-light md:hover:border-light md:hover:bg-light md:hover:text-black items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer transition-all duration-1000 ease-in-out ${
+        index === selectedIndex
+          ? `bg-${colorTheme} text-${theme} md:border-${colorTheme}`
+          : ''
+      } ${specialBorder()}`}
       onClick={selectedDay}>
       <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>
         <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-light sm:font-medium'>
@@ -92,6 +100,6 @@ export default DayComponent
 DayComponent.propTypes = {
   day: PropTypes.object,
   selectedDay: PropTypes.func,
-  index: PropTypes.string,
-  selectedIndex: PropTypes.string
+  index: PropTypes.number,
+  selectedIndex: PropTypes.number
 }

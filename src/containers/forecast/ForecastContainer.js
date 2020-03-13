@@ -12,6 +12,7 @@ import {PropTypes} from 'prop-types'
 
 const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
   const [selectedDay, setSelectedDay] = useState('')
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0)
   const {time, timezone} = weatherCurrent
 
   // set the selectedDay to the current day by fetching current city date from weatherCurrent timestamp
@@ -22,8 +23,15 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
       // check if today key exist in days
       if (!isEmpty(weatherForecast) && !isUndefined(weatherForecast)) {
         setSelectedDay(weatherForecast.days[today] ? today : '')
+        selectedDayIndexHandler(weatherForecast.days[today] ? today : '')
       }
     }
+  }
+
+  // find the index of selectedDay in days object
+  const selectedDayIndexHandler = selectedDay => {
+    const index = Object.keys(weatherForecast.days).indexOf(selectedDay)
+    setSelectedDayIndex(index !== -1 ? index : 0)
   }
 
   /**
@@ -32,6 +40,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
    */
   const daySelectHandler = day => {
     setSelectedDay(day)
+    selectedDayIndexHandler(day)
   }
 
   useEffect(() => {
@@ -92,8 +101,8 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
                   <DayComponent
                     day={weatherForecast.days[day]}
                     key={index}
-                    index={day}
-                    selectedIndex={selectedDay}
+                    index={index}
+                    selectedIndex={selectedDayIndex}
                     selectedDay={() => daySelectHandler(day)}
                   />
                 )

@@ -41,9 +41,11 @@ const WeatherContainer = () => {
       !isEmpty(addressContext.address) &&
       !isUndefined(addressContext.address)
     ) {
+      const cityName = addressContext.address.cityName
       return (
-        !isEmpty(addressContext.address.cityName) &&
-        !isUndefined(addressContext.address.cityName)
+        !isEmpty(cityName) &&
+        !isUndefined(cityName) &&
+        cityName !== 'undefined, undefined, undefined'
       )
     }
     return false

@@ -46,10 +46,6 @@ const FooterComponent = () => {
             className='text-lg text-react'>
             <FaReact />
           </span>
-          &nbsp;by&nbsp;
-          <span title='Sai Nikhil' role='img' aria-label='Sai Nikhil'>
-            👨‍💻
-          </span>
         </p>
         <p className='my-2 sm:my-0 w-full sm:w-1/3'>
           <Link to='/privacy-policy' className={`link z-0 hover:text-${theme}`}>

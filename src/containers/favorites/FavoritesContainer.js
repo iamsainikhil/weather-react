@@ -31,12 +31,15 @@ const FavoritesContainer = () => {
   // check whether the cityName is valid
   const validCityName = () => {
     if (!isEmpty(selectedFavorite) && !isUndefined(selectedFavorite)) {
+      const cityName = selectedFavorite.address.cityName
       return (
-        !isEmpty(selectedFavorite.address.cityName) &&
-        !isUndefined(selectedFavorite.address.cityName)
+        !isEmpty(cityName) &&
+        !isUndefined(cityName) &&
+        cityName !== 'undefined, undefined, undefined'
       )
+    } else {
+      return false
     }
-    return false
   }
 
   const selectFavoriteHandler = index => {

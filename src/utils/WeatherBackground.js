@@ -12,7 +12,7 @@ const getHour = (type, time, timezone) => {
       .tz(timezone)
       .format('H')
   }
-  moment()
+  return moment()
     .tz(timezone)
     .format('H')
 }
@@ -25,10 +25,10 @@ const getHour = (type, time, timezone) => {
 const getWeatherBackground = data => {
   const {icon, timezone, sunrise, sunset} = data
   // format sunrise and sunset in weatherCurrent of data into an hour
-  const sunriseHour = getHour('sunrise', sunrise, timezone)
-  const sunsetHour = getHour('sunset', sunset, timezone)
-  const hour = getHour('hour', 0, timezone)
-  const type = hour >= sunriseHour && hour <= sunsetHour ? 'day' : 'night'
+  const sunriseHour = 6 || getHour('sunrise', sunrise, timezone)
+  const sunsetHour = 19 || getHour('sunset', sunset, timezone)
+  const hour = 17 || getHour('hour', 0, timezone)
+  const type = hour >= sunriseHour && hour < sunsetHour ? 'day' : 'night'
   // to show sunrise weather background 1hr before the sunrise
   const dawn = hour === sunriseHour - 1
   // to show sunset weather background 1hr before the sunset
@@ -51,7 +51,8 @@ const getWeatherBackground = data => {
       case 'fog':
         return `overcast-${type}`
       case 'cloudy':
-        return `cloudy-${type}`
+        return dusk ? 'dusk' : dawn ? 'dawn' : 'clear-day'
+      // return `cloudy-${type}`
       case 'partly-cloudy-day':
         return 'cloudy-day'
       case 'partly-cloudy-night':
