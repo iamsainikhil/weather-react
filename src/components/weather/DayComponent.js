@@ -22,10 +22,12 @@ const DayComponent = props => {
       : fToC(day[`temperature${type}`])
   }
 
+  // emit event to forecastContainer
   const selectedDay = () => {
     props.selectedDay({day})
   }
 
+  // hide or show right and left sides of a border
   const specialBorder = () => {
     return `md:border-r${
       index === 7 || index === selectedIndex - 1 ? '-0' : ''
