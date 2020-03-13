@@ -137,7 +137,7 @@ class AutoCompleteContainer extends Component {
           </div>
         </div>
         <div className='flex justify-center'>
-          <div className='w-full sm:w-5/6 md:w-2/3 xl:w-1/2'>
+          <div className='w-full sm:w-5/6 md:w-2/3 xl:max-w-5xl'>
             {this.state.showLoader ? (
               <LoaderComponent />
             ) : (
