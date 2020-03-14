@@ -6,6 +6,7 @@ import HeaderComponent from './components/header/HeaderComponent'
 import FooterComponent from './components/footer/FooterComponent'
 import LoaderComponent from './components/loader/LoaderComponent'
 import {Timing} from './utils/ReactAnalytics'
+
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
 const PrivacyPolicyComponent = lazy(() =>
   import('./components/privacy-policy/PrivacyPolicyComponent')
