@@ -28,18 +28,20 @@ const getWeatherBackground = data => {
   const sunriseHour = getHour('sunrise', sunrise, timezone)
   const sunsetHour = getHour('sunset', sunset, timezone)
   const hour = getHour('hour', 0, timezone)
-  const type = hour >= sunriseHour && hour <= sunsetHour ? 'day' : 'night'
-  // to show sunrise weather background 1hr before the sunrise
-  const dawn = hour === sunriseHour - 1
-  // to show sunset weather background 1hr before the sunset
-  const dusk = hour === sunsetHour - 1
+  // subtract 1hr from sunriseHour and add 1hr to sunsetHour to compensate for minutes
+  // since moment will format 7:23 as 7 and 17:27 as 17
+  const type = hour >= sunriseHour - 1 && hour <= sunsetHour ? 'day' : 'night'
+  // to show sunrise weather background 1hr before and during the sunrise hour
+  const dawn = hour === sunriseHour - 1 || hour === sunriseHour
+  // to show sunset weather background 1hr before and during the sunset hour
+  const dusk = hour === sunsetHour - 1 || hour === sunsetHour
 
   if (icon) {
     switch (icon) {
       case 'clear-day':
         return dusk ? 'dusk' : dawn ? 'dawn' : 'clear-day'
       case 'clear-night':
-        return 'clear-night'
+        return dusk ? 'dusk' : dawn ? 'dawn' : 'clear-night'
       case 'rain':
         return `overcast-${type}`
       case 'snow':

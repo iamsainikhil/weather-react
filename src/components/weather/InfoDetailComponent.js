@@ -74,21 +74,24 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                   {computedTempValue('temperature')}
                 </span>
               </div>
-              <div className='-mt-8 mx-2 text-sm'>
+              <p className='-mt-8 text-3xl'>
                 <sup>o</sup>
+              </p>
+              <div className='-mt-10 mx-2 text-xl'>
                 <span
                   className={`cursor-pointer ${
-                    weatherUnit === 'F' ? 'font-bold underline' : 'font-light'
+                    weatherUnit === 'F' ? 'font-bold' : 'font-light opacity-75'
                   }`}
+                  title='Fahrenheit'
                   onClick={() => unitClick('F')}>
                   F
                 </span>
-                <span className='mx-1'>|</span>
-                <sup>o</sup>
+                <span className='mx-1 opacity-25'>|</span>
                 <span
                   className={`cursor-pointer ${
-                    weatherUnit === 'C' ? 'font-bold underline' : 'font-light'
+                    weatherUnit === 'C' ? 'font-bold' : 'font-light opacity-75'
                   }`}
+                  title='celsius'
                   onClick={() => unitClick('C')}>
                   C
                 </span>
