@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import axiosRetry from 'axios-retry'
 import {PropTypes} from 'prop-types'
 import {isEmpty, isUndefined} from 'lodash-es'
 import getLatLongUrbanArea from '../utils/LatLongUrbanArea'
@@ -8,9 +7,6 @@ import * as Sentry from '@sentry/browser'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
-
-// Exponential back-off retry delay between requests
-axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
 
 class AddressContextProvider extends Component {
   updateState = state => {
