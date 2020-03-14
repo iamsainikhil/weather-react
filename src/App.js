@@ -11,8 +11,10 @@ const PrivacyPolicyComponent = lazy(() =>
   import('./components/privacy-policy/PrivacyPolicyComponent')
 )
 
+const GA_ID = process.env.REACT_APP_GA_ID
+
 // reactGA initialization
-ReactGA.initialize('UA-85329633-7')
+ReactGA.initialize(`${GA_ID}`)
 
 const App = () => {
   const {theme} = useContext(ThemeContext)

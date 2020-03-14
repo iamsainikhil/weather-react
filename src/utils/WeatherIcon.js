@@ -2,15 +2,13 @@ import moment from 'moment-timezone'
 
 /**
  * @param {Object} data (weatherCurrent, Timeframe, day)
- * @param {String} icon (ex- cloudy)
- * @param {String} timezone (ex- Pacific/Auckland)
  */
 const getWeatherIcon = data => {
-  const {icon, timezone} = data
-  const hour = moment()
+  const {icon, time, timezone} = data
+  const hour = moment(time * 1000)
     .tz(timezone)
     .format('H')
-  const type = hour >= 6 && hour < 18 ? 'day' : 'night'
+  const type = hour >= 6 && hour <= 18 ? 'day' : 'night'
   if (icon) {
     switch (icon) {
       case 'clear-day':
