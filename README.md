@@ -1,18 +1,16 @@
 # Weather React - README
 
-Created: Mar 14, 2020 6:50 PM
+Created: **Mar 14, 2020 6:50 PM**
 
-Last Edited Time: Mar 14, 2020 6:58 PM
+Last Edited Time: **Mar 14, 2020 6:58 PM**
 
-Type: Documentation 📘
+Type: **Documentation 📘**
 
-Status: In Progress 🙌
+Status: **In Progress 🙌**
 
-Created By: Sai Nikhil
+Created By: **Sai Nikhil**
 
-Project: Weather React
-
-GitHub Repo Link: https://github.com/iamsainikhil/weather-react
+Project: **Weather React**
 
 Application Link: https://iamsainikhil.github.io/weather-react
 
@@ -22,10 +20,4 @@ Application Link: https://iamsainikhil.github.io/weather-react
 
 > _These instructions are very important to avoid the **Blank Page** issue when running the application on `http://localhost:3000`._
 
----
-
 ### **Application Architecture Documentation will be added soon...**
-
----
-
-_This project is still in ALPHA stage where things change and break very often._
