@@ -9,12 +9,12 @@
 - **[Contribution](https://github.com/iamsainikhil/weather-react#-contribution)**
 - **[License](https://github.com/iamsainikhil/weather-react#-license)**
 - **[Contact](https://github.com/iamsainikhil/weather-react#-contact)**
-- **[Credits](https://github.com/iamsainikhil/weather-react#-credits)**
-  - **[API](https://github.com/iamsainikhil/weather-react#-api)**
-  - **[3rd-party Libraries](https://github.com/iamsainikhil/weather-react#-3rd-party-libraries)**
-  - **[Icons](https://github.com/iamsainikhil/weather-react#-icons)**
-  - **[Styling](https://github.com/iamsainikhil/weather-react#-styling)**
-- **[Featured On](https://github.com/iamsainikhil/weather-react#-featured)**
+- **[Acknowledgements](https://github.com/iamsainikhil/weather-react#-acknowledgements)**
+  - **[API](https://github.com/iamsainikhil/weather-react#api)**
+  - **[3rd-party Libraries](https://github.com/iamsainikhil/weather-react#3rd-party-libraries)**
+  - **[Icons](https://github.com/iamsainikhil/weather-react#icons)**
+  - **[Styling](https://github.com/iamsainikhil/weather-react#styling)**
+- **[Featured On](https://github.com/iamsainikhil/weather-react#-featured-on)**
 
 # 🚀 Getting Started
 
@@ -75,7 +75,7 @@ Email: **[contact@iamsainikhil.com](mailto:contact@iamsainikhil.com)**
 - **[React.js Examples](https://reactjsexample.com/a-nice-weather-app-built-using-react/)**
 - **[Morioh](https://morioh.com/p/fc5f51d76847)**
 
-## 🙏 Credits
+## 🙏 Acknowledgements
 
 ### API
 
