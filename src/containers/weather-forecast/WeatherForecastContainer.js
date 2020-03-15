@@ -36,7 +36,7 @@ const WeatherForecastContainer = ({
         className={'flex flex-col justify-center items-center lg:px-5 pt-10'}>
         <div
           className={`sm:w-full lg:w-5/6 xl:max-w-6xl bg-${theme} text-${colorTheme} border border-${colorTheme} md:border-none rounded-t-2xl shadow-lg`}>
-          <div className='relative'>
+          <div className='relative overflow-hidden'>
             <img
               src={`./weather-backgrounds/${getWeatherBackground(
                 weatherCurrent
