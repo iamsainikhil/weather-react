@@ -1,20 +1,20 @@
 # Table of Contents
 
-- **[Getting Started](https://github.com/iamsainikhil/weather-react#getting-started)**
-- **[Motivation](https://github.com/iamsainikhil/weather-react#motivation)**
-- **[Technologies](https://github.com/iamsainikhil/weather-react#technologies)**
-- **[Challenges](https://github.com/iamsainikhil/weather-react#challenges)**
-- **[Architecture](https://github.com/iamsainikhil/weather-react#architecture)**
-- **[Roadmap](https://github.com/iamsainikhil/weather-react#roadmap)**
-- **[Contribution](https://github.com/iamsainikhil/weather-react#contribution)**
-- **[License](https://github.com/iamsainikhil/weather-react#license)**
-- **[Contact](https://github.com/iamsainikhil/weather-react#contact)**
-- **[Credits](https://github.com/iamsainikhil/weather-react#credits)**
-  - **[API](https://github.com/iamsainikhil/weather-react#api)**
-  - **[3rd-party Libraries](https://github.com/iamsainikhil/weather-react#3rd-party-libraries)**
-  - **[Icons](https://github.com/iamsainikhil/weather-react#icons)**
-  - **[Styling](https://github.com/iamsainikhil/weather-react#styling)**
-- **[Featured On](https://github.com/iamsainikhil/weather-react#featured)**
+- **[Getting Started](https://github.com/iamsainikhil/weather-react#-getting-started)**
+- **[Motivation](https://github.com/iamsainikhil/weather-react#-motivation)**
+- **[Technologies](https://github.com/iamsainikhil/weather-react#-technologies)**
+- **[Challenges](https://github.com/iamsainikhil/weather-react#-challenges)**
+- **[Architecture](https://github.com/iamsainikhil/weather-react#-architecture)**
+- **[Roadmap](https://github.com/iamsainikhil/weather-react#-roadmap)**
+- **[Contribution](https://github.com/iamsainikhil/weather-react#-contribution)**
+- **[License](https://github.com/iamsainikhil/weather-react#-license)**
+- **[Contact](https://github.com/iamsainikhil/weather-react#-contact)**
+- **[Credits](https://github.com/iamsainikhil/weather-react#-credits)**
+  - **[API](https://github.com/iamsainikhil/weather-react#-api)**
+  - **[3rd-party Libraries](https://github.com/iamsainikhil/weather-react#-3rd-party-libraries)**
+  - **[Icons](https://github.com/iamsainikhil/weather-react#-icons)**
+  - **[Styling](https://github.com/iamsainikhil/weather-react#-styling)**
+- **[Featured On](https://github.com/iamsainikhil/weather-react#-featured)**
 
 # 🚀 Getting Started
 
