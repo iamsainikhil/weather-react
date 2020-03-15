@@ -1,13 +1,12 @@
 import React, {useState, useContext, useEffect, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
-import CurrentWeatherContainer from '../current-weather/CurrentWeatherContainer'
-import ForecastContainer from '../forecast/ForecastContainer'
 import FetchWeatherData from './../../utils/FetchWeatherData'
 import {isUndefined, isEmpty, find} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import {ThemeContext} from '../../context/ThemeContext'
 import FavoriteComponent from '../../components/favorite/FavoriteComponent'
+import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import * as Sentry from '@sentry/browser'
@@ -170,72 +169,13 @@ const FavoritesContainer = () => {
           <div ref={weatherRef}>
             {!isEmpty(favoriteWeather.weatherCurrent) &&
             !isUndefined(favoriteWeather.weatherCurrent) ? (
-              <Fragment>
-                <div className='flex justify-center px-5 pt-10'>
-                  <div
-                    className={`sm:w-full lg:w-5/6 xl:max-w-6xl border border-${colorTheme} bg-{theme} text-${colorTheme} rounded-t-2xl shadow-lg`}>
-                    <CurrentWeatherContainer
-                      weatherCurrent={favoriteWeather.weatherCurrent}
-                      address={selectedFavorite.address}
-                      latlong={selectedFavorite.latlong}
-                      urbanArea={selectedFavorite.urbanArea}
-                    />
-                    <ForecastContainer
-                      cityName={selectedFavorite.address.cityName}
-                      weatherCurrent={favoriteWeather.weatherCurrent}
-                      weatherForecast={favoriteWeather.weatherForecast}
-                    />
-                  </div>
-                </div>
-                <p
-                  className={`mx-auto text-center pt-2 pb-10 text-xs font-light text-${colorTheme} bg-${theme}`}>
-                  Powered by&nbsp;
-                  <a
-                    href='https://darksky.net/poweredby/'
-                    target='_blank'
-                    rel='noreferrer noopener'
-                    className={`link z-0 font-medium hover:text-${theme}`}
-                    onClick={() => emitGA('powered-by', 'Dark Sky')}>
-                    Dark Sky
-                  </a>
-                </p>
-                <div className={`bg-${theme}`}>
-                  {selectedFavorite.urbanArea.slug ? (
-                    <div className='mx-auto text-center pb-5'>
-                      <p>
-                        <a
-                          href={`https://teleport.org/cities/${selectedFavorite.urbanArea.slug}`}
-                          target='_blank'
-                          rel='noreferrer noopener'
-                          className='hover:no-underline'
-                          onClick={() =>
-                            emitGA(
-                              'explore-life',
-                              selectedFavorite.urbanArea.name
-                            )
-                          }>
-                          <button
-                            className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}>
-                            Explore life in {selectedFavorite.urbanArea.name}
-                          </button>
-                        </a>
-                      </p>
-                      <p
-                        className={`py-1 text-xs font-light text-${colorTheme}`}>
-                        Powered by&nbsp;
-                        <a
-                          href='https://teleport.org/'
-                          target='_blank'
-                          rel='noreferrer noopener'
-                          className={`link z-0 font-medium hover:text-${theme}`}
-                          onClick={() => emitGA('powered-by', 'Teleport')}>
-                          Teleport
-                        </a>
-                      </p>
-                    </div>
-                  ) : null}
-                </div>
-              </Fragment>
+              <WeatherForecastContainer
+                weatherCurrent={favoriteWeather.weatherCurrent}
+                weatherForecast={favoriteWeather.weatherForecast}
+                address={selectedFavorite.address}
+                latlong={selectedFavorite.latlong}
+                urbanArea={selectedFavorite.urbanArea}
+              />
             ) : (
               <Fragment>
                 {isLoading ? (
