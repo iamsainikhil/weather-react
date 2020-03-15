@@ -1,19 +1,20 @@
 # Table of Contents
 
-- [Getting Started](https://github.com/iamsainikhil/weather-react#getting-started)
-- [Motivation](https://github.com/iamsainikhil/weather-react#motivation)
-- [Technologies](https://github.com/iamsainikhil/weather-react#technologies)
-- [Challenges](https://github.com/iamsainikhil/weather-react#challenges)
-- [Architecture](https://github.com/iamsainikhil/weather-react#architecture)
-- [Roadmap](roadmap)
-- [Contribution](https://github.com/iamsainikhil/weather-react#contribution)
-- [License](https://github.com/iamsainikhil/weather-react#license)
-- [Contact](https://github.com/iamsainikhil/weather-react#contact)
-- [Credits](https://github.com/iamsainikhil/weather-react#credits)
-  - [API](https://github.com/iamsainikhil/weather-react#api)
-  - [3rd-party Libraries](https://github.com/iamsainikhil/weather-react#3rd-party-libraries)
-  - [Icons](https://github.com/iamsainikhil/weather-react#icons)
-  - [Styling](https://github.com/iamsainikhil/weather-react#styling)
+- **[Getting Started](https://github.com/iamsainikhil/weather-react#getting-started)**
+- **[Motivation](https://github.com/iamsainikhil/weather-react#motivation)**
+- **[Technologies](https://github.com/iamsainikhil/weather-react#technologies)**
+- **[Challenges](https://github.com/iamsainikhil/weather-react#challenges)**
+- **[Architecture](https://github.com/iamsainikhil/weather-react#architecture)**
+- **[Roadmap](https://github.com/iamsainikhil/weather-react#roadmap)**
+- **[Contribution](https://github.com/iamsainikhil/weather-react#contribution)**
+- **[License](https://github.com/iamsainikhil/weather-react#license)**
+- **[Contact](https://github.com/iamsainikhil/weather-react#contact)**
+- **[Credits](https://github.com/iamsainikhil/weather-react#credits)**
+  - **[API](https://github.com/iamsainikhil/weather-react#api)**
+  - **[3rd-party Libraries](https://github.com/iamsainikhil/weather-react#3rd-party-libraries)**
+  - **[Icons](https://github.com/iamsainikhil/weather-react#icons)**
+  - **[Styling](https://github.com/iamsainikhil/weather-react#styling)**
+- **[Featured On](https://github.com/iamsainikhil/weather-react#featured)**
 
 # 🚀 Getting Started
 
@@ -68,6 +69,11 @@ Have a look at the **[license file](https://github.com/iamsainikhil/weather-reac
 Whether you’d like to discuss a project, ask me about my website or simply say “hello”, I’d love to hear from you.
 
 Email: **[contact@iamsainikhil.com](mailto:contact@iamsainikhil.com)**
+
+## 😍 Featured On
+
+- **[React.js Examples](https://reactjsexample.com/a-nice-weather-app-built-using-react/)**
+- **[Morioh](https://morioh.com/p/fc5f51d76847)**
 
 ## 🙏 Credits
 
