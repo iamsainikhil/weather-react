@@ -35,47 +35,49 @@ class AutoCompleteContainer extends Component {
   debounceAddress = debounce(this.getAddresses, 1000)
 
   searchCity = event => {
-    this.setState({city: event.target.value})
-    if (event.target.value.trim()) {
-      this.setState({errorMessage: ''})
-      this.debounceAddress()
-    } else {
-      this.clearState()
-    }
+    this.setState({city: event.target.value, errorMessage: ''})
+    this.debounceAddress()
   }
 
   // fetch valid matched addresses for searched city
   async getAddresses() {
-    try {
-      this.setState({showLoader: true})
-      const {data} = await axios.get(
-        `https://api.teleport.org/api/cities/?search=${this.state.city}`
-      )
-
-      // populate addresses and show them if matching cities exist
-      if (!isEmpty(data) && !isUndefined(data) && data.count > 0) {
-        const results = data._embedded['city:search-results'].map(result => ({
-          cityName: result.matching_full_name,
-          cityId: result._links['city:item'].href.split('/')[5]
-        }))
-        // results is an array of `address` objects with cityName and cityId properties
-        this.setState({
-          addresses: results,
-          showCaret: true,
-          showAddresses: true,
-          errorMessage: ''
-        })
-      } else {
-        this.setState({showAddresses: false})
-        this.handleError(
-          'No matching cities found. Try searching with a valid city name!'
+    // check for empty city value since deleting city value character by character will trigger the debounceAddress
+    // city value could be empty when this function run
+    // so this extra check will fix the bug of showing addresses list when there is no city name
+    if (this.state.city.trim()) {
+      try {
+        this.setState({showLoader: true})
+        const {data} = await axios.get(
+          `https://api.teleport.org/api/cities/?search=${this.state.city}`
         )
+
+        // populate addresses and show them if matching cities exist
+        if (!isEmpty(data) && !isUndefined(data) && data.count > 0) {
+          const results = data._embedded['city:search-results'].map(result => ({
+            cityName: result.matching_full_name,
+            cityId: result._links['city:item'].href.split('/')[5]
+          }))
+          // results is an array of `address` objects with cityName and cityId properties
+          this.setState({
+            addresses: results,
+            showCaret: true,
+            showAddresses: true,
+            errorMessage: ''
+          })
+        } else {
+          this.setState({showAddresses: false})
+          this.handleError(
+            'No matching cities found. Try searching with a valid city name!'
+          )
+        }
+      } catch (error) {
+        this.handleError(error)
+        Sentry.captureException(error)
+      } finally {
+        this.setState({showLoader: false})
       }
-    } catch (error) {
-      this.handleError(error)
-      Sentry.captureException(error)
-    } finally {
-      this.setState({showLoader: false})
+    } else {
+      this.clearState()
     }
   }
 

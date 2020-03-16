@@ -80,13 +80,17 @@ const DayComponent = props => {
             index === selectedIndex ? 'flex' : 'flex'
           } flex-row justify-around sm:justify-center sm:flex sm:flex-col w-5/12 sm:w-full font-light mt-1`}>
           <div className='flex flex-row justify-center items-center mx-2 sm:my-1 text-xs sm:text-sm'>
-            <p className='text-xl text-sun mr-2' title='sunrise'>
+            <p
+              className='text-xl lg:text-2xl text-sun mr-2 md:mr-3'
+              title='sunrise'>
               <WeatherIconComponent type='sunrise' />
             </p>
             <p>{FormatTime(day.sunriseTime, day.timezone, 'h:mm')}</p>
           </div>
           <div className='flex flex-row justify-center items-center mx-2 sm:my-1 text-xs sm:text-sm'>
-            <p className='text-xl text-sun mr-1' title='sunset'>
+            <p
+              className='text-xl lg:text-2xl text-sun mr-2 md:mr-1'
+              title='sunset'>
               <WeatherIconComponent type='sunset' />
             </p>
             <p>{FormatTime(day.sunsetTime, day.timezone, 'HH:mm')}</p>

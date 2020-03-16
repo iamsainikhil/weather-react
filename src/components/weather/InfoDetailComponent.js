@@ -11,7 +11,8 @@ import WeatherIconComponent from './WeatherIconComponent'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
-
+  const weatherUnitTitle = weatherUnit === 'C' ? 'Celsius' : 'Fahrenheit'
+  const unselectedWeatherUnit = weatherUnit === 'C' ? 'F' : 'C'
   const unitClick = unit => {
     // track event to GA
     Event({
@@ -78,22 +79,20 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                 <sup>o</sup>
               </p>
               <div className='-mt-10 mx-2 text-xl'>
+                {/* selected weatherUnit */}
                 <span
-                  className={`cursor-pointer ${
-                    weatherUnit === 'F' ? 'font-bold' : 'font-light opacity-75'
-                  }`}
-                  title='Fahrenheit'
-                  onClick={() => unitClick('F')}>
-                  F
+                  className='cursor-pointer font-bold'
+                  title={weatherUnitTitle}
+                  onClick={() => unitClick(weatherUnit)}>
+                  {weatherUnit}
                 </span>
                 <span className='mx-1 opacity-25'>|</span>
+                {/* unselected weatherUnit */}
                 <span
-                  className={`cursor-pointer ${
-                    weatherUnit === 'C' ? 'font-bold' : 'font-light opacity-75'
-                  }`}
-                  title='celsius'
-                  onClick={() => unitClick('C')}>
-                  C
+                  className='cursor-pointer font-light opacity-75'
+                  title={weatherUnitTitle}
+                  onClick={() => unitClick(unselectedWeatherUnit)}>
+                  {unselectedWeatherUnit}
                 </span>
               </div>
             </div>
@@ -107,7 +106,9 @@ const InfoDetailComponent = ({weatherCurrent}) => {
           <div className='text-sm sm:text-lg ml-8'>
             <div className='flex flex-row sm:my-2'>
               <p className='font-light'>Humidity:</p>&nbsp;
-              <p className='mx-1'>{Math.round(weatherCurrent.humidity)}</p>
+              <p className='mx-1 font-bold'>
+                {Math.round(weatherCurrent.humidity)}
+              </p>
               <p className='text-sm mt-1'>
                 <FiPercent />
               </p>
@@ -115,7 +116,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
             <div className='flex items-center sm:my-2'>
               <p>
                 <span className='font-light'>Wind:</span>&nbsp;
-                {computedSpeedValue()}{' '}
+                <span className='font-bold'>{computedSpeedValue()} </span>
               </p>
               <p className='text-3xl'>
                 {
@@ -127,7 +128,9 @@ const InfoDetailComponent = ({weatherCurrent}) => {
             </div>
             <p>
               <span className='font-light sm:my-2'>Feels like:</span>&nbsp;
-              {computedTempValue('apparentTemperature')}
+              <span className='font-bold'>
+                {computedTempValue('apparentTemperature')}
+              </span>
               <sup>o</sup>
             </p>
           </div>

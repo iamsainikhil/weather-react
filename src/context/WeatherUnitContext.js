@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 const WeatherUnitContext = React.createContext({
-  weatherUnit: 'F'
+  weatherUnit: 'C'
 })
 
 const WeatherUnitContextProvider = ({children}) => {
