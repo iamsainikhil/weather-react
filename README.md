@@ -20,7 +20,9 @@
 
 - Clone the repository
 
+  ```sh
   git clone https://github.com/iamsainikhil/weather-react.git
+  ```
 
 - Install the packages using the command `npm install`
 
@@ -28,10 +30,12 @@
 
 - Create a `.env` file in the root directory of the project. Add the following properties in it:
 
+  ```sh
   REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
   REACT_APP_SENTRY_DSN=<your Sentry APP DSN>
   REACT_APP_LOGROCKET_PROJECT_ID=<your LogRocket Project ID>
   REACT_APP_GA_ID=<your Google Analytics Project ID>
+  ```
 
 - Obtain the API tokens/keys mentioned in the `.env` by following below steps:
 
@@ -49,21 +53,25 @@
 
     - Remove `@sentry/broser` package by executing the following command:
 
-            npm uninstall --save @sentry/browser
+      ```sh
+       npm uninstall --save @sentry/browser
+      ```
 
     - Remove following lines from `index.js`
 
-            import * as Sentry from '@sentry/browser'
-            const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
+      ```javascript
+      import * as Sentry from '@sentry/browser'
+      const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
 
-            Sentry.init({dsn: `${SENTRY_DSN}`})
+      Sentry.init({dsn: `${SENTRY_DSN}`})
 
-            // LogRocket and Sentry Integration
-            LogRocket.getSessionURL(sessionURL => {
-              Sentry.configureScope(scope => {
-                scope.setExtra('sessionURL', sessionURL)
-              })
-            })
+      // LogRocket and Sentry Integration
+      LogRocket.getSessionURL(sessionURL => {
+        Sentry.configureScope(scope => {
+          scope.setExtra('sessionURL', sessionURL)
+        })
+      })
+      ```
 
     - Remove instances of `Sentry.captureException` and `import * as Sentry from '@sentry/browser'` in the following files:
       - AutoCompleteContainer.js
@@ -78,41 +86,49 @@
 
     - Remove `logrocket` & `logrocket-react` package by executing the following command:
 
-            npm uninstall --save logrocket logrocket-react
+      ```sh
+      npm uninstall --save logrocket logrocket-react
+      ```
 
     - Remove following lines from `index.js`
 
-            import LogRocket from 'logrocket'
-            import setupLogRocketReact from 'logrocket-react'
+      ```javascript
+      import LogRocket from 'logrocket'
+      import setupLogRocketReact from 'logrocket-react'
 
-            if (process.env.NODE_ENV !== 'development') {
-              const LOGROCKET_PROJECT_ID = process.env.REACT_APP_LOGROCKET_PROJECT_ID
-              LogRocket.init(`${LOGROCKET_PROJECT_ID}`)
-              setupLogRocketReact(LogRocket)
+      if (process.env.NODE_ENV !== 'development') {
+        const LOGROCKET_PROJECT_ID = process.env.REACT_APP_LOGROCKET_PROJECT_ID
+        LogRocket.init(`${LOGROCKET_PROJECT_ID}`)
+        setupLogRocketReact(LogRocket)
 
-              // LogRocket and Sentry
-              LogRocket.getSessionURL(sessionURL => {
-                Sentry.configureScope(scope => {
-                  scope.setExtra('sessionURL', sessionURL)
-                })
-              })
-            }
+        // LogRocket and Sentry
+        LogRocket.getSessionURL(sessionURL => {
+          Sentry.configureScope(scope => {
+            scope.setExtra('sessionURL', sessionURL)
+          })
+        })
+      }
+      ```
 
   - **_Google Analytics_**
 
     - Remove `react-ga` package by executing the following command:
 
-            npm uninstall --save react-ga
+      ```sh
+      npm uninstall --save react-ga
+      ```
 
     - Remove following lines from `App.js`
 
-            import ReactGA from 'react-ga'
-            import {Timing} from './utils/ReactAnalytics'
+      ```javascript
+      import ReactGA from 'react-ga'
+      import {Timing} from './utils/ReactAnalytics'
 
-            const GA_ID = process.env.REACT_APP_GA_ID
+      const GA_ID = process.env.REACT_APP_GA_ID
 
-            // reactGA initialization
-            ReactGA.initialize(`${GA_ID}`)
+      // reactGA initialization
+      ReactGA.initialize(`${GA_ID}`)
+      ```
 
     Remove `ReactAnalytics.js` utility file from `src/utils`
 
@@ -125,20 +141,22 @@
       - MiscTrackEvents.js
     - Remove Google Analytics tracking code in `public/index.html`
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=UA-85329633-7"
-        ></script>
-        <script>
-          window.dataLayer = window.dataLayer || []
-          function gtag() {
-            dataLayer.push(arguments)
-          }
-          gtag('js', new Date())
-        
-          gtag('config', 'UA-85329633-7')
-        </script>
+      ```javascript
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=UA-85329633-7"
+      ></script>
+      <script>
+        window.dataLayer = window.dataLayer || []
+        function gtag() {
+          dataLayer.push(arguments)
+        }
+        gtag('js', new Date())
+
+        gtag('config', 'UA-85329633-7')
+      </script>
+      ```
 
     Note: _The above id is the real GA Id and filters were set up on the project to collect analytics from the main application website only. That's the reason, it is not masked or removed from index.html_
 
