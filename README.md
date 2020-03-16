@@ -10,15 +10,199 @@
 - **[License](https://github.com/iamsainikhil/weather-react#-license)**
 - **[Contact](https://github.com/iamsainikhil/weather-react#-contact)**
 - **[Acknowledgements](https://github.com/iamsainikhil/weather-react#-acknowledgements)**
-  - **[API](https://github.com/iamsainikhil/weather-react#api)**
-  - **[3rd-party Libraries](https://github.com/iamsainikhil/weather-react#3rd-party-libraries)**
-  - **[Icons](https://github.com/iamsainikhil/weather-react#icons)**
-  - **[Styling](https://github.com/iamsainikhil/weather-react#styling)**
 - **[Featured On](https://github.com/iamsainikhil/weather-react#-featured-on)**
 
 # 🚀 Getting Started
 
-**\*Follow the instructions describe in-detail **[here](https://www.notion.so/reactweather/Weather-React-Repo-Setup-Instructions-1a789c2e47f545ceb87062d171a66b6b)** to set up the project locally on your machine.\***
+**\*Follow the instructions described in-detail **[here](https://www.notion.so/reactweather/Weather-React-Repo-Setup-Instructions-1a789c2e47f545ceb87062d171a66b6b)** or below to set up the project locally on your machine.\***
+
+## Basic Setup
+
+- Clone the repository
+
+  git clone https://github.com/iamsainikhil/weather-react.git
+
+- Install the packages using the command `npm install`
+
+## **Environment File**
+
+- Create a `.env` file in the root directory of the project. Add the following properties in it:
+
+  REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
+  REACT_APP_SENTRY_DSN=<your Sentry APP DSN>
+  REACT_APP_LOGROCKET_PROJECT_ID=<your LogRocket Project ID>
+  REACT_APP_GA_ID=<your Google Analytics Project ID>
+
+- Obtain the API tokens/keys mentioned in the `.env` by following below steps:
+
+  - Get API tokens:
+    - You can obtain a Dark Sky API key [\*\*here](https://darksky.net/dev)\*\* (Required)
+    - You can obtain a Sentry DSN [\*\*here](https://sentry.io/signup/)\*\* (Optional)
+    - You can create a project on LogRocket and obtain it's ID [**here**](https://docs.logrocket.com/docs/quickstart) (Optional)
+    - You can create a project on Google Analytics and obtain it's ID [\*\*here](https://support.google.com/analytics/answer/1042508?hl=en)\*\* (Optional)
+
+  ### **Optional API Tokens**
+
+  **Note**: _It's completely optional to have these API's in your project. If you don't want to use it, just follow the below steps for each individual API_
+
+  - **_Sentry_**
+
+    - Remove `@sentry/broser` package by executing the following command:
+
+            npm uninstall --save @sentry/browser
+
+    - Remove following lines from `index.js`
+
+            import * as Sentry from '@sentry/browser'
+            const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
+
+            Sentry.init({dsn: `${SENTRY_DSN}`})
+
+            // LogRocket and Sentry Integration
+            LogRocket.getSessionURL(sessionURL => {
+              Sentry.configureScope(scope => {
+                scope.setExtra('sessionURL', sessionURL)
+              })
+            })
+
+    - Remove instances of `Sentry.captureException` and `import * as Sentry from '@sentry/browser'` in the following files:
+      - AutoCompleteContainer.js
+      - ErrorBoundaryContainer.js
+      - FavoritesContainer.js
+      - WeatherContainer.js
+      - AddressContext.js
+      - FetchWeatherData.js
+      - LatLongUrbanArea.js
+
+  - **_LogRocket_**
+
+    - Remove `logrocket` & `logrocket-react` package by executing the following command:
+
+            npm uninstall --save logrocket logrocket-react
+
+    - Remove following lines from `index.js`
+
+            import LogRocket from 'logrocket'
+            import setupLogRocketReact from 'logrocket-react'
+
+            if (process.env.NODE_ENV !== 'development') {
+              const LOGROCKET_PROJECT_ID = process.env.REACT_APP_LOGROCKET_PROJECT_ID
+              LogRocket.init(`${LOGROCKET_PROJECT_ID}`)
+              setupLogRocketReact(LogRocket)
+
+              // LogRocket and Sentry
+              LogRocket.getSessionURL(sessionURL => {
+                Sentry.configureScope(scope => {
+                  scope.setExtra('sessionURL', sessionURL)
+                })
+              })
+            }
+
+  - **_Google Analytics_**
+
+    - Remove `react-ga` package by executing the following command:
+
+            npm uninstall --save react-ga
+
+    - Remove following lines from `App.js`
+
+            import ReactGA from 'react-ga'
+            import {Timing} from './utils/ReactAnalytics'
+
+            const GA_ID = process.env.REACT_APP_GA_ID
+
+            // reactGA initialization
+            ReactGA.initialize(`${GA_ID}`)
+
+    Remove `ReactAnalytics.js` utility file from `src/utils`
+
+    - Remove instances of `Event` function imports in the following files:
+      - FooterComponent.js
+      - InfoComponent.js
+      - InfoDetailComponent.js
+      - AutoCompleteContainer.js
+      - ThemeContext.js
+      - MiscTrackEvents.js
+    - Remove Google Analytics tracking code in `public/index.html`
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=UA-85329633-7"
+        ></script>
+        <script>
+          window.dataLayer = window.dataLayer || []
+          function gtag() {
+            dataLayer.push(arguments)
+          }
+          gtag('js', new Date())
+        
+          gtag('config', 'UA-85329633-7')
+        </script>
+
+    Note: _The above id is the real GA Id and filters were set up on the project to collect analytics from the main application website only. That's the reason, it is not masked or removed from index.html_
+
+## Available Scripts
+
+In the project directory, you can run:
+
+`npm run start`
+
+Runs the app in the development mode.Open `[http://localhost:3000](http://localhost:3000/)` to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+
+`npm test`
+
+Launches the test runner in the interactive watch mode.See the section about
+
+[**running tests**](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+`npm run build`
+
+Builds the app for production to the `build` folder.It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.Your app is ready to be deployed!
+
+See the section about [**deployment**](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+`npm run eject`
+
+**Note**: _this is a one-way operation. Once you eject, you can’t go back!_
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However, we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## **Learn More**
+
+You can learn more in the [**Create React App documentation**](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [**React documentation**](https://reactjs.org/).
+
+### **_Code Splitting_**
+
+For more info, check here: [**https://facebook.github.io/create-react-app/docs/code-splitting**](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### **_Analyzing the Bundle Size_**
+
+For more info, check here: **[https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)**
+
+### **_Making a Progressive Web App_**
+
+For more info, check here: [**https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app**](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### **_Advanced Configuration_**
+
+For more info, check here: [**https://facebook.github.io/create-react-app/docs/advanced-configuration**](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### **_Deployment_**
+
+For more info, check here: **[https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)**
+
+### **`npm run build` *fails to minify***
+
+For more info, check here: [**https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify**](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 > _These instructions are very important to avoid the **Blank Page** issue when running the application on `http://localhost:3000`._
 
