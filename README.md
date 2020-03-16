@@ -9,8 +9,8 @@
 - **[Contribution](https://github.com/iamsainikhil/weather-react#-contribution)**
 - **[License](https://github.com/iamsainikhil/weather-react#-license)**
 - **[Contact](https://github.com/iamsainikhil/weather-react#-contact)**
-- **[Acknowledgements](https://github.com/iamsainikhil/weather-react#-acknowledgements)**
 - **[Featured On](https://github.com/iamsainikhil/weather-react#-featured-on)**
+- **[Acknowledgements](https://github.com/iamsainikhil/weather-react#-acknowledgements)**
 
 # 🚀 Getting Started
 
@@ -160,6 +160,8 @@
 
     Note: _The above id is the real GA Id and filters were set up on the project to collect analytics from the main application website only. That's the reason, it is not masked or removed from index.html_
 
+> _These instructions are very important to avoid the **Blank Page** issue when running the application on `http://localhost:3000`._
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -221,8 +223,6 @@ For more info, check here: **[https://facebook.github.io/create-react-app/docs/
 ### **`npm run build` *fails to minify***
 
 For more info, check here: [**https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify**](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-> _These instructions are very important to avoid the **Blank Page** issue when running the application on `http://localhost:3000`._
 
 ## 💡 Motivation
 
