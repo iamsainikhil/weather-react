@@ -4,7 +4,7 @@ const WeatherUnitContext = React.createContext({
 })
 
 const WeatherUnitContextProvider = ({children}) => {
-  const [weatherUnit, setWeatherUnit] = useState('F')
+  const [weatherUnit, setWeatherUnit] = useState('C')
 
   /**
    * @param {String} unit (F | C)
@@ -18,7 +18,7 @@ const WeatherUnitContextProvider = ({children}) => {
   useEffect(() => {
     // store preferred temperature unit in localStorage
     if (!localStorage.getItem('unit')) {
-      localStorage.setItem('unit', JSON.stringify('F'))
+      localStorage.setItem('unit', JSON.stringify('C'))
     } else {
       setWeatherUnit(JSON.parse(localStorage.getItem('unit')))
     }
