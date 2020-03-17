@@ -37,9 +37,7 @@ const DayComponent = props => {
   return (
     <div
       className={`md:border-t md:border-b-0 md:border-light md:hover:border-light md:hover:bg-light md:hover:text-black items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer transition-all duration-1000 ease-in-out ${
-        index === selectedIndex
-          ? `bg-${colorTheme} text-${theme} md:border-${colorTheme}`
-          : ''
+        index === selectedIndex ? `bg-${colorTheme} text-${theme}` : ''
       } ${specialBorder()}`}
       onClick={selectedDay}>
       <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>

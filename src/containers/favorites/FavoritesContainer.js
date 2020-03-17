@@ -54,17 +54,19 @@ const FavoritesContainer = () => {
       !isUndefined(selectedFavorite) &&
       Object.keys(selectedFavorite).length
     ) {
-      setIsLoading(true)
-      await FetchWeatherData(selectedFavorite)
-        .then(response => {
-          // set favoriteWeather only when the data is non-empty
-          if (!isEmpty(response) && !isUndefined(response)) {
-            setFavoriteWeather(state => ({...state, ...response}))
-            scrollHandler()
-          }
-        })
-        .catch(err => Sentry.captureException(err))
-        .finally(() => setIsLoading(false))
+      try {
+        setIsLoading(true)
+        const response = await FetchWeatherData(selectedFavorite)
+        // set favoriteWeather only when the data is non-empty
+        if (!isEmpty(response) && !isUndefined(response)) {
+          setFavoriteWeather(state => ({...state, ...response}))
+          scrollHandler()
+        }
+      } catch (err) {
+        Sentry.captureException(err)
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 

@@ -38,20 +38,19 @@ const WeatherContainer = () => {
   }
 
   const fetchWeatherData = async () => {
-    setIsLoading(true)
-    await FetchWeatherData(addressContext)
-      .then(response => {
-        const {weatherCurrent, weatherForecast} = response
-        // set the weatherCurrent and weatherForecast only when the data is non-empty
-        // this way, the old fetched data can be preserved when api call fail or limit exceed
-        setWeatherData(weatherCurrent, weatherForecast)
-      })
-      .catch(err => {
-        Sentry.captureException(err)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+    try {
+      setIsLoading(true)
+      const {weatherCurrent, weatherForecast} = await FetchWeatherData(
+        addressContext
+      )
+      // set the weatherCurrent and weatherForecast only when the data is non-empty
+      // this way, the old fetched data can be preserved when api call fail or limit exceed
+      setWeatherData(weatherCurrent, weatherForecast)
+    } catch (err) {
+      Sentry.captureException(err)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
