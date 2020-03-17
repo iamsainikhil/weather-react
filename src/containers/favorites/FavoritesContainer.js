@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from './../../utils/FetchWeatherData'
-import {isUndefined, isEmpty, find} from 'lodash-es'
+import {isUndefined, isEmpty, find, isNull} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import {ThemeContext} from '../../context/ThemeContext'
@@ -29,7 +29,11 @@ const FavoritesContainer = () => {
 
   // check whether the cityName is valid
   const validCityName = () => {
-    if (!isEmpty(selectedFavorite) && !isUndefined(selectedFavorite)) {
+    if (
+      !isEmpty(selectedFavorite) &&
+      !isUndefined(selectedFavorite) &&
+      !isNull(selectedFavorite)
+    ) {
       const cityName = selectedFavorite.address.cityName
       return (
         !isEmpty(cityName) &&
@@ -58,7 +62,7 @@ const FavoritesContainer = () => {
         setIsLoading(true)
         const response = await FetchWeatherData(selectedFavorite)
         // set favoriteWeather only when the data is non-empty
-        if (!isEmpty(response) && !isUndefined(response)) {
+        if (!isEmpty(response) && !isUndefined(response) && !isNull(response)) {
           setFavoriteWeather(state => ({...state, ...response}))
           scrollHandler()
         }
@@ -78,7 +82,11 @@ const FavoritesContainer = () => {
     // check for deleted selectedFavorite scenario
     // i.e. selectedFavorite is not in the favorites
     // to update it with the favorite at current slideIndex
-    if (!isEmpty(selectedFavorite) && !isUndefined(selectedFavorite)) {
+    if (
+      !isEmpty(selectedFavorite) &&
+      !isUndefined(selectedFavorite) &&
+      !isNull(selectedFavorite)
+    ) {
       if (
         isUndefined(
           find(
@@ -170,7 +178,8 @@ const FavoritesContainer = () => {
           */}
           <div ref={weatherRef}>
             {!isEmpty(favoriteWeather.weatherCurrent) &&
-            !isUndefined(favoriteWeather.weatherCurrent) ? (
+            !isUndefined(favoriteWeather.weatherCurrent) &&
+            !isNull(favoriteWeather.weatherCurrent) ? (
               <WeatherForecastContainer
                 weatherCurrent={favoriteWeather.weatherCurrent}
                 weatherForecast={favoriteWeather.weatherForecast}

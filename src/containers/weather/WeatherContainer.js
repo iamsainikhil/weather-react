@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from '../../utils/FetchWeatherData'
-import {isUndefined, isEmpty} from 'lodash-es'
+import {isUndefined, isEmpty, isNull} from 'lodash-es'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
@@ -18,12 +18,14 @@ const WeatherContainer = () => {
   const validCityName = () => {
     if (
       !isEmpty(addressContext.address) &&
-      !isUndefined(addressContext.address)
+      !isUndefined(addressContext.address) &&
+      !isNull(addressContext.address)
     ) {
       const cityName = addressContext.address.cityName
       return (
         !isEmpty(cityName) &&
         !isUndefined(cityName) &&
+        !isNull(cityName) &&
         cityName !== 'undefined, undefined, undefined'
       )
     }
@@ -67,7 +69,9 @@ const WeatherContainer = () => {
 
   return (
     <Fragment>
-      {!isUndefined(weatherCurrent) && !isEmpty(weatherCurrent) ? (
+      {!isUndefined(weatherCurrent) &&
+      !isEmpty(weatherCurrent) &&
+      !isNull(weatherCurrent) ? (
         <WeatherForecastContainer
           weatherCurrent={weatherCurrent}
           weatherForecast={weatherForecast}

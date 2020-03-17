@@ -1,6 +1,6 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
-import {isUndefined, isEmpty} from 'lodash-es'
+import {isUndefined, isEmpty, isNull} from 'lodash-es'
 import FormatTime from './FormatTime'
 import * as Sentry from '@sentry/browser'
 
@@ -22,7 +22,7 @@ const FetchWeatherData = async ({latlong}) => {
   let weatherForecast = {}
 
   // fetch weather data only when latlong is valid to avoid uneccessary API calls
-  if (!isUndefined(latlong) && !isEmpty(latlong)) {
+  if (!isUndefined(latlong) && !isEmpty(latlong) && !isNull(latlong)) {
     try {
       const {data} = await axios.get(getURL(latlong))
       const weatherData = data
