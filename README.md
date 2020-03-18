@@ -128,23 +128,25 @@ npm uninstall --save logrocket logrocket-react
 
 ```javascript
 import LogRocket from 'logrocket'
-
 import setupLogRocketReact from 'logrocket-react'
 
-if (process.env.NODE_ENV !== 'development') {
+// remove both initLogRocket & logRocketSetup function logic
+
+const initLogRocket = () => {
   const LOGROCKET_PROJECT_ID = process.env.REACT_APP_LOGROCKET_PROJECT_ID
-
   LogRocket.init(`${LOGROCKET_PROJECT_ID}`)
-
   setupLogRocketReact(LogRocket)
 
   // LogRocket and Sentry
-
   LogRocket.getSessionURL(sessionURL => {
     Sentry.configureScope(scope => {
       scope.setExtra('sessionURL', sessionURL)
     })
   })
+}
+
+const logRocketSetup = () => {
+  // logic removed for brevity
 }
 ```
 
