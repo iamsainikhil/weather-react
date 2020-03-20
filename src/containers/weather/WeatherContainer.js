@@ -25,7 +25,8 @@ const WeatherContainer = () => {
         !isEmpty(cityName) &&
         !isUndefined(cityName) &&
         !isNull(cityName) &&
-        cityName !== 'undefined, undefined, undefined'
+        !cityName.includes('') &&
+        !cityName.includes('null')
       )
     }
     return false

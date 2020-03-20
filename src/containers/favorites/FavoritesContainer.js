@@ -36,7 +36,8 @@ const FavoritesContainer = () => {
       return (
         !isEmpty(cityName) &&
         !isUndefined(cityName) &&
-        cityName !== 'undefined, undefined, undefined'
+        !cityName.includes('') &&
+        !cityName.includes('null')
       )
     } else {
       return false
