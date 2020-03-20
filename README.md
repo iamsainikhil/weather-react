@@ -50,7 +50,7 @@ REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
 
 - Obtain the API key mentioned in the `.env` by following below steps:
 
-  - You can obtain a Dark Sky API key [\*\*here](https://darksky.net/dev)\*\* (Required)
+  - You can obtain a Dark Sky API key **[here](https://darksky.net/dev)** (Required)
 
 _That's it! You can run the below available scripts to get up and running on the localhost. If you want to dive deeper into the codebase, I recommend you to check the architecture documentation to customize this application as your wish._
 
