@@ -3,7 +3,6 @@ import {ThemeContext} from '../../context/ThemeContext'
 import getWeatherBackground from './../../utils/WeatherBackground'
 import CurrentWeatherContainer from './../current-weather/CurrentWeatherContainer'
 import ForecastContainer from './../forecast/ForecastContainer'
-import emitGA from './../../utils/MiscTrackEvents'
 import './WeatherForecastStyle.scss'
 
 const WeatherForecastContainer = ({
@@ -105,8 +104,7 @@ const WeatherForecastContainer = ({
             href='https://darksky.net/poweredby/'
             target='_blank'
             rel='noreferrer noopener'
-            className={`link z-0 font-medium hover:text-${theme}`}
-            onClick={() => emitGA('powered-by', 'Dark Sky')}>
+            className={`link z-0 font-medium hover:text-${theme}`}>
             Dark Sky
           </a>
         </p>
@@ -118,8 +116,7 @@ const WeatherForecastContainer = ({
                   href={`https://teleport.org/cities/${urbanArea.slug}`}
                   target='_blank'
                   rel='noreferrer noopener'
-                  className='hover:no-underline'
-                  onClick={() => emitGA('explore-life', urbanArea.name)}>
+                  className='hover:no-underline'>
                   <button
                     className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}>
                     Explore life in {urbanArea.name}
@@ -132,8 +129,7 @@ const WeatherForecastContainer = ({
                   href='https://teleport.org/'
                   target='_blank'
                   rel='noreferrer noopener'
-                  className={`link z-0 font-medium hover:text-${theme}`}
-                  onClick={() => emitGA('powered-by', 'Teleport')}>
+                  className={`link z-0 font-medium hover:text-${theme}`}>
                   Teleport
                 </a>
               </p>

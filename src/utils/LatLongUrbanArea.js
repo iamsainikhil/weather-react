@@ -1,7 +1,6 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 import {isEmpty, isUndefined} from 'lodash-es'
-import * as Sentry from '@sentry/browser'
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
 
@@ -45,7 +44,7 @@ const getLatLongUrbanArea = async cityId => {
         }
       }
     })
-    .catch(err => Sentry.captureException(err))
+    .catch(err => console.error(err))
 
   return {
     latlong: `${lat},${long}`,

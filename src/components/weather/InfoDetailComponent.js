@@ -5,7 +5,6 @@ import getWeatherIcon from '../../utils/WeatherIcon'
 import {mToK} from '../../utils/SpeedConvert'
 import {fToC} from '../../utils/TemperatureConvert'
 import {PropTypes} from 'prop-types'
-import {Event} from '../../utils/ReactAnalytics'
 import {FiPercent} from 'react-icons/fi'
 import WeatherIconComponent from './WeatherIconComponent'
 
@@ -14,12 +13,6 @@ const InfoDetailComponent = ({weatherCurrent}) => {
   const weatherUnitTitle = weatherUnit === 'C' ? 'Celsius' : 'Fahrenheit'
   const unselectedWeatherUnit = weatherUnit === 'C' ? 'F' : 'C'
   const unitClick = unit => {
-    // track event to GA
-    Event({
-      category: 'Weather Unit',
-      action: 'Set Unit',
-      label: unit
-    })
     updateWeatherUnit(unit)
   }
 

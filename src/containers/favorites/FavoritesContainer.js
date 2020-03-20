@@ -9,8 +9,6 @@ import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
-import * as Sentry from '@sentry/browser'
-import emitGA from '../../utils/MiscTrackEvents'
 
 const FavoritesContainer = () => {
   const {favorites} = useContext(AddressContext)
@@ -47,7 +45,6 @@ const FavoritesContainer = () => {
 
   const selectFavoriteHandler = index => {
     if (favorites[index]) {
-      emitGA('favorites', favorites[index].address.cityName)
       setSelectedFavorite({...favorites[index]})
     }
     setSlideIndex(index)
@@ -67,7 +64,7 @@ const FavoritesContainer = () => {
           scrollHandler()
         }
       } catch (err) {
-        Sentry.captureException(err)
+        console.error(err)
       } finally {
         setIsLoading(false)
       }

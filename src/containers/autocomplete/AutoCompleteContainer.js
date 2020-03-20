@@ -10,8 +10,6 @@ import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
 import {isEmpty, isUndefined} from 'lodash-es'
 import getLatLongUrbanArea from '../../utils/LatLongUrbanArea'
-import * as Sentry from '@sentry/browser'
-import {Event} from '../../utils/ReactAnalytics'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -72,7 +70,6 @@ class AutoCompleteContainer extends Component {
         }
       } catch (error) {
         this.handleError(error)
-        Sentry.captureException(error)
       } finally {
         this.setState({showLoader: false})
       }
@@ -96,12 +93,6 @@ class AutoCompleteContainer extends Component {
       this.setState({
         city: address.cityName.split(',')[0],
         showAddresses: false
-      })
-      // // track this cityName to GA
-      Event({
-        category: 'Address',
-        action: 'City Search',
-        label: address.cityName
       })
       // get latlong and urbanArea and update addressContext state for
       // address, latlong, and urbanArea

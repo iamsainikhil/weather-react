@@ -3,26 +3,12 @@ import {AddressContext} from '../../context/AddressContext'
 import {isUndefined, isEmpty} from 'lodash-es'
 import moment from 'moment-timezone'
 import {PropTypes} from 'prop-types'
-import {Event} from '../../utils/ReactAnalytics'
 import {FaRegHeart, FaHeart} from 'react-icons/fa'
 
 const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   const {updateFavorites} = useContext(AddressContext)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
-
-  /**
-   * track select favorite click event to GA
-   * @param {String} type (add or remove)
-   * @param {String} favoriteCity (name)
-   */
-  const emitFavoriteCityGA = (type, favoriteCity) => {
-    Event({
-      category: 'Favorite City',
-      action: `${type} city`,
-      label: favoriteCity
-    })
-  }
 
   // store formattedDateTime moment date object in the ref and update it for the first api call fetch
   // this ref will be used to update date and time every second without making additional api calls
@@ -46,7 +32,6 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
         'favorites',
         JSON.stringify([{address, latlong, urbanArea}])
       )
-      emitFavoriteCityGA('add', address.cityName)
       updateFavorites({
         favorites: [{address, latlong, urbanArea}]
       })
@@ -59,7 +44,6 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
         // add newly added favorite to old favorites
         const updatedFavorites = [...favorites, {address, latlong, urbanArea}]
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
-        emitFavoriteCityGA('add', address.cityName)
         updateFavorites({
           favorites: updatedFavorites
         })
@@ -74,7 +58,6 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
           const newFavorites = [...favorites]
           newFavorites.splice(removeIndex, 1)
           localStorage.setItem('favorites', JSON.stringify(newFavorites))
-          emitFavoriteCityGA('remove', address.cityName)
           updateFavorites({
             favorites: newFavorites
           })

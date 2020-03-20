@@ -24,15 +24,15 @@
 
 # 🚀 Getting Started
 
-**\*Follow the instructions described in-detail **[here](https://www.notion.so/reactweather/Weather-React-Repo-Setup-Instructions-1a789c2e47f545ceb87062d171a66b6b)** or below to set up the project locally on your machine.\***
+**\*Follow the instructions described in-detail **[here](https://www.notion.so/reactweather/Weather-React-Local-Setup-Branch-561fe5fa6cc546f588b93390de63ce21)** or below to set up the project locally on your machine.\***
 
 ## Basic Setup
 
-- Clone the repository
+- Clone the `local-setup` branch in the repository
 
 ```bash
 
-git clone https://github.com/iamsainikhil/weather-react.git
+git clone -b local-setup https://github.com/iamsainikhil/weather-react.git
 
 ```
 
@@ -46,170 +46,15 @@ git clone https://github.com/iamsainikhil/weather-react.git
 
 REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
 
-REACT_APP_SENTRY_DSN=<your Sentry APP DSN>
-
-REACT_APP_LOGROCKET_PROJECT_ID=<your LogRocket Project ID>
-
-REACT_APP_GA_ID=<your Google Analytics Project ID>
-
 ```
 
-- Obtain the API tokens/keys mentioned in the `.env` by following below steps:
+- Obtain the API key mentioned in the `.env` by following below steps:
 
 * Get API tokens:
 
 * You can obtain a Dark Sky API key [\*\*here](https://darksky.net/dev)\*\* (Required)
 
-* You can obtain a Sentry DSN [\*\*here](https://sentry.io/signup/)\*\* (Optional)
-
-* You can create a project on LogRocket and obtain it's ID [**here**](https://docs.logrocket.com/docs/quickstart) (Optional)
-
-* You can create a project on Google Analytics and obtain it's ID [\*\*here](https://support.google.com/analytics/answer/1042508?hl=en)\*\* (Optional)
-
-### **Optional API Tokens**
-
-**Note**: _It's completely optional to have these API's in your project. If you don't want to use it, just follow the below steps for each individual API_
-
-- **_Sentry_**
-
-* Remove `@sentry/broser` package by executing the following command:
-
-```bash
-
-npm uninstall --save @sentry/browser
-
-```
-
-- Remove following lines from `index.js`
-
-```javascript
-import * as Sentry from '@sentry/browser'
-
-const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
-
-Sentry.init({dsn: `${SENTRY_DSN}`})
-
-// LogRocket and Sentry Integration
-
-LogRocket.getSessionURL(sessionURL => {
-  Sentry.configureScope(scope => {
-    scope.setExtra('sessionURL', sessionURL)
-  })
-})
-```
-
-- Remove instances of `Sentry.captureException` and `import * as Sentry from '@sentry/browser'` in the following files:
-
-- AutoCompleteContainer.js
-
-- ErrorBoundaryContainer.js
-
-- FavoritesContainer.js
-
-- WeatherContainer.js
-
-- AddressContext.js
-
-- FetchWeatherData.js
-
-- LatLongUrbanArea.js
-
-* **_LogRocket_**
-
-- Remove `logrocket` & `logrocket-react` package by executing the following command:
-
-```bash
-
-npm uninstall --save logrocket logrocket-react
-
-```
-
-- Remove following lines from `index.js`
-
-```javascript
-import LogRocket from 'logrocket'
-import setupLogRocketReact from 'logrocket-react'
-
-// remove both initLogRocket & logRocketSetup function logic
-
-const initLogRocket = () => {
-  const LOGROCKET_PROJECT_ID = process.env.REACT_APP_LOGROCKET_PROJECT_ID
-  LogRocket.init(`${LOGROCKET_PROJECT_ID}`)
-  setupLogRocketReact(LogRocket)
-
-  // LogRocket and Sentry
-  LogRocket.getSessionURL(sessionURL => {
-    Sentry.configureScope(scope => {
-      scope.setExtra('sessionURL', sessionURL)
-    })
-  })
-}
-
-const logRocketSetup = () => {
-  // logic removed for brevity
-}
-```
-
-- **_Google Analytics_**
-
-* Remove `react-ga` package by executing the following command:
-
-```bash
-
-npm uninstall --save react-ga
-
-```
-
-- Remove following lines from `App.js`
-
-```javascript
-import ReactGA from 'react-ga'
-import {Timing} from './utils/ReactAnalytics'
-
-const GA_ID = process.env.REACT_APP_GA_ID
-
-// reactGA initialization
-ReactGA.initialize(`${GA_ID}`)
-```
-
-Remove `ReactAnalytics.js` utility file from `src/utils`
-
-- Remove instances of `Event` function imports in the following files:
-
-- FooterComponent.js
-
-- InfoComponent.js
-
-- InfoDetailComponent.js
-
-- AutoCompleteContainer.js
-
-- ThemeContext.js
-
-- MiscTrackEvents.js
-
-- Remove Google Analytics tracking code in `public/index.html`
-
-```javascript
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-85329633-7"></script>
-<script>
-window.dataLayer = window.dataLayer || []
-function  gtag() {
-dataLayer.push(arguments)
-}
-
-gtag('js', new  Date())
-gtag('config', 'UA-85329633-7')
-</script>
-
-```
-
-Note: _The above id is the real GA Id and filters were set up on the project to collect analytics from the main application website only. That's the reason, it is not masked or removed from index.html_
-
-That's it! You can run the below available scripts to get up and running on the localhost. If you want to dive deeper into the codebase, I recommend you to check the architecture documentation to customize this application as your wish.
+_That's it! You can run the below available scripts to get up and running on the localhost. If you want to dive deeper into the codebase, I recommend you to check the architecture documentation to customize this application as your wish._
 
 > _These instructions are very important to avoid the **Blank Page** issue when running the application on `http://localhost:3000`._
 

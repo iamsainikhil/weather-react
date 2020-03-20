@@ -2,7 +2,6 @@ import axios from 'axios'
 import axiosRetry from 'axios-retry'
 import {isUndefined, isEmpty, isNull} from 'lodash-es'
 import FormatTime from './FormatTime'
-import * as Sentry from '@sentry/browser'
 
 const API_KEY = process.env.REACT_APP_DARKSKY_API_KEY
 const CORS_URL = 'https://cors-anywhere.herokuapp.com'
@@ -65,7 +64,7 @@ const FetchWeatherData = async ({latlong}) => {
         weatherForecast = {timeFrames, days}
       }
     } catch (err) {
-      Sentry.captureException(err)
+      console.error(err)
     }
   }
 

@@ -2,19 +2,10 @@ import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 import moment from 'moment-timezone'
 import {Link} from 'react-router-dom'
-import {Event} from '../../utils/ReactAnalytics'
 import {FaReact} from 'react-icons/fa'
 
 const FooterComponent = () => {
   const {theme, colorTheme} = useContext(ThemeContext)
-
-  const emitGA = (action, label) => {
-    Event({
-      category: 'Footer Links',
-      action,
-      label
-    })
-  }
   return (
     <div
       className={`text-${colorTheme} pb-3`}
@@ -28,8 +19,7 @@ const FooterComponent = () => {
             href='https://github.com/iamsainikhil/weather-react/'
             target='_blank'
             rel='noreferrer noopener'
-            className={`link z-0 hover:text-${theme}`}
-            onClick={() => emitGA('Visit GitHub', 'GitHub Link')}>
+            className={`link z-0 hover:text-${theme}`}>
             GitHub
           </a>
         </p>
@@ -59,8 +49,7 @@ const FooterComponent = () => {
           className={`link z-0 hover:text-${theme}`}
           href='https://iamsainikhil.github.io'
           target='_blank'
-          rel='noreferrer noopener'
-          onClick={() => emitGA('Visit Portfolio', 'Portfolio Link')}>
+          rel='noreferrer noopener'>
           Sai Nikhil
         </a>
       </p>

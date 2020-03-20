@@ -5,7 +5,6 @@ import {isUndefined, isEmpty, isNull} from 'lodash-es'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
-import * as Sentry from '@sentry/browser'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
@@ -49,7 +48,7 @@ const WeatherContainer = () => {
       // this way, the old fetched data can be preserved when api call fail or limit exceed
       setWeatherData(weatherCurrent, weatherForecast)
     } catch (err) {
-      Sentry.captureException(err)
+      console.error(err)
     } finally {
       setIsLoading(false)
     }
