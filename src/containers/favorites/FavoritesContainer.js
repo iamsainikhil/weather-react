@@ -19,12 +19,15 @@ const FavoritesContainer = () => {
   const [favoriteWeather, setFavoriteWeather] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [slideIndex, setSlideIndex] = useState(null)
-  const weatherRef = useRef(null)
+  const weatherRef = useRef()
 
   // favorites data length
   const favoritesLength = useRef(0)
 
-  // scroll to weather component when selectedFavorite is set
+  /**
+   * scroll to weather component when selectedFavorite is set
+   * @param {DOMElement} ref (weatherRef)
+   */
   const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
 
   // check whether the cityName is valid
