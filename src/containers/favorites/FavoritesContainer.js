@@ -9,8 +9,6 @@ import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
-import * as Sentry from '@sentry/browser'
-import emitGA from '../../utils/MiscTrackEvents'
 
 const FavoritesContainer = () => {
   const {favorites} = useContext(AddressContext)
