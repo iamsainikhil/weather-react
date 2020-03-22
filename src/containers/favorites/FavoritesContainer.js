@@ -49,7 +49,6 @@ const FavoritesContainer = () => {
 
   const selectFavoriteHandler = index => {
     if (favorites[index]) {
-      emitGA('favorites', favorites[index].address.cityName)
       setSelectedFavorite({...favorites[index]})
     }
     setSlideIndex(index)
@@ -69,7 +68,7 @@ const FavoritesContainer = () => {
           scrollHandler()
         }
       } catch (err) {
-        Sentry.captureException(err)
+        console.error(err)
       } finally {
         setIsLoading(false)
       }
