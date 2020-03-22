@@ -9,6 +9,8 @@ import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
+import * as Sentry from '@sentry/browser'
+import emitGA from '../../utils/MiscTrackEvents'
 
 const FavoritesContainer = () => {
   const {favorites} = useContext(AddressContext)
@@ -17,12 +19,15 @@ const FavoritesContainer = () => {
   const [favoriteWeather, setFavoriteWeather] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [slideIndex, setSlideIndex] = useState(null)
-  const weatherRef = useRef(null)
+  const weatherRef = useRef()
 
   // favorites data length
   const favoritesLength = useRef(0)
 
-  // scroll to weather component when selectedFavorite is set
+  /**
+   * scroll to weather component when selectedFavorite is set
+   * @param {DOMElement} ref (weatherRef)
+   */
   const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
 
   // check whether the cityName is valid
@@ -46,6 +51,7 @@ const FavoritesContainer = () => {
 
   const selectFavoriteHandler = index => {
     if (favorites[index]) {
+      emitGA('favorites', favorites[index].address.cityName)
       setSelectedFavorite({...favorites[index]})
     }
     setSlideIndex(index)
@@ -65,7 +71,7 @@ const FavoritesContainer = () => {
           scrollHandler()
         }
       } catch (err) {
-        console.error(err)
+        Sentry.captureException(err)
       } finally {
         setIsLoading(false)
       }
@@ -171,9 +177,6 @@ const FavoritesContainer = () => {
             </div>
           </div>
 
-          {/* 
-            TODO: utilize weather container here instead of code repeat
-          */}
           <div ref={weatherRef}>
             {!isEmpty(favoriteWeather.weatherCurrent) &&
             !isUndefined(favoriteWeather.weatherCurrent) &&
