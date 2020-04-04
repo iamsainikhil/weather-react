@@ -38,11 +38,11 @@ const TimeframeComponent = ({Timeframe}) => {
           />
         )}
       </div>
-      <p className='text-lg'>
+      <p className='text-base pb-1'>
         {computedTempValue('temperature')}
         <sup>o</sup>
       </p>
-      <p className='text-sm'>
+      <p className='text-xs pb-1'>
         {computedTempValue('apparentTemperature')}
         <sup>o</sup>
       </p>

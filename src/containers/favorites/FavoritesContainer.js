@@ -28,7 +28,11 @@ const FavoritesContainer = () => {
    * scroll to weather component when selectedFavorite is set
    * @param {DOMElement} ref (weatherRef)
    */
-  const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
+  const scrollToRef = ref => {
+    if (!isNull(ref.current)) {
+      window.scrollTo(0, ref.current.offsetTop)
+    }
+  }
 
   // check whether the cityName is valid
   const validCityName = () => {

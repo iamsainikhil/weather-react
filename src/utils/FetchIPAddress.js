@@ -1,4 +1,5 @@
 import axios from 'axios'
+import * as Sentry from '@sentry/browser'
 
 const fetchIPAddress = async () => {
   let ip = ''
@@ -6,7 +7,7 @@ const fetchIPAddress = async () => {
     const {data} = await axios.get('https://ipapi.co/json')
     ip = data.ip
   } catch (err) {
-    console.error(err)
+    Sentry.captureException(err)
   }
 
   return ip

@@ -128,7 +128,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
         </div>
       </div>
       <div
-        className='mt-6 mr-4 cursor-pointer text-xl'
+        className='mt-6 mr-6 cursor-pointer text-2xl'
         title={
           isBookmarked()
             ? 'Remove this city from favorites'
