@@ -145,9 +145,8 @@ There are so many weather-related applications out in the wild. So, the goal is 
 ## 📖 Architecture
 
 ![Weather React Application Architecture](./Weather_React_Architecture.svg)
-<img src="./Weather_React_Architecture.svg">
 
-### ❕ **Deatiled Architecture Documentation will be added soon...**
+### ❕ **Detailed Architecture Documentation will be added soon...**
 
 ## 🏎 Roadmap
 
