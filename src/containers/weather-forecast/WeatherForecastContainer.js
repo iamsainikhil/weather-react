@@ -122,7 +122,7 @@ const WeatherForecastContainer = ({
                   onClick={() => emitGA('explore-life', urbanArea.name)}>
                   <button
                     className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}>
-                    Explore life in {urbanArea.name}
+                    Explore {urbanArea.name}
                   </button>
                 </a>
               </p>
