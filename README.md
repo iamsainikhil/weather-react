@@ -24,7 +24,9 @@
 
 # 🚀 Getting Started
 
-**\*Follow the instructions described in-detail **[here](https://www.notion.so/reactweather/Weather-React-Local-Setup-Branch-561fe5fa6cc546f588b93390de63ce21)** or below to set up the project locally on your machine.\***
+> **Note**: Dark Sky had been bought by Apple and is no longer accepting new signups. Follow the below instructions only when you have a Dark Sky Account!
+
+**Follow the instructions described in-detail **[here](https://www.notion.so/reactweather/Weather-React-Local-Setup-Branch-561fe5fa6cc546f588b93390de63ce21)** or below to set up the project locally on your machine.**
 
 ## Basic Setup
 
@@ -142,7 +144,10 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
 ## 📖 Architecture
 
-### ❕ **Application Architecture Documentation will be added soon...**
+![Weather React Application Architecture](./Weather_React_Architecture.svg)
+<img src="./Weather_React_Architecture.svg">
+
+### ❕ **Deatiled Architecture Documentation will be added soon...**
 
 ## 🏎 Roadmap
 
