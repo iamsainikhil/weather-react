@@ -5,13 +5,14 @@ import {isUndefined, isEmpty, isNull} from 'lodash-es'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
+import * as Sentry from '@sentry/browser'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
-
   const [weatherForecast, setWeatherForecast] = useState({})
   const [weatherCurrent, setWeatherCurrent] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   // check whether the cityName is valid
   const validCityName = () => {
@@ -41,21 +42,24 @@ const WeatherContainer = () => {
 
   const fetchWeatherData = async () => {
     try {
-      setIsLoading(true)
       const {weatherCurrent, weatherForecast} = await FetchWeatherData(
         addressContext
       )
       // set the weatherCurrent and weatherForecast only when the data is non-empty
       // this way, the old fetched data can be preserved when api call fail or limit exceed
       setWeatherData(weatherCurrent, weatherForecast)
+      // set the error to false state with the above successful weather data fetch
+      setIsError(false)
     } catch (err) {
-      console.error(err)
+      setIsError(true)
+      Sentry.captureException(err)
     } finally {
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    setIsLoading(true)
     fetchWeatherData()
     const timer = setInterval(() => {
       fetchWeatherData()
@@ -69,25 +73,15 @@ const WeatherContainer = () => {
 
   return (
     <Fragment>
-      {!isUndefined(weatherCurrent) &&
-      !isEmpty(weatherCurrent) &&
-      !isNull(weatherCurrent) ? (
-        <WeatherForecastContainer
-          weatherCurrent={weatherCurrent}
-          weatherForecast={weatherForecast}
-          address={addressContext.address}
-          latlong={addressContext.latlong}
-          urbanArea={addressContext.urbanArea}
+      {isLoading ? (
+        <LoaderComponent
+          loaderText={`Fetching weather forecast ${
+            validCityName() ? `for ${addressContext.address.cityName}` : ''
+          } 😎`}
         />
       ) : (
         <Fragment>
-          {isLoading ? (
-            <LoaderComponent
-              loaderText={`Fetching weather forecast ${
-                validCityName() ? `for ${addressContext.address.cityName}` : ''
-              } 😎`}
-            />
-          ) : (
+          {isError ? (
             <div>
               {validCityName() ? (
                 // show error component only when addressContext cityName is valid
@@ -106,6 +100,21 @@ const WeatherContainer = () => {
                 </div>
               ) : null}
             </div>
+          ) : (
+            <Fragment>
+              {!isUndefined(weatherCurrent) &&
+              !isEmpty(weatherCurrent) &&
+              !isNull(weatherCurrent) ? (
+                <WeatherForecastContainer
+                  weatherCurrent={weatherCurrent}
+                  weatherForecast={weatherForecast}
+                  address={addressContext.address}
+                  latlong={addressContext.latlong}
+                  urbanArea={addressContext.urbanArea}
+                />
+              ) : null}
+              }
+            </Fragment>
           )}
         </Fragment>
       )}
