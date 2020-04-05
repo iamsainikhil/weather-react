@@ -12,9 +12,7 @@ const getHour = (type, time, timezone) => {
       .tz(timezone)
       .format('H')
   }
-  return moment()
-    .tz(timezone)
-    .format('H')
+  return moment().tz(timezone).format('H')
 }
 
 /**
@@ -22,7 +20,7 @@ const getHour = (type, time, timezone) => {
  * @param {String} icon (ex- cloudy)
  * @param {String} timezone (ex- Pacific/Auckland)
  */
-const getWeatherBackground = data => {
+const getWeatherBackground = (data) => {
   const {icon, timezone, sunrise, sunset} = data
   // format sunrise and sunset in weatherCurrent of data into an hour
   const sunriseHour = getHour('sunrise', sunrise, timezone)
@@ -30,7 +28,7 @@ const getWeatherBackground = data => {
   const hour = getHour('hour', 0, timezone)
   // subtract 1hr from sunriseHour and add 1hr to sunsetHour to compensate for minutes
   // since moment will format 7:23 as 7 and 17:27 as 17
-  const type = hour >= sunriseHour - 1 && hour <= sunsetHour ? 'day' : 'night'
+  const type = hour >= sunriseHour - 1 && hour < sunsetHour ? 'day' : 'night'
   // to show sunrise weather background 1hr before and during the sunrise hour
   const dawn = hour === sunriseHour - 1 || hour === sunriseHour
   // to show sunset weather background 1hr before and during the sunset hour
@@ -55,9 +53,9 @@ const getWeatherBackground = data => {
       case 'cloudy':
         return `cloudy-${type}`
       case 'partly-cloudy-day':
-        return 'cloudy-day'
+        return `cloudy-${type}`
       case 'partly-cloudy-night':
-        return 'cloudy-night'
+        return `cloudy-${type}`
       case 'hail':
         return `overcast-${type}`
       case 'thunderstorm':

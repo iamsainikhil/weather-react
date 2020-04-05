@@ -113,7 +113,6 @@ const WeatherContainer = () => {
                   urbanArea={addressContext.urbanArea}
                 />
               ) : null}
-              }
             </Fragment>
           )}
         </Fragment>

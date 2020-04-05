@@ -15,19 +15,19 @@ const CarouselSettings = (type, resolution = 'mobile') => ({
   easing: 'easeSinInOut',
   defaultControlsConfig: {
     prevButtonStyle: {
-      display: 'none'
+      display: 'none',
     },
     nextButtonStyle: {
-      display: 'none'
+      display: 'none',
     },
     pagingDotsStyle: {
-      fill: '#A1A6B4',
+      fill: '#cfd9df',
       display: 'flex',
       position: 'relative',
       top: type === 'day' ? '25px' : '35px',
-      margin: '10px 5px'
-    }
-  }
+      margin: '10px 5px',
+    },
+  },
 })
 
 export default CarouselSettings
