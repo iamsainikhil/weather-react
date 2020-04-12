@@ -2,19 +2,10 @@ import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 import moment from 'moment-timezone'
 import {Link} from 'react-router-dom'
-import {Event} from '../../utils/ReactAnalytics'
 import {FaHeart, FaReact} from 'react-icons/fa'
 
 const FooterComponent = () => {
   const {theme, colorTheme} = useContext(ThemeContext)
-
-  const emitGA = (action, label) => {
-    Event({
-      category: 'Footer Links',
-      action,
-      label,
-    })
-  }
   return (
     <div
       className={`text-${colorTheme} pb-3`}
