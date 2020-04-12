@@ -10,9 +10,13 @@ import WeatherIconComponent from './WeatherIconComponent'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
-  const weatherUnitTitle = weatherUnit === 'C' ? 'Celsius' : 'Fahrenheit'
-  const unselectedWeatherUnit = weatherUnit === 'C' ? 'F' : 'C'
-  const unitClick = unit => {
+  const unitClick = (unit) => {
+    // track event to GA
+    Event({
+      category: 'Weather Unit',
+      action: 'Set Unit',
+      label: unit,
+    })
     updateWeatherUnit(unit)
   }
 
@@ -20,7 +24,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
    * type can be `temperature` or `apparentTemperature`
    * @param {String} type
    */
-  const computedTempValue = type => {
+  const computedTempValue = (type) => {
     return weatherUnit === 'F'
       ? Math.round(weatherCurrent[`${type}`])
       : fToC(weatherCurrent[`${type}`])
@@ -36,7 +40,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
     <Fragment>
       <div className='sm:flex-col md:flex md:flex-row justify-between my-2 px-6 sm:mt-5 sm:mb-5 sm:px-4'>
         <div className='flex-col sm:w-full lg:w-1/2'>
-          <div className='flex flex-row justify-between sm:justify-start'>
+          <div className='flex flex-row justify-between sm:justify-start sm:items-center'>
             <div className='flex flex-col justify-center items-center'>
               <div>
                 {getWeatherIcon(weatherCurrent).startsWith('wi') ? (
@@ -58,7 +62,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                   />
                 )}
               </div>
-              <p className='hidden sm:flex font-medium -mt-2 ml-3 capitalize'>
+              <p className='hidden sm:flex sm:flex-no-wrap font-medium -mt-2 ml-3 capitalize'>
                 {weatherCurrent.summary}
               </p>
             </div>
@@ -72,20 +76,26 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                 <sup>o</sup>
               </p>
               <div className='-mt-10 mx-2 text-xl'>
-                {/* selected weatherUnit */}
                 <span
-                  className='cursor-pointer font-bold'
-                  title={weatherUnitTitle}
-                  onClick={() => unitClick(weatherUnit)}>
-                  {weatherUnit}
+                  className={`cursor-pointer ${
+                    weatherUnit === 'C'
+                      ? 'font-bold border-b border-light'
+                      : 'font-light opacity-75'
+                  }`}
+                  title='Celcius'
+                  onClick={() => unitClick('C')}>
+                  C
                 </span>
-                <span className='mx-1 opacity-25'>|</span>
-                {/* unselected weatherUnit */}
+                <span className={`mx-1 opacity-25`}>|</span>
                 <span
-                  className='cursor-pointer font-light opacity-75'
-                  title={weatherUnitTitle}
-                  onClick={() => unitClick(unselectedWeatherUnit)}>
-                  {unselectedWeatherUnit}
+                  className={`cursor-pointer ${
+                    weatherUnit === 'F'
+                      ? 'font-bold border-b border-light'
+                      : 'font-light opacity-75'
+                  }`}
+                  title='Fahrenheit'
+                  onClick={() => unitClick('F')}>
+                  F
                 </span>
               </div>
             </div>
@@ -136,5 +146,5 @@ const InfoDetailComponent = ({weatherCurrent}) => {
 export default InfoDetailComponent
 
 InfoDetailComponent.propTypes = {
-  weatherCurrent: PropTypes.object
+  weatherCurrent: PropTypes.object,
 }

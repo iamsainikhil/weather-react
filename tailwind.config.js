@@ -13,6 +13,7 @@ module.exports = {
       dark: '#181818',
       sun: '#E7AB4D',
       react: '#2acef7',
+      heart: '#ed2324',
       toggle: '#ffa500',
       gray: {
         100: '#f7fafc',
@@ -23,22 +24,22 @@ module.exports = {
         600: '#718096',
         700: '#4a5568',
         800: '#2d3748',
-        900: '#1a202c'
+        900: '#1a202c',
       },
       red: {
         400: '#fc8181',
-        700: '#c53030'
+        700: '#c53030',
       },
       orange: {
         500: '#ed8936',
         600: '#dd6b20',
-        700: '#c05621'
+        700: '#c05621',
       },
       teal: {
         600: '#319795',
         700: '#2c7a7b',
-        900: '#234e52'
-      }
+        900: '#234e52',
+      },
     },
     borderRadius: {
       none: '0',
@@ -48,7 +49,7 @@ module.exports = {
       lg: '0.5rem',
       xl: '0.75rem',
       '2xl': '1rem',
-      full: '2rem'
+      full: '2rem',
     },
     fontFamily: {
       sans: [
@@ -65,7 +66,7 @@ module.exports = {
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
-        '"Noto Color Emoji"'
+        '"Noto Color Emoji"',
       ],
       serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
       mono: [
@@ -74,8 +75,8 @@ module.exports = {
         'Consolas',
         '"Liberation Mono"',
         '"Courier New"',
-        'monospace'
-      ]
-    }
-  }
+        'monospace',
+      ],
+    },
+  },
 }

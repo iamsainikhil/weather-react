@@ -26,7 +26,11 @@ const FavoritesContainer = () => {
    * scroll to weather component when selectedFavorite is set
    * @param {DOMElement} ref (weatherRef)
    */
-  const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop)
+  const scrollToRef = (ref) => {
+    if (!isNull(ref.current)) {
+      window.scrollTo(0, ref.current.offsetTop)
+    }
+  }
 
   // check whether the cityName is valid
   const validCityName = () => {
@@ -47,7 +51,7 @@ const FavoritesContainer = () => {
     }
   }
 
-  const selectFavoriteHandler = index => {
+  const selectFavoriteHandler = (index) => {
     if (favorites[index]) {
       setSelectedFavorite({...favorites[index]})
     }
@@ -64,7 +68,7 @@ const FavoritesContainer = () => {
         const response = await FetchWeatherData(selectedFavorite)
         // set favoriteWeather only when the data is non-empty
         if (!isEmpty(response) && !isUndefined(response) && !isNull(response)) {
-          setFavoriteWeather(state => ({...state, ...response}))
+          setFavoriteWeather((state) => ({...state, ...response}))
           scrollHandler()
         }
       } catch (err) {
@@ -92,7 +96,7 @@ const FavoritesContainer = () => {
         isUndefined(
           find(
             favorites,
-            favorite =>
+            (favorite) =>
               favorite.address.cityName === selectedFavorite.address.cityName
           )
         )
@@ -137,7 +141,7 @@ const FavoritesContainer = () => {
             <Carousel
               {...CarouselSettings('favorite')}
               slideIndex={slideIndex}
-              afterSlide={slideIndex => selectFavoriteHandler(slideIndex)}>
+              afterSlide={(slideIndex) => selectFavoriteHandler(slideIndex)}>
               {favorites.map((favorite, index) => {
                 return (
                   <FavoriteComponent

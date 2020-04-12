@@ -2,15 +2,24 @@ import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 import moment from 'moment-timezone'
 import {Link} from 'react-router-dom'
-import {FaReact} from 'react-icons/fa'
+import {Event} from '../../utils/ReactAnalytics'
+import {FaHeart, FaReact} from 'react-icons/fa'
 
 const FooterComponent = () => {
   const {theme, colorTheme} = useContext(ThemeContext)
+
+  const emitGA = (action, label) => {
+    Event({
+      category: 'Footer Links',
+      action,
+      label,
+    })
+  }
   return (
     <div
       className={`text-${colorTheme} pb-3`}
       style={{
-        backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee'
+        backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee',
       }}>
       <div
         className={`flex flex-col text-center sm:flex sm:flex-row justify-around p-5 text-${colorTheme} text-sm`}>
@@ -25,15 +34,19 @@ const FooterComponent = () => {
         </p>
         <p className='flex flex-no-wrap justify-center items-center my-2 sm:my-0 w-full sm:w-1/2'>
           Made with&nbsp;
-          <span title='Love' role='img' aria-label='Love' className='text-sm'>
-            ❤️
+          <span
+            title='Love'
+            role='img'
+            aria-label='Love'
+            className='text-base text-heart'>
+            <FaHeart />
           </span>
           &nbsp;using&nbsp;
           <span
             title='React'
             role='img'
             aria-label='React'
-            className='text-lg text-react'>
+            className='text-base text-react'>
             <FaReact />
           </span>
         </p>

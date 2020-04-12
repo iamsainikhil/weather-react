@@ -24,7 +24,9 @@
 
 # 🚀 Getting Started
 
-**\*Follow the instructions described in-detail **[here](https://www.notion.so/reactweather/Weather-React-Local-Setup-Branch-561fe5fa6cc546f588b93390de63ce21)** or below to set up the project locally on your machine.\***
+> **Note**: Dark Sky had been bought by Apple and is no longer accepting new signups. For more information, read this news **[here](https://blog.darksky.net/)**.
+
+**When you have a Dark Sky Account, follow the instructions described in-detail **[here](https://www.notion.so/reactweather/Weather-React-Local-Setup-Branch-561fe5fa6cc546f588b93390de63ce21)** or below to set up the project locally on your machine.**
 
 ## Basic Setup
 
@@ -47,12 +49,6 @@ git clone -b local-setup https://github.com/iamsainikhil/weather-react.git
 REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
 
 ```
-
-- Obtain the API key mentioned in the `.env` by following below steps:
-
-* Get API tokens:
-
-* You can obtain a Dark Sky API key [\*\*here](https://darksky.net/dev)\*\* (Required)
 
 _That's it! You can run the below available scripts to get up and running on the localhost. If you want to dive deeper into the codebase, I recommend you to check the architecture documentation to customize this application as your wish._
 
@@ -144,7 +140,9 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
 ## 📖 Architecture
 
-### ❕ **Application Architecture Documentation will be added soon...**
+![Weather React Application Architecture](./Weather_React_Architecture.svg)
+
+### ❕ **Detailed Architecture Documentation will be added soon...**
 
 ## 🏎 Roadmap
 
@@ -152,7 +150,7 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
 - [ ] Unit Testing
 
-- [ ] Refactoring Code
+- [ ] Publish this project as an NPM package that can be consumed elsewhere.
 
 - [ ] Update Favorites UI
 

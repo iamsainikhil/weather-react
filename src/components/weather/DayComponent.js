@@ -27,23 +27,14 @@ const DayComponent = props => {
     props.selectedDay({day})
   }
 
-  // hide or show right and left sides of a border
-  const specialBorder = () => {
-    return `md:border-r${
-      index === 7 || index === selectedIndex - 1 ? '-0' : ''
-    } md:border-l${index === 0 || index === selectedIndex + 1 ? '-0' : ''}`
-  }
-
   return (
     <div
-      className={`md:border-t md:border-b-0 md:border-light md:hover:border-light md:hover:bg-light md:hover:text-black items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer transition-all duration-1000 ease-in-out ${
-        index === selectedIndex
-          ? `bg-${colorTheme} text-${theme} md:border-${colorTheme}`
-          : ''
-      } ${specialBorder()}`}
+      className={`md:hover:bg-${colorTheme} md:hover:text-${theme} items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer  ${
+        index === selectedIndex ? `bg-${colorTheme} text-${theme}` : ''
+      }`}
       onClick={selectedDay}>
       <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>
-        <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-light sm:font-medium'>
+        <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-semibold'>
           {FormatTime(day.time, day.timezone, 'ddd')}
         </p>
         {/* icon */}
@@ -59,7 +50,7 @@ const DayComponent = props => {
               src={`./weather/${getWeatherIcon(day)}.svg`}
               alt='icon'
               title={day.summary}
-              className='sm:-mt-3 sm:-mb-1 mx-auto w-12 h-12 sm:w-16 sm:h-16 object-contain'
+              className='sm:-mt-2 sm:-mb-1 mx-auto w-12 h-12 sm:w-16 sm:h-16 object-contain'
             />
           )}
         </div>
