@@ -150,7 +150,7 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
 - [ ] Unit Testing
 
-- [ ] Refactoring Code
+- [ ] Publish this project as an NPM package that can be consumed elsewhere.
 
 - [ ] Update Favorites UI
 
