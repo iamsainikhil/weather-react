@@ -22,7 +22,7 @@ class AutoCompleteContainer extends Component {
     showLoader: false,
     city: '',
     addresses: [],
-    errorMessage: ''
+    errorMessage: '',
   }
 
   handleError(message) {
@@ -32,7 +32,7 @@ class AutoCompleteContainer extends Component {
   // debounced function
   debounceAddress = debounce(this.getAddresses, 1000)
 
-  searchCity = event => {
+  searchCity = (event) => {
     this.setState({city: event.target.value, errorMessage: ''})
     this.debounceAddress()
   }
@@ -51,16 +51,18 @@ class AutoCompleteContainer extends Component {
 
         // populate addresses and show them if matching cities exist
         if (!isEmpty(data) && !isUndefined(data) && data.count > 0) {
-          const results = data._embedded['city:search-results'].map(result => ({
-            cityName: result.matching_full_name,
-            cityId: result._links['city:item'].href.split('/')[5]
-          }))
+          const results = data._embedded['city:search-results'].map(
+            (result) => ({
+              cityName: result.matching_full_name,
+              cityId: result._links['city:item'].href.split('/')[5],
+            })
+          )
           // results is an array of `address` objects with cityName and cityId properties
           this.setState({
             addresses: results,
             showCaret: true,
             showAddresses: true,
-            errorMessage: ''
+            errorMessage: '',
           })
         } else {
           this.setState({showAddresses: false})
@@ -69,7 +71,7 @@ class AutoCompleteContainer extends Component {
           )
         }
       } catch (error) {
-        this.handleError(error)
+        Sentry.captureException(error)
       } finally {
         this.setState({showLoader: false})
       }
@@ -81,18 +83,18 @@ class AutoCompleteContainer extends Component {
   toggleAddresses = () => {
     this.setState((prevState, props) => {
       return {
-        showAddresses: !prevState.showAddresses
+        showAddresses: !prevState.showAddresses,
       }
     })
   }
 
-  setCity = async address => {
+  setCity = async (address) => {
     if (address) {
       // set city to just have cityName excluding state and country in the search input
       // 'Herndon, Virginia, United States' -> 'Herndon'
       this.setState({
         city: address.cityName.split(',')[0],
-        showAddresses: false
+        showAddresses: false,
       })
       // get latlong and urbanArea and update addressContext state for
       // address, latlong, and urbanArea
@@ -100,7 +102,7 @@ class AutoCompleteContainer extends Component {
       this.context.updateState({
         address: address,
         latlong: latlong,
-        urbanArea: urbanArea
+        urbanArea: urbanArea,
       })
     }
   }
@@ -111,7 +113,7 @@ class AutoCompleteContainer extends Component {
       showAddresses: false,
       showLoader: false,
       addresses: [],
-      errorMessage: ''
+      errorMessage: '',
     })
   }
 

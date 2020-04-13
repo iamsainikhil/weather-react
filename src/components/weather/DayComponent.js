@@ -6,8 +6,9 @@ import FormatTime from './../../utils/FormatTime'
 import {PropTypes} from 'prop-types'
 import WeatherIconComponent from './WeatherIconComponent'
 import {ThemeContext} from '../../context/ThemeContext'
+import AssetsSrcURL from '../../utils/AssetsSrcURL'
 
-const DayComponent = props => {
+const DayComponent = (props) => {
   const {day, index, selectedIndex} = props
   const {weatherUnit} = useContext(WeatherUnitContext)
   const {theme, colorTheme} = useContext(ThemeContext)
@@ -16,7 +17,7 @@ const DayComponent = props => {
    * type can be 'High' or 'Low'
    * @param {String} type
    */
-  const computedTempValue = type => {
+  const computedTempValue = (type) => {
     return weatherUnit === 'F'
       ? Math.round(day[`temperature${type}`])
       : fToC(day[`temperature${type}`])
@@ -47,7 +48,7 @@ const DayComponent = props => {
             </p>
           ) : (
             <img
-              src={`./weather/${getWeatherIcon(day)}.svg`}
+              src={`${AssetsSrcURL}/weather/${getWeatherIcon(day)}.svg`}
               alt='icon'
               title={day.summary}
               className='sm:-mt-2 sm:-mb-1 mx-auto w-12 h-12 sm:w-16 sm:h-16 object-contain'
@@ -98,5 +99,5 @@ DayComponent.propTypes = {
   day: PropTypes.object,
   selectedDay: PropTypes.func,
   index: PropTypes.number,
-  selectedIndex: PropTypes.number
+  selectedIndex: PropTypes.number,
 }

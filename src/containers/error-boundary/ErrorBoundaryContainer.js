@@ -4,7 +4,7 @@ import ErrorComponent from '../../components/error/ErrorComponent'
 export class ErrorBoundaryContainer extends Component {
   state = {
     hasError: false,
-    eventId: null
+    eventId: null,
   }
 
   static getDerivedStateFromError(error) {
@@ -12,14 +12,32 @@ export class ErrorBoundaryContainer extends Component {
     return {hasError: true}
   }
 
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope((scope) => {
+      scope.setExtras(errorInfo)
+      const eventId = Sentry.captureException(error)
+      this.setState({eventId})
+    })
+  }
+
   render() {
     return (
       <div>
         {this.state.hasError ? (
-          <div>
-            <ErrorComponent
-              errorMessage={'Something went wrong. Reload the page!'}
-            />
+          <div className='flex'>
+            <div className='w-1/6'></div>
+            <div className='flex-col w-2/3 justify-center text-center'>
+              <ErrorComponent
+                errorMessage={'Something went wrong. Reload the page!'}
+              />
+              <button
+                className='font-semibold py-3 px-6 rounded-full capitalize text-sun'
+                onClick={() =>
+                  Sentry.showReportDialog({eventId: this.state.eventId})
+                }>
+                Report feedback
+              </button>
+            </div>
           </div>
         ) : (
           this.props.children
