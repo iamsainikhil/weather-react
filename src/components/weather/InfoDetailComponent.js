@@ -8,6 +8,7 @@ import {PropTypes} from 'prop-types'
 import {Event} from '../../utils/ReactAnalytics'
 import {FiPercent} from 'react-icons/fi'
 import WeatherIconComponent from './WeatherIconComponent'
+import AssetsSrcURL from '../../utils/AssetsSrcURL'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
@@ -56,7 +57,9 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                   </p>
                 ) : (
                   <img
-                    src={`./weather/${getWeatherIcon(weatherCurrent)}.svg`}
+                    src={`${AssetsSrcURL}/weather/${getWeatherIcon(
+                      weatherCurrent
+                    )}.svg`}
                     alt='icon'
                     title={weatherCurrent.summary}
                     className='-mt-2 -ml-4 sm:mx-0 w-32 h-32 object-contain'

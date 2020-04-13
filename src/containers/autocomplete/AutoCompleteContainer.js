@@ -73,11 +73,6 @@ class AutoCompleteContainer extends Component {
           )
         }
       } catch (error) {
-        this.handleError(
-          error.response
-            ? error.response
-            : 'Teleport API is temporarily down! Please try again later.'
-        )
         Sentry.captureException(error)
       } finally {
         this.setState({showLoader: false})
