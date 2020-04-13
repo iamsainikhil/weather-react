@@ -14,6 +14,15 @@ const WeatherContainer = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
+  // check whether to show/hide weatherForecastContainer based on weatherCurrent
+  const showWeatherForecast = () => {
+    return (
+      !isUndefined(weatherCurrent) &&
+      !isEmpty(weatherCurrent) &&
+      !isNull(weatherCurrent)
+    )
+  }
+
   // check whether the cityName is valid
   const validCityName = () => {
     if (
@@ -102,15 +111,12 @@ const WeatherContainer = () => {
             </div>
           ) : (
             <Fragment>
-              {!isUndefined(weatherCurrent) &&
-              !isEmpty(weatherCurrent) &&
-              !isNull(weatherCurrent) ? (
+              {showWeatherForecast() ? (
                 <WeatherForecastContainer
                   weatherCurrent={weatherCurrent}
                   weatherForecast={weatherForecast}
                   address={addressContext.address}
                   latlong={addressContext.latlong}
-                  urbanArea={addressContext.urbanArea}
                 />
               ) : null}
             </Fragment>

@@ -11,7 +11,6 @@ const WeatherForecastContainer = ({
   weatherForecast,
   address,
   latlong,
-  urbanArea
 }) => {
   const {theme, colorTheme} = useContext(ThemeContext)
 
@@ -27,7 +26,7 @@ const WeatherForecastContainer = ({
 
   const imageBorder = {
     borderTopLeftRadius: '1rem',
-    borderTopRightRadius: '1rem'
+    borderTopRightRadius: '1rem',
   }
 
   return (
@@ -65,7 +64,6 @@ const WeatherForecastContainer = ({
                 weatherCurrent={weatherCurrent}
                 address={address}
                 latlong={latlong}
-                urbanArea={urbanArea}
               />
             </div>
 
@@ -77,7 +75,6 @@ const WeatherForecastContainer = ({
                 weatherCurrent={weatherCurrent}
                 address={address}
                 latlong={latlong}
-                urbanArea={urbanArea}
               />
               <ForecastContainer
                 cityName={address.cityName}
@@ -110,36 +107,6 @@ const WeatherForecastContainer = ({
             Dark Sky
           </a>
         </p>
-        <div className={`bg-${theme}`}>
-          {urbanArea.slug ? (
-            <div className={`mx-auto text-center pb-5`}>
-              <p>
-                <a
-                  href={`https://teleport.org/cities/${urbanArea.slug}`}
-                  target='_blank'
-                  rel='noreferrer noopener'
-                  className='hover:no-underline'
-                  onClick={() => emitGA('explore-life', urbanArea.name)}>
-                  <button
-                    className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}>
-                    Explore {urbanArea.name}
-                  </button>
-                </a>
-              </p>
-              <p className={`py-1 text-xs font-light text-${colorTheme}`}>
-                Powered by&nbsp;
-                <a
-                  href='https://teleport.org/'
-                  target='_blank'
-                  rel='noreferrer noopener'
-                  className={`link z-0 font-medium hover:text-${theme}`}
-                  onClick={() => emitGA('powered-by', 'Teleport')}>
-                  Teleport
-                </a>
-              </p>
-            </div>
-          ) : null}
-        </div>
       </div>
     </Fragment>
   )

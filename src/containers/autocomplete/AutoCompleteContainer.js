@@ -9,7 +9,6 @@ import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
 import {isEmpty, isUndefined} from 'lodash-es'
-import getLatLongUrbanArea from '../../utils/LatLongUrbanArea'
 import * as Sentry from '@sentry/browser'
 import {Event} from '../../utils/ReactAnalytics'
 
@@ -47,19 +46,30 @@ class AutoCompleteContainer extends Component {
     if (this.state.city.trim()) {
       try {
         this.setState({showLoader: true})
-        const {data} = await axios.get(
-          `https://api.teleport.org/api/cities/?search=${this.state.city}`
-        )
+
+        const {hits} = (
+          await axios.post('https://places-dsn.algolia.net/1/places/query', {
+            query: this.state.city,
+            type: 'city',
+            aroundLatLng: this.context.address.latlong,
+          })
+        ).data
 
         // populate addresses and show them if matching cities exist
-        if (!isEmpty(data) && !isUndefined(data) && data.count > 0) {
-          const results = data._embedded['city:search-results'].map(
-            (result) => ({
-              cityName: result.matching_full_name,
-              cityId: result._links['city:item'].href.split('/')[5],
-            })
-          )
-          // results is an array of `address` objects with cityName and cityId properties
+        if (!isEmpty(hits) && !isUndefined(hits)) {
+          const results = hits.map((hit) => {
+            // city value lives in default array of locale_names
+            // state value lives in administrative array
+            // country value lives in country object
+            const cityName = `${hit['locale_names'].default[0]}, ${hit.administrative[0]}, ${hit.country.default}`
+            const {lat, lng} = hit['_geoloc']
+            return {
+              cityName: cityName,
+              cityId: hit.objectID,
+              latlong: `${lat},${lng}`,
+            }
+          })
+          // results is an array of `address` objects with cityName, objectID, and latlong properties
           this.setState({
             addresses: results,
             showCaret: true,
@@ -76,7 +86,7 @@ class AutoCompleteContainer extends Component {
         this.handleError(
           error.response
             ? error.response
-            : 'Teleport API is temporarily down! Please try again later.'
+            : 'Something went wrong! Please try again later.'
         )
         Sentry.captureException(error)
       } finally {
@@ -88,7 +98,7 @@ class AutoCompleteContainer extends Component {
   }
 
   toggleAddresses = () => {
-    this.setState((prevState, props) => {
+    this.setState((prevState) => {
       return {
         showAddresses: !prevState.showAddresses,
       }
@@ -109,13 +119,10 @@ class AutoCompleteContainer extends Component {
         action: 'City Search',
         label: address.cityName,
       })
-      // get latlong and urbanArea and update addressContext state for
-      // address, latlong, and urbanArea
-      const {latlong, urbanArea} = await getLatLongUrbanArea(address.cityId)
+
       this.context.updateState({
         address: address,
-        latlong: latlong,
-        urbanArea: urbanArea,
+        latlong: address.latlong,
       })
     }
   }
