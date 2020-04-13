@@ -1,18 +1,55 @@
 import moment from 'moment-timezone'
 
 /**
- * format time into an hour
+ * format timestamp to time in the form of "H:mm" where H -> 0 - 23 & mm -> 00 - 59
  * @param {String} type (sunrise | sunset | hour)
  * @param {Number} time (sunriseTime, sunsetTime, 0 in case of hour)
  * @param {String} timezone (ex- Pacific/Auckland)
  */
-const getHour = (type, time, timezone) => {
+const formatTime = (type, time, timezone) => {
   if (type === 'sunrise' || type === 'sunset') {
     return moment(time * 1000)
       .tz(timezone)
-      .format('H')
+      .format('H:mm')
   }
-  return moment().tz(timezone).format('H')
+  return moment().tz(timezone).format('H:mm')
+}
+
+/**
+ * returns day or night based on the comparison of currentTime with sunrise and sunset times
+ * @param {String} currentTime
+ * @param {String} sunriseTime
+ * @param {String} sunsetTime
+ */
+const getType = (currentTime, sunriseTime, sunsetTime) => {
+  const [currentHour, currentMinutes] = currentTime.split(':')
+  const [sunriseHour, sunriseMinutes] = sunriseTime.split(':')
+  const [sunsetHour, sunsetMinutes] = sunsetTime.split(':')
+  if (currentHour === sunriseHour || currentHour === sunsetHour) {
+    return Number(currentMinutes) >= Number(sunriseMinutes) ||
+      Number(currentMinutes) < Number(sunsetMinutes)
+      ? 'day'
+      : 'night'
+  } else {
+    return Number(currentHour) > Number(sunriseHour) &&
+      Number(currentHour) < Number(sunsetHour)
+      ? 'day'
+      : 'night'
+  }
+}
+
+/**
+ * checks if it is dawn (sunrise) or dusk (sunset)
+ * @param {*} currentTime
+ * @param {*} time (sunriseTime for checking dawn & sunsetTime for checking dusk)
+ */
+const isDawnDusk = (currentTime, time) => {
+  const currentHour = currentTime.split(':')[0]
+  const timeHour = time.split(':')[0]
+  return (
+    Number(currentHour) === Number(timeHour) - 1 ||
+    Number(currentHour) === Number(timeHour)
+  )
 }
 
 /**
@@ -22,17 +59,16 @@ const getHour = (type, time, timezone) => {
  */
 const getWeatherBackground = (data) => {
   const {icon, timezone, sunrise, sunset} = data
-  // format sunrise and sunset in weatherCurrent of data into an hour
-  const sunriseHour = getHour('sunrise', sunrise, timezone)
-  const sunsetHour = getHour('sunset', sunset, timezone)
-  const hour = getHour('hour', 0, timezone)
-  // subtract 1hr from sunriseHour and add 1hr to sunsetHour to compensate for minutes
-  // since moment will format 7:23 as 7 and 17:27 as 17
-  const type = hour >= sunriseHour - 1 && hour < sunsetHour ? 'day' : 'night'
-  // to show sunrise weather background 1hr before and during the sunrise hour
-  const dawn = hour === sunriseHour - 1 || hour === sunriseHour
-  // to show sunset weather background 1hr before and during the sunset hour
-  const dusk = hour === sunsetHour - 1 || hour === sunsetHour
+  // format sunrise and sunset in weatherCurrent of data into hour and minutes
+  const sunriseTime = formatTime('sunrise', sunrise, timezone)
+  const sunsetTime = formatTime('sunset', sunset, timezone)
+  const currentTime = formatTime('hour', 0, timezone)
+  // get the type like day or night
+  const type = getType(currentTime, sunriseTime, sunsetTime)
+  // check for dawn scenario before sunrise hour
+  const dawn = isDawnDusk(currentTime, sunriseTime)
+  // check for dusk scenario before sunset hour
+  const dusk = isDawnDusk(currentTime, sunsetTime)
 
   if (icon) {
     switch (icon) {
