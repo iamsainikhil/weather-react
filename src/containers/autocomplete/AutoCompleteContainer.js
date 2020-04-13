@@ -71,7 +71,7 @@ class AutoCompleteContainer extends Component {
           )
         }
       } catch (error) {
-        Sentry.captureException(error)
+        this.handleError(error.response ? error.response : '')
       } finally {
         this.setState({showLoader: false})
       }
