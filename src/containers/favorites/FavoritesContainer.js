@@ -157,7 +157,7 @@ const FavoritesContainer = () => {
               {favorites.map((favorite, index) => {
                 return (
                   <FavoriteComponent
-                    key={favorite.latlong}
+                    key={index}
                     favorite={favorite}
                     index={index}
                     selectedIndex={slideIndex}
@@ -173,9 +173,7 @@ const FavoritesContainer = () => {
               <div className='flex sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {
                   return (
-                    <div
-                      className='m-2 sm:w-1/2 md:w-1/4'
-                      key={favorite.latlong}>
+                    <div className='m-2 sm:w-1/2 md:w-1/4' key={index}>
                       <FavoriteComponent
                         key={favorite.latlong}
                         favorite={favorite}
