@@ -78,7 +78,7 @@ const WeatherContainer = () => {
       clearInterval(timer)
     }
     // eslint-disable-next-line
-  }, [addressContext])
+  }, [addressContext.address])
 
   return (
     <Fragment>

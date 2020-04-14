@@ -64,9 +64,19 @@ class AutoCompleteContainer extends Component {
         if (!isEmpty(hits) && !isUndefined(hits)) {
           const results = hits.map((hit) => {
             // city value lives in default array of locale_names
+            const city = `${
+              hit['locale_names'].en
+                ? hit['locale_names'].en[0]
+                : hit['locale_names'].default[0]
+            }`
             // state value lives in administrative array
-            // country value lives in country object
-            const cityName = `${hit['locale_names'].default[0]}, ${hit.administrative[0]}, ${hit.country.default}`
+            const state = `${hit.administrative ? hit.administrative[0] : ''}`
+            // country value lives in country object in different languages and gran the "en" version if available or else the default version
+            const country = `${
+              hit.country.en ? hit.country.en : hit.country.default
+            }`
+
+            const cityName = `${city}, ${state}, ${country}`
             const {lat, lng} = hit['_geoloc']
             return {
               cityName: cityName,
@@ -88,11 +98,6 @@ class AutoCompleteContainer extends Component {
           )
         }
       } catch (error) {
-        this.handleError(
-          error.response
-            ? error.response
-            : 'Something went wrong! Please try again later.'
-        )
         Sentry.captureException(error)
       } finally {
         this.setState({showLoader: false})

@@ -45,8 +45,10 @@ class AddressContextProvider extends Component {
       hit = hits[0]
 
       if (!isEmpty(hit) && !isUndefined(hit)) {
-        const cityName = `${hit.city[0]}, ${hit.administrative[0]}, ${hit.country}`
-        const cityId = hit.objectID
+        const cityName = `${hit.city ? hit.city[0] : ''}, ${
+          hit.administrative ? hit.administrative[0] : ''
+        }, ${hit.country ? hit.country : ''}`
+        const cityId = hit.objectID ? hit.objectID : ''
         this.updateState({
           address: {
             cityName,
