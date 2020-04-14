@@ -76,7 +76,7 @@ check out the repo on GitHub - https://github.com/iamsainikhil/weather-react   `
 // important change after recent upgrade of react-scripts to ^3.4.0
 const publicUrl = process.env.PUBLIC_URL ?? '/'
 
-console.log(publicUrl)
+console.log(process.env)
 
 const app = (
   <Router basename={publicUrl}>
