@@ -54,7 +54,7 @@ class AutoCompleteContainer extends Component {
             data: {
               query: this.state.city,
               type: 'city',
-              aroundLatLng: this.context.address.latlong,
+              aroundLatLng: this.context.latlong,
             },
             headers: HEADERS,
           })
