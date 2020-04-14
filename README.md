@@ -48,9 +48,9 @@ git clone -b local-setup https://github.com/iamsainikhil/weather-react.git
 
   REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
 
-  ALGOLIA_PLACES_APP_ID=<your Algolia Places APP ID> (Optional)
+  REACT_APP_ALGOLIA_PLACES_APP_ID=<your Algolia Places APP ID> (Optional)
 
-  ALGOLIA_PLACES_API_KEY=<your Algolia Places Search-Only API Key> (Optional)
+  REACT_APP_ALGOLIA_PLACES_API_KEY=<your Algolia Places Search-Only API Key> (Optional)
 
   ```
 
