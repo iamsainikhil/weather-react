@@ -3,6 +3,7 @@ import {PropTypes} from 'prop-types'
 import axios from 'axios'
 import * as Sentry from '@sentry/browser'
 import {isEmpty, isUndefined} from 'lodash-es'
+import HEADERS from '../utils/AlgoliaHeaders'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
@@ -35,7 +36,10 @@ class AddressContextProvider extends Component {
     try {
       const {hits} = (
         await axios.get(
-          `https://places-dsn.algolia.net/1/places/reverse?aroundLatLng=${latlong},&hitsPerPage=1&language=en`
+          `https://places-dsn.algolia.net/1/places/reverse?aroundLatLng=${latlong},&hitsPerPage=1&language=en`,
+          {
+            headers: HEADERS,
+          }
         )
       ).data
       hit = hits[0]

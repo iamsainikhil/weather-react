@@ -6,6 +6,7 @@ import FormatTime from './../../utils/FormatTime'
 import {PropTypes} from 'prop-types'
 import WeatherIconComponent from './WeatherIconComponent'
 import {ThemeContext} from '../../context/ThemeContext'
+import AssetsSrcURL from '../../utils/AssetsSrcURL'
 
 const TimeframeComponent = ({Timeframe}) => {
   const {weatherUnit} = useContext(WeatherUnitContext)
@@ -15,7 +16,7 @@ const TimeframeComponent = ({Timeframe}) => {
    * type can be `temperature` or `apparentTemperature`
    * @param {String} type
    */
-  const computedTempValue = type => {
+  const computedTempValue = (type) => {
     return weatherUnit === 'F'
       ? Math.round(Timeframe[`${type}`])
       : fToC(Timeframe[`${type}`])
@@ -31,7 +32,7 @@ const TimeframeComponent = ({Timeframe}) => {
           </p>
         ) : (
           <img
-            src={`./weather/${getWeatherIcon(Timeframe)}.svg`}
+            src={`${AssetsSrcURL}/weather/${getWeatherIcon(Timeframe)}.svg`}
             alt='icon'
             title={Timeframe.summary}
             className='w-16 h-16 object-contain'
@@ -56,5 +57,5 @@ const TimeframeComponent = ({Timeframe}) => {
 export default TimeframeComponent
 
 TimeframeComponent.propTypes = {
-  Timeframe: PropTypes.object
+  Timeframe: PropTypes.object,
 }

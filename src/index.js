@@ -73,8 +73,11 @@ check out the repo on GitHub - https://github.com/iamsainikhil/weather-react   `
   'margin-bottom: 5px; line-height: 1.5'
 )
 
+// important change after recent upgrade of react-scripts to ^3.4.0
+const publicURL = process.env.PUBLIC_URL ?? '/'
+
 const app = (
-  <Router basename={process.env.PUBLIC_URL}>
+  <Router basename={publicURL}>
     <ThemeContextProvider>
       <App />
     </ThemeContextProvider>

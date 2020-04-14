@@ -5,6 +5,7 @@ import CurrentWeatherContainer from './../current-weather/CurrentWeatherContaine
 import ForecastContainer from './../forecast/ForecastContainer'
 import emitGA from './../../utils/MiscTrackEvents'
 import './WeatherForecastStyle.scss'
+import AssetsSrcURL from '../../utils/AssetsSrcURL'
 
 const WeatherForecastContainer = ({
   weatherCurrent,
@@ -37,7 +38,7 @@ const WeatherForecastContainer = ({
           className={`sm:w-full lg:w-5/6 xl:max-w-6xl bg-${theme} text-${colorTheme} border border-${colorTheme} md:border-none rounded-t-2xl shadow-lg`}>
           <div className='relative overflow-hidden'>
             <img
-              src={`./weather-backgrounds/${getWeatherBackground(
+              src={`${AssetsSrcURL}/weather-backgrounds/${getWeatherBackground(
                 weatherCurrent
               )}.jpg`}
               alt='clear day'
@@ -48,7 +49,7 @@ const WeatherForecastContainer = ({
             <div>
               {WET_TYPES.includes(weatherCurrent.icon) && (
                 <img
-                  src={`./weather-backgrounds/${weatherSVG()}.svg`}
+                  src={`${AssetsSrcURL}/weather-backgrounds/${weatherSVG()}.svg`}
                   alt='clear day'
                   className='w-full object-cover object-center absolute top-0 right-0 bottom-0 left-0 weather-background'
                   style={imageBorder}

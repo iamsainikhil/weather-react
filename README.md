@@ -47,11 +47,12 @@ git clone -b local-setup https://github.com/iamsainikhil/weather-react.git
 ```bash
 
 REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
-ALGOLIA_PLACES_API_KEY=<your Algolia Places Search-Only API Key> (Optional) - You will get higher rate limits if you sign up and provide an api key OR it's just **1000** requests/day
+ALGOLIA_PLACES_APP_ID=<your Algolia Places APP ID> (Optional)
+ALGOLIA_PLACES_API_KEY=<your Algolia Places Search-Only API Key> (Optional)
 
 ```
 
-- You can obtain your Algolia Places API key **[here](https://community.algolia.com/places/pricing.html)**
+- You can obtain your Algolia Places API key **[here](https://community.algolia.com/places/pricing.html)**. You will get higher rate limits if you sign up and provide an api key OR it's just limited to **1000** requests/day!
 
 _That's it! You can run the below available scripts to get up and running on the localhost. If you want to dive deeper into the codebase, I recommend you to check the architecture documentation to customize this application as your wish._
 

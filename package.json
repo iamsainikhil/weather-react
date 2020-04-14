@@ -23,7 +23,7 @@
     "react-ga": "^2.7.0",
     "react-icons": "^3.9.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
+    "react-scripts": "^3.4.1",
     "react-toggle": "^4.1.1"
   },
   "scripts": {
