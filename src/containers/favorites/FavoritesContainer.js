@@ -32,6 +32,15 @@ const FavoritesContainer = () => {
     }
   }
 
+  // check whether weatherCurrent exist on selectedFavorite to show/hide weatherForecastContainer
+  const showWeatherForecast = () => {
+    return (
+      !isEmpty(favoriteWeather.weatherCurrent) &&
+      !isUndefined(favoriteWeather.weatherCurrent) &&
+      !isNull(favoriteWeather.weatherCurrent)
+    )
+  }
+
   // check whether the cityName is valid
   const validCityName = () => {
     if (
@@ -145,7 +154,7 @@ const FavoritesContainer = () => {
               {favorites.map((favorite, index) => {
                 return (
                   <FavoriteComponent
-                    key={favorite.latlong}
+                    key={index}
                     favorite={favorite}
                     index={index}
                     selectedIndex={slideIndex}
@@ -161,9 +170,7 @@ const FavoritesContainer = () => {
               <div className='flex sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {
                   return (
-                    <div
-                      className='m-2 sm:w-1/2 md:w-1/4'
-                      key={favorite.latlong}>
+                    <div className='m-2 sm:w-1/2 md:w-1/4' key={index}>
                       <FavoriteComponent
                         key={favorite.latlong}
                         favorite={favorite}
@@ -179,15 +186,12 @@ const FavoritesContainer = () => {
           </div>
 
           <div ref={weatherRef}>
-            {!isEmpty(favoriteWeather.weatherCurrent) &&
-            !isUndefined(favoriteWeather.weatherCurrent) &&
-            !isNull(favoriteWeather.weatherCurrent) ? (
+            {showWeatherForecast() ? (
               <WeatherForecastContainer
                 weatherCurrent={favoriteWeather.weatherCurrent}
                 weatherForecast={favoriteWeather.weatherForecast}
                 address={selectedFavorite.address}
                 latlong={selectedFavorite.latlong}
-                urbanArea={selectedFavorite.urbanArea}
               />
             ) : (
               <Fragment>

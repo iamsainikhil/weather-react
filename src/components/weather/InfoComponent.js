@@ -5,7 +5,7 @@ import moment from 'moment-timezone'
 import {PropTypes} from 'prop-types'
 import {FaRegHeart, FaHeart} from 'react-icons/fa'
 
-const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
+const InfoComponent = ({address, latlong, weatherCurrent}) => {
   const {updateFavorites} = useContext(AddressContext)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
@@ -18,7 +18,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
     if (localStorage.getItem('favorites')) {
       const favorites = JSON.parse(localStorage.getItem('favorites'))
       const matched = favorites.filter(
-        favorite => favorite.address.cityName === address.cityName
+        (favorite) => favorite.address.cityName === address.cityName
       )
       return matched.length > 0
     }
@@ -28,30 +28,27 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   const favoritesHandler = () => {
     // first ever favorite item stored in localStorage
     if (!localStorage.getItem('favorites')) {
-      localStorage.setItem(
-        'favorites',
-        JSON.stringify([{address, latlong, urbanArea}])
-      )
+      localStorage.setItem('favorites', JSON.stringify([{address, latlong}]))
       updateFavorites({
-        favorites: [{address, latlong, urbanArea}]
+        favorites: [{address, latlong}],
       })
     } else {
       const favorites = JSON.parse(localStorage.getItem('favorites'))
       const duplicates = favorites.filter(
-        favorite => favorite.address.cityName === address.cityName
+        (favorite) => favorite.address.cityName === address.cityName
       )
       if (!duplicates.length) {
         // add newly added favorite to old favorites
-        const updatedFavorites = [...favorites, {address, latlong, urbanArea}]
+        const updatedFavorites = [...favorites, {address, latlong}]
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
         updateFavorites({
-          favorites: updatedFavorites
+          favorites: updatedFavorites,
         })
       } else {
         // if already favorite is selected
         // remove it from favorites
         const removeIndex = favorites.findIndex(
-          favorite =>
+          (favorite) =>
             favorite.address.cityName === duplicates[0].address.cityName
         )
         if (removeIndex !== -1) {
@@ -59,7 +56,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
           newFavorites.splice(removeIndex, 1)
           localStorage.setItem('favorites', JSON.stringify(newFavorites))
           updateFavorites({
-            favorites: newFavorites
+            favorites: newFavorites,
           })
         }
       }
@@ -67,7 +64,7 @@ const InfoComponent = ({address, latlong, urbanArea, weatherCurrent}) => {
   }
 
   // format and set date & time based on the dateObj
-  const datetimeSetter = dateObj => {
+  const datetimeSetter = (dateObj) => {
     setDate(!isUndefined(dateObj) ? dateObj.format('MMMM Do, YYYY') : '')
     setTime(!isUndefined(dateObj) ? dateObj.format('dddd h:mm A') : '')
     formattedDateTimeRef.current = dateObj ? dateObj : null
@@ -129,6 +126,5 @@ export default InfoComponent
 InfoComponent.propTypes = {
   address: PropTypes.objectOf(PropTypes.string),
   latlong: PropTypes.string,
-  urbanArea: PropTypes.object,
-  weatherCurrent: PropTypes.object
+  weatherCurrent: PropTypes.object,
 }

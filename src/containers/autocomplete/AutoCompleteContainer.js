@@ -9,7 +9,7 @@ import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
 import {isEmpty, isUndefined} from 'lodash-es'
-import getLatLongUrbanArea from '../../utils/LatLongUrbanArea'
+import HEADERS from '../../utils/AlgoliaHeaders'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -45,19 +45,45 @@ class AutoCompleteContainer extends Component {
     if (this.state.city.trim()) {
       try {
         this.setState({showLoader: true})
-        const {data} = await axios.get(
-          `https://api.teleport.org/api/cities/?search=${this.state.city}`
-        )
+        const {hits} = (
+          await axios.request({
+            url: 'https://places-dsn.algolia.net/1/places/query',
+            method: 'post',
+            data: {
+              query: this.state.city,
+              type: 'city',
+              aroundLatLng: this.context.latlong,
+            },
+            headers: HEADERS,
+          })
+        ).data
 
         // populate addresses and show them if matching cities exist
-        if (!isEmpty(data) && !isUndefined(data) && data.count > 0) {
-          const results = data._embedded['city:search-results'].map(
-            (result) => ({
-              cityName: result.matching_full_name,
-              cityId: result._links['city:item'].href.split('/')[5],
-            })
-          )
-          // results is an array of `address` objects with cityName and cityId properties
+        if (!isEmpty(hits) && !isUndefined(hits)) {
+          const results = hits.map((hit) => {
+            // city value lives in default array of locale_names
+            const city = `${
+              hit['locale_names'].en
+                ? hit['locale_names'].en[0]
+                : hit['locale_names'].default[0]
+            }`
+            // state value lives in administrative array
+            const state = `${hit.administrative ? hit.administrative[0] : ''}`
+            // country value lives in country object in different languages and gran the "en" version if available or else the default version
+            const country = `${
+              hit.country.en ? hit.country.en : hit.country.default
+            }`
+
+            // prettier-ignore
+            const cityName = `${!isEmpty(city) ? `${city}, ` : ''}${!isEmpty(state) ? `${state}, ` : ''}${!isEmpty(country) ? `${country}` : ''}`
+            const {lat, lng} = hit['_geoloc']
+            return {
+              cityName: cityName,
+              cityId: hit.objectID,
+              latlong: `${lat},${lng}`,
+            }
+          })
+          // results is an array of `address` objects with cityName, objectID, and latlong properties
           this.setState({
             addresses: results,
             showCaret: true,
@@ -81,7 +107,7 @@ class AutoCompleteContainer extends Component {
   }
 
   toggleAddresses = () => {
-    this.setState((prevState, props) => {
+    this.setState((prevState) => {
       return {
         showAddresses: !prevState.showAddresses,
       }
@@ -96,13 +122,10 @@ class AutoCompleteContainer extends Component {
         city: address.cityName.split(',')[0],
         showAddresses: false,
       })
-      // get latlong and urbanArea and update addressContext state for
-      // address, latlong, and urbanArea
-      const {latlong, urbanArea} = await getLatLongUrbanArea(address.cityId)
+
       this.context.updateState({
         address: address,
-        latlong: latlong,
-        urbanArea: urbanArea,
+        latlong: address.latlong,
       })
     }
   }

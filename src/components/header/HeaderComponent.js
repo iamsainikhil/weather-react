@@ -5,7 +5,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import IconComponent from '../icon/IconComponent'
 import {Link} from 'react-router-dom'
 import {isEmpty} from 'lodash-es'
-import assetsSrcURL from './../../utils/AssetsSrcURL'
+import AssetsSrcURL from '../../utils/AssetsSrcURL'
 
 const HeaderComponent = () => {
   const {theme, toggleTheme} = useContext(ThemeContext)
@@ -15,7 +15,7 @@ const HeaderComponent = () => {
       <div>
         <Link to='/'>
           <img
-            src={`${assetsSrcURL}/logo.png`}
+            src={`${AssetsSrcURL}/logo.png`}
             alt='Logo'
             className='h-12 w-12 object-contain object-center cursor-pointer'
           />
