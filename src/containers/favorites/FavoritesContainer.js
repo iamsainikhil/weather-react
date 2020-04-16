@@ -28,10 +28,19 @@ const FavoritesContainer = () => {
    * scroll to weather component when selectedFavorite is set
    * @param {DOMElement} ref (weatherRef)
    */
-  const scrollToRef = ref => {
+  const scrollToRef = (ref) => {
     if (!isNull(ref.current)) {
       window.scrollTo(0, ref.current.offsetTop)
     }
+  }
+
+  // check whether weatherCurrent exist on selectedFavorite to show/hide weatherForecastContainer
+  const showWeatherForecast = () => {
+    return (
+      !isEmpty(favoriteWeather.weatherCurrent) &&
+      !isUndefined(favoriteWeather.weatherCurrent) &&
+      !isNull(favoriteWeather.weatherCurrent)
+    )
   }
 
   // check whether the cityName is valid
@@ -53,7 +62,7 @@ const FavoritesContainer = () => {
     }
   }
 
-  const selectFavoriteHandler = index => {
+  const selectFavoriteHandler = (index) => {
     if (favorites[index]) {
       emitGA('favorites', favorites[index].address.cityName)
       setSelectedFavorite({...favorites[index]})
@@ -71,7 +80,7 @@ const FavoritesContainer = () => {
         const response = await FetchWeatherData(selectedFavorite)
         // set favoriteWeather only when the data is non-empty
         if (!isEmpty(response) && !isUndefined(response) && !isNull(response)) {
-          setFavoriteWeather(state => ({...state, ...response}))
+          setFavoriteWeather((state) => ({...state, ...response}))
           scrollHandler()
         }
       } catch (err) {
@@ -99,7 +108,7 @@ const FavoritesContainer = () => {
         isUndefined(
           find(
             favorites,
-            favorite =>
+            (favorite) =>
               favorite.address.cityName === selectedFavorite.address.cityName
           )
         )
@@ -144,11 +153,11 @@ const FavoritesContainer = () => {
             <Carousel
               {...CarouselSettings('favorite')}
               slideIndex={slideIndex}
-              afterSlide={slideIndex => selectFavoriteHandler(slideIndex)}>
+              afterSlide={(slideIndex) => selectFavoriteHandler(slideIndex)}>
               {favorites.map((favorite, index) => {
                 return (
                   <FavoriteComponent
-                    key={favorite.latlong}
+                    key={index}
                     favorite={favorite}
                     index={index}
                     selectedIndex={slideIndex}
@@ -164,9 +173,7 @@ const FavoritesContainer = () => {
               <div className='flex sm:flex-row flex-wrap justify-center'>
                 {favorites.map((favorite, index) => {
                   return (
-                    <div
-                      className='m-2 sm:w-1/2 md:w-1/4'
-                      key={favorite.latlong}>
+                    <div className='m-2 sm:w-1/2 md:w-1/4' key={index}>
                       <FavoriteComponent
                         key={favorite.latlong}
                         favorite={favorite}
@@ -185,15 +192,12 @@ const FavoritesContainer = () => {
             TODO: utilize weather container here instead of code repeat
           */}
           <div ref={weatherRef}>
-            {!isEmpty(favoriteWeather.weatherCurrent) &&
-            !isUndefined(favoriteWeather.weatherCurrent) &&
-            !isNull(favoriteWeather.weatherCurrent) ? (
+            {showWeatherForecast() ? (
               <WeatherForecastContainer
                 weatherCurrent={favoriteWeather.weatherCurrent}
                 weatherForecast={favoriteWeather.weatherForecast}
                 address={selectedFavorite.address}
                 latlong={selectedFavorite.latlong}
-                urbanArea={selectedFavorite.urbanArea}
               />
             ) : (
               <Fragment>

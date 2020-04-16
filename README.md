@@ -44,11 +44,17 @@ git clone -b local-setup https://github.com/iamsainikhil/weather-react.git
 
 - Create a `.env` file in the root directory of the project. Add the following properties in it:
 
-```bash
+  ```bash
 
-REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
+  REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
 
-```
+  REACT_APP_ALGOLIA_PLACES_APP_ID=<your Algolia Places APP ID> (Optional)
+
+  REACT_APP_ALGOLIA_PLACES_API_KEY=<your Algolia Places Search-Only API Key> (Optional)
+
+  ```
+
+  _You can obtain your Algolia Places API key **[here](https://community.algolia.com/places/pricing.html)**. You will get higher rate limits if you sign up and provide an api key OR it's just limited to **1000** requests/day! Moreover, code logic handles the scenario where no Algolia App ID & API key are provided.\*_
 
 _That's it! You can run the below available scripts to get up and running on the localhost. If you want to dive deeper into the codebase, I recommend you to check the architecture documentation to customize this application as your wish._
 
@@ -137,6 +143,10 @@ There are so many weather-related applications out in the wild. So, the goal is 
 - First, I used the OpenWeatherMap API to fetch the weather forecast data. However, 5-day forecast data was not reliable i.e. _when a user on 14th March 2020 at 7:00 PM EST tries to fetch 5-day forecast data, will get forecast data starting 15th March 2020 at 12:00 AM UTC._ This posed a big problem of categorizing 5-day data into individual days since the data is not always consistent and is based on UTC and not based on the user timezone. Finally, I switched to Dark Sky API which is more reliable and provides a robust data model. However, there is a limit of `1000` calls/day.
 
 - Dark Sky API needs a proxy server to send and receive a response which was easy in the development stage using a browser extension like **[this](https://chrome.google.com/webstore/detail/moesif-orign-cors-changer/digfbfaphojjndkpccljibejjbppifbc)** to enable CORS in the browser. However, I can't ask every user to install this extension in their browser to check the weather forecast. So, I overcome this issue temporarily for now using the `cors-anywhere` library which you can get more info by checking **[here](https://github.com/Rob--W/cors-anywhere)**.
+
+- Latest challenge I encountered is that **Teleport** API is permanantly shutdown and this led to broken autocomplete city search, and photos for favorited cities. Moreover, there is a tight coupling of code logic with this API. Now, I made a well thought highly scalable solution of using **Algolia Places** Rest API for fetching address based on city query as well as fetching city name based on latitude and longitude. I am very much about this change since it removed a lot of bad code and improved the application load times and performance.
+
+  _Note: The application UI/UX is not affected with this API change._
 
 ## 📖 Architecture
 
