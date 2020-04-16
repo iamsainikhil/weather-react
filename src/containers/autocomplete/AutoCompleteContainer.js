@@ -76,7 +76,8 @@ class AutoCompleteContainer extends Component {
               hit.country.en ? hit.country.en : hit.country.default
             }`
 
-            const cityName = `${city}, ${state}, ${country}`
+            // prettier-ignore
+            const cityName = `${!isEmpty(city) ? `${city}, ` : ''}${!isEmpty(state) ? `${state}, ` : ''}${!isEmpty(country) ? `${country}` : ''}`
             const {lat, lng} = hit['_geoloc']
             return {
               cityName: cityName,
