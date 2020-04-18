@@ -10,6 +10,7 @@ import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
 import {isEmpty, isUndefined} from 'lodash-es'
 import HEADERS from '../../utils/AlgoliaHeaders'
+import validName from '../../utils/ValidCityName'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -75,7 +76,7 @@ class AutoCompleteContainer extends Component {
             }`
 
             // prettier-ignore
-            const cityName = `${!isEmpty(city) ? `${city}, ` : ''}${!isEmpty(state) ? `${state}, ` : ''}${!isEmpty(country) ? `${country}` : ''}`
+            const cityName = `${validName(city)}${validName(state)}${validName(country, false)}`
             const {lat, lng} = hit['_geoloc']
             return {
               cityName: cityName,

@@ -3,6 +3,7 @@ import {PropTypes} from 'prop-types'
 import axios from 'axios'
 import {isEmpty, isUndefined} from 'lodash-es'
 import HEADERS from '../utils/AlgoliaHeaders'
+import validName from './../utils/ValidCityName'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
@@ -44,9 +45,13 @@ class AddressContextProvider extends Component {
       hit = hits[0]
 
       if (!isEmpty(hit) && !isUndefined(hit)) {
-        const cityName = `${hit.city ? hit.city[0] : ''}, ${
-          hit.administrative ? hit.administrative[0] : ''
-        }, ${hit.country ? hit.country : ''}`
+        const city = hit.city ? hit.city[0] : ''
+        const state = hit.administrative ? hit.administrative[0] : ''
+        const country = hit.country ? hit.country : ''
+        const cityName = `${validName(city)}${validName(state)}${validName(
+          country,
+          false
+        )}`
         const cityId = hit.objectID ? hit.objectID : ''
         this.updateState({
           address: {
