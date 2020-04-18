@@ -8,10 +8,11 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
-import {isEmpty, isUndefined, isNull} from 'lodash-es'
+import {isEmpty, isUndefined} from 'lodash-es'
 import * as Sentry from '@sentry/browser'
 import {Event} from '../../utils/ReactAnalytics'
 import HEADERS from '../../utils/AlgoliaHeaders'
+import validName from '../../utils/ValidCityName'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -29,12 +30,6 @@ class AutoCompleteContainer extends Component {
 
   handleError(message) {
     this.setState({errorMessage: message})
-  }
-
-  validName(name, showDelimeter = true) {
-    return !isEmpty(name) && !isUndefined(name) && !isNull(name)
-      ? `${name}${showDelimeter ? ', ' : ''}`
-      : ''
   }
 
   // debounced function
@@ -83,7 +78,7 @@ class AutoCompleteContainer extends Component {
             }`
 
             // prettier-ignore
-            const cityName = `${this.validName(city)}${this.validName(state)}${this.validName(country, false)}`
+            const cityName = `${validName(city)}${validName(state)}${validName(country, false)}`
             const {lat, lng} = hit['_geoloc']
             return {
               cityName: cityName,
