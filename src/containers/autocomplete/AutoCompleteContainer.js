@@ -8,7 +8,7 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
-import {isEmpty, isUndefined} from 'lodash-es'
+import {isEmpty, isUndefined, isNull} from 'lodash-es'
 import * as Sentry from '@sentry/browser'
 import {Event} from '../../utils/ReactAnalytics'
 import HEADERS from '../../utils/AlgoliaHeaders'
@@ -29,6 +29,12 @@ class AutoCompleteContainer extends Component {
 
   handleError(message) {
     this.setState({errorMessage: message})
+  }
+
+  validName(name, showDelimeter = true) {
+    return !isEmpty(name) && !isUndefined(name) && !isNull(name)
+      ? `${name}${showDelimeter ? ', ' : ''}`
+      : ''
   }
 
   // debounced function
@@ -77,7 +83,7 @@ class AutoCompleteContainer extends Component {
             }`
 
             // prettier-ignore
-            const cityName = `${!isEmpty(city) ? `${city}, ` : ''}${!isEmpty(state) ? `${state}, ` : ''}${!isEmpty(country) ? `${country}` : ''}`
+            const cityName = `${this.validName(city)}${this.validName(state)}${this.validName(country, false)}`
             const {lat, lng} = hit['_geoloc']
             return {
               cityName: cityName,
