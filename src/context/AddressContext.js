@@ -62,23 +62,33 @@ class AddressContextProvider extends Component {
     }
   }
 
+  getIPAddress = async () => {
+    try {
+      const {data} = await axios.get('https://ipapi.co/json')
+      const latlong = this.formatCoords(data.latitude, data.longitude)
+      this.updateAddress(latlong)
+    } catch (error) {
+      Sentry.captureException(error)
+    }
+  }
+
   getAddress = async () => {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const latlong = this.formatCoords(
-          position.coords.latitude,
-          position.coords.longitude
-        )
-        this.updateAddress(latlong)
-      })
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const latlong = this.formatCoords(
+            position.coords.latitude,
+            position.coords.longitude
+          )
+          this.updateAddress(latlong)
+        },
+        (error) => {
+          console.error(error)
+          this.getIPAddress()
+        }
+      )
     } else {
-      try {
-        const {data} = await axios.get('https://ipapi.co/json')
-        const latlong = this.formatCoords(data.latitude, data.longitude)
-        this.updateAddress(latlong)
-      } catch (error) {
-        Sentry.captureException(error)
-      }
+      this.getIPAddress()
     }
   }
 
