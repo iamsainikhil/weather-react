@@ -33,7 +33,7 @@ class AutoCompleteContainer extends Component {
   }
 
   // debounced function
-  debounceAddress = debounce(this.getAddresses, 1000)
+  debounceAddress = debounce(this.getAddresses, 1500)
 
   searchCity = (event) => {
     this.setState({city: event.target.value, errorMessage: ''})

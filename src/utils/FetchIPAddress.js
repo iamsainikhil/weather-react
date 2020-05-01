@@ -1,16 +1,16 @@
 import axios from 'axios'
 import * as Sentry from '@sentry/browser'
+import API_URL from './API'
 
 const fetchIPAddress = async () => {
-  let ip = ''
   try {
-    const {data} = await axios.get('https://ipapi.co/json')
-    ip = data.ip
+    const {data} = (await axios.get(`${API_URL}/ipinfo`)).data
+    return data
   } catch (err) {
     Sentry.captureException(err)
   }
 
-  return ip
+  return
 }
 
 export default fetchIPAddress

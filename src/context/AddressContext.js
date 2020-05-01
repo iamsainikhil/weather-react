@@ -4,7 +4,8 @@ import axios from 'axios'
 import * as Sentry from '@sentry/browser'
 import {isEmpty, isUndefined} from 'lodash-es'
 import validName from './../utils/ValidCityName'
-import API_URL from './../utils/API'
+import fetchIPAddress from './../utils/FetchIPAddress'
+import API_URL from '../utils/API'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
@@ -64,9 +65,11 @@ class AddressContextProvider extends Component {
 
   getIPAddress = async () => {
     try {
-      const {data} = await axios.get('https://ipapi.co/json')
-      const latlong = this.formatCoords(data.latitude, data.longitude)
-      this.updateAddress(latlong)
+      const data = await fetchIPAddress()
+      if (!isEmpty(data) && !isUndefined(data)) {
+        const latlong = data.loc
+        this.updateAddress(latlong)
+      }
     } catch (error) {
       Sentry.captureException(error)
     }
