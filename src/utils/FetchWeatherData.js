@@ -22,8 +22,7 @@ const FetchWeatherData = async ({latlong}) => {
   // fetch weather data only when latlong is valid to avoid uneccessary API calls
   if (!isUndefined(latlong) && !isEmpty(latlong) && !isNull(latlong)) {
     try {
-      const {data} = (await axios.get(getURL(latlong))).data
-      const weatherData = data
+      const weatherData = (await axios.get(getURL(latlong))).data
       if (!isEmpty(weatherData) && !isUndefined(weatherData)) {
         // NOTE: add timezone property to current, days, and timeFrame data to use it later for
         // displaying weatherIcon with day or night variants specific to location timezone

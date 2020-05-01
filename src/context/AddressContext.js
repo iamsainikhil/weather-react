@@ -36,10 +36,10 @@ class AddressContextProvider extends Component {
   updateAddress = async (latlong) => {
     let hit = {}
     try {
-      const {data} = (
+      const {hits} = (
         await axios.get(`${API_URL}/address/coords/${latlong}`)
       ).data
-      hit = data.hits[0]
+      hit = hits[0]
 
       if (!isEmpty(hit) && !isUndefined(hit)) {
         const city = hit.city ? hit.city[0] : ''
@@ -65,11 +65,9 @@ class AddressContextProvider extends Component {
 
   getIPAddress = async () => {
     try {
-      const data = await fetchIPAddress()
-      if (!isEmpty(data) && !isUndefined(data)) {
-        const latlong = data.loc
-        this.updateAddress(latlong)
-      }
+      // loc is combined form of lat and long
+      const {loc} = await fetchIPAddress()
+      this.updateAddress(loc)
     } catch (error) {
       Sentry.captureException(error)
     }

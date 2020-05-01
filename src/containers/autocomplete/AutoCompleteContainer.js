@@ -33,7 +33,7 @@ class AutoCompleteContainer extends Component {
   }
 
   // debounced function
-  debounceAddress = debounce(this.getAddresses, 1500)
+  debounceAddress = debounce(this.getAddresses, 1250)
 
   searchCity = (event) => {
     this.setState({city: event.target.value, errorMessage: ''})
@@ -57,13 +57,11 @@ class AutoCompleteContainer extends Component {
             ? this.context.latlong
             : '00,00'
 
-        const {data} = (
+        const {hits} = (
           await axios.get(
             `${API_URL}/places/query/${this.state.city}/${latlong}`
           )
         ).data
-
-        const {hits} = data
 
         // populate addresses and show them if matching cities exist
         if (!isEmpty(hits) && !isUndefined(hits)) {

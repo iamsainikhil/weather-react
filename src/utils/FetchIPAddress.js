@@ -4,13 +4,11 @@ import API_URL from './API'
 
 const fetchIPAddress = async () => {
   try {
-    const {data} = (await axios.get(`${API_URL}/ipinfo`)).data
+    const {data} = await axios.get(`${API_URL}/ipinfo`)
     return data
   } catch (err) {
     Sentry.captureException(err)
   }
-
-  return
 }
 
 export default fetchIPAddress
