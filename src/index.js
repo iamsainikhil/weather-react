@@ -34,7 +34,7 @@ const logRocketSetup = async () => {
   if (!isUndefined(ipaddresses)) {
     // fetch ip address and check if it matches any one of the ipaddresses
     // initLogRocket when ip is not in the ignore list or ip fetch fail
-    const {ip} = (await axios.get('https://ipapi.co/json')).data
+    const {ip} = (await axios.get('https://api.myip.com')).data
     if (
       !isUndefined(ip) &&
       !ipaddresses.split(',').includes(ip) &&
