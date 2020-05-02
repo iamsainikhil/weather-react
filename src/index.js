@@ -4,11 +4,11 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import {ThemeContextProvider} from './context/ThemeContext'
 import App from './App'
 import './styles/main.css'
+import axios from 'axios'
 import * as serviceWorker from './serviceWorker'
 import * as Sentry from '@sentry/browser'
 import LogRocket from 'logrocket'
 import setupLogRocketReact from 'logrocket-react'
-import fetchIPAddress from './utils/FetchIPAddress'
 import {isUndefined} from 'lodash-es'
 
 const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
@@ -34,7 +34,7 @@ const logRocketSetup = async () => {
   if (!isUndefined(ipaddresses)) {
     // fetch ip address and check if it matches any one of the ipaddresses
     // initLogRocket when ip is not in the ignore list or ip fetch fail
-    const {ip} = await fetchIPAddress()
+    const {ip} = (await axios.get('https://ipapi.co/json')).data
     if (
       !isUndefined(ip) &&
       !ipaddresses.split(',').includes(ip) &&
