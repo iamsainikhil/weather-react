@@ -18,6 +18,7 @@ const getURL = (latlong) => {
 const FetchWeatherData = async ({latlong}) => {
   let weatherCurrent = {}
   let weatherForecast = {}
+  let alert = {}
 
   // fetch weather data only when latlong is valid to avoid uneccessary API calls
   if (!isUndefined(latlong) && !isEmpty(latlong) && !isNull(latlong)) {
@@ -60,6 +61,13 @@ const FetchWeatherData = async ({latlong}) => {
         })
 
         weatherForecast = {timeFrames, days}
+
+        if (!isUndefined(weatherData.alerts) && !isEmpty(weatherData.alerts)) {
+          alert = {
+            timezone,
+            ...weatherData.alerts[0],
+          }
+        }
       }
     } catch (err) {
       Sentry.captureException(err)
@@ -69,6 +77,7 @@ const FetchWeatherData = async ({latlong}) => {
   return {
     weatherCurrent,
     weatherForecast,
+    alert,
   }
 }
 

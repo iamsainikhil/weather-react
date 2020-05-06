@@ -196,6 +196,7 @@ const FavoritesContainer = () => {
               <WeatherForecastContainer
                 weatherCurrent={favoriteWeather.weatherCurrent}
                 weatherForecast={favoriteWeather.weatherForecast}
+                alert={favoriteWeather.alert}
                 address={selectedFavorite.address}
                 latlong={selectedFavorite.latlong}
               />

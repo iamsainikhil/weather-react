@@ -6,10 +6,13 @@ import ForecastContainer from './../forecast/ForecastContainer'
 import emitGA from './../../utils/MiscTrackEvents'
 import './WeatherForecastStyle.scss'
 import AssetsSrcURL from '../../utils/AssetsSrcURL'
+import AlertComponent from '../../components/weather/AlertComponent'
+import {isEmpty} from 'lodash-es'
 
 const WeatherForecastContainer = ({
   weatherCurrent,
   weatherForecast,
+  alert,
   address,
   latlong,
 }) => {
@@ -108,6 +111,13 @@ const WeatherForecastContainer = ({
             Dark Sky
           </a>
         </p>
+
+        {/* weather alert */}
+        {!isEmpty(alert) ? (
+          <div className='my-1'>
+            <AlertComponent alert={alert} />
+          </div>
+        ) : null}
       </div>
     </Fragment>
   )

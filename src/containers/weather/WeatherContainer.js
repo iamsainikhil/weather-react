@@ -11,6 +11,7 @@ const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
   const [weatherForecast, setWeatherForecast] = useState({})
   const [weatherCurrent, setWeatherCurrent] = useState({})
+  const [alert, setAlert] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
@@ -42,21 +43,22 @@ const WeatherContainer = () => {
     return false
   }
 
-  const setWeatherData = (current, forecast) => {
+  const setWeatherData = (current, forecast, alert) => {
     if (!isEmpty(current) && !isEmpty(forecast)) {
       setWeatherCurrent(current)
       setWeatherForecast(forecast)
+      setAlert(alert)
     }
   }
 
   const fetchWeatherData = async () => {
     try {
-      const {weatherCurrent, weatherForecast} = await FetchWeatherData(
+      const {weatherCurrent, weatherForecast, alert} = await FetchWeatherData(
         addressContext
       )
       // set the weatherCurrent and weatherForecast only when the data is non-empty
       // this way, the old fetched data can be preserved when api call fail or limit exceed
-      setWeatherData(weatherCurrent, weatherForecast)
+      setWeatherData(weatherCurrent, weatherForecast, alert)
       // set the error to false state with the above successful weather data fetch
       setIsError(false)
     } catch (err) {
@@ -70,6 +72,7 @@ const WeatherContainer = () => {
   useEffect(() => {
     setIsLoading(true)
     fetchWeatherData()
+    // fetch weather data every 60 minutes
     const timer = setInterval(() => {
       fetchWeatherData()
     }, 3600000)
@@ -115,6 +118,7 @@ const WeatherContainer = () => {
                 <WeatherForecastContainer
                   weatherCurrent={weatherCurrent}
                   weatherForecast={weatherForecast}
+                  alert={alert}
                   address={addressContext.address}
                   latlong={addressContext.latlong}
                 />
