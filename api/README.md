@@ -2,4 +2,4 @@
 
 [_Production API_](https://weather-react-api.now.sh)
 
-### ❕ **Detailed API endpoints Documentation will be added soon...**
+## _API_ documentation on [**Postman**](https://documenter.getpostman.com/view/11333824/Szme4J4W)
