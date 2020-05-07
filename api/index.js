@@ -4,40 +4,32 @@ const port = process.env.PORT || 3001
 
 // Configure app to use bodyParser to parse json data
 const app = express()
-const server = require('http').createServer(app)
 
+const server = require('http').createServer(app)
 require('dotenv').config()
 
 // custom HTTP headers for authenticating requests sent to Algolia places server
 const HEADERS = {
-  'X-Algolia-Application-Id': process.env.REACT_APP_ALGOLIA_PLACES_APP_ID || '',
-  'X-Algolia-API-Key': process.env.REACT_APP_ALGOLIA_PLACES_API_KEY || '',
+  'X-Algolia-Application-Id': process.env.ALGOLIA_PLACES_APP_ID || '',
+  'X-Algolia-API-Key': process.env.ALGOLIA_PLACES_API_KEY || '',
 }
+const DARKSKY_API_KEY = process.env.DARKSKY_API_KEY
 
-const DARKSKY_API_KEY = process.env.REACT_APP_DARKSKY_API_KEY
-
-// Test server is working (GET http://localhost:3001/api)
-app.get('/api/', function (req, res) {
-  res.json({message: 'Hi, welcome to the server api!'})
-})
-
-// Fetch weather forecast based on latlong
-app.get('/forecast/coords/:latlong', (req, res) => {
-  const {latlong} = req.params
-  const url = `https://api.darksky.net/forecast/${DARKSKY_API_KEY}/${latlong}?extend=hourly&exclude=minutely,flags`
-  axios
-    .get(url)
-    .then((response) => {
-      const data = response.data
-      res.status(200)
-      res.send({
-        data,
-      })
-    })
-    .catch((err) => {
-      res.status(err.response ? err.response.status : 500)
-      res.send(err.message || 'Something went wrong! Please try again later.')
-    })
+// Test server is working (GET http://localhost:3001/)
+app.get('/', function (req, res) {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>Weather React API</title>
+    </head>
+    <body>
+      <h1>Welcome to <a href="https://iamsainikhil.github.io/weather-react" target="_blank" rel="noreferrer noopener">Weather React</a> application's proxy server</h1>
+    </body>
+    </html>
+  `)
 })
 
 // Fetch address based on latlong
@@ -47,11 +39,26 @@ app.get('/address/coords/:latlong', (req, res) => {
   axios
     .get(url, {headers: HEADERS})
     .then((response) => {
-      const data = response.data
+      const {data} = response
       res.status(200)
-      res.send({
-        data,
-      })
+      res.json(data)
+    })
+    .catch((err) => {
+      res.status(err.response ? err.response.status : 500)
+      res.send(err.message || 'Something went wrong! Please try again later.')
+    })
+})
+
+// Fetch weather forecast based on latlong
+app.get('/forecast/coords/:latlong', (req, res) => {
+  const {latlong} = req.params
+  const url = `https://api.darksky.net/forecast/${DARKSKY_API_KEY}/${latlong}?extend=hourly&exclude=minutely,flags`
+  axios
+    .get(url)
+    .then((response) => {
+      const {data} = response
+      res.status(200)
+      res.json(data)
     })
     .catch((err) => {
       res.status(err.response ? err.response.status : 500)
@@ -61,7 +68,6 @@ app.get('/address/coords/:latlong', (req, res) => {
 
 // Fetch address list based on query
 app.get('/places/query/:city/:latlong', (req, res) => {
-  console.log(req.params)
   const {city, latlong} = req.params
   axios
     .request({
@@ -75,11 +81,9 @@ app.get('/places/query/:city/:latlong', (req, res) => {
       headers: HEADERS,
     })
     .then((response) => {
-      const data = response.data
+      const {data} = response
       res.status(200)
-      res.send({
-        data,
-      })
+      res.json(data)
     })
     .catch((err) => {
       res.status(err.response ? err.response.status : 500)

@@ -142,7 +142,7 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
 - First, I used the OpenWeatherMap API to fetch the weather forecast data. However, 5-day forecast data was not reliable i.e. _when a user on 14th March 2020 at 7:00 PM EST tries to fetch 5-day forecast data, will get forecast data starting 15th March 2020 at 12:00 AM UTC._ This posed a big problem of categorizing 5-day data into individual days since the data is not always consistent and is based on UTC and not based on the user timezone. Finally, I switched to Dark Sky API which is more reliable and provides a robust data model. However, there is a limit of `1000` calls/day.
 
-- Dark Sky API needs a proxy server to send and receive a response which was easy in the development stage using a browser extension like **[this](https://chrome.google.com/webstore/detail/moesif-orign-cors-changer/digfbfaphojjndkpccljibejjbppifbc)** to enable CORS in the browser. However, I can't ask every user to install this extension in their browser to check the weather forecast. So, I overcome this issue temporarily for now using the `cors-anywhere` library which you can get more info by checking **[here](https://github.com/Rob--W/cors-anywhere)**.
+- Dark Sky API needs a proxy server to send and receive a response which was easy in the development stage using a browser extension like **[this](https://chrome.google.com/webstore/detail/moesif-orign-cors-changer/digfbfaphojjndkpccljibejjbppifbc)** to enable CORS in the browser. However, I can't ask every user to install this extension in their browser to check the weather forecast. So, I overcome this issue temporarily for now using the `cors-anywhere` library which you can get more info by checking **[here](https://github.com/Rob--W/cors-anywhere)**. However, I overcome the temporary solution and built a proxy server by deploying the _Node.js_ API functions on the **Vercel**'s serverless architecture and can be accessed **[here](https://weather-react-api.now.sh)**.
 
 - Latest challenge I encountered is that **Teleport** API is temporarily shutdown and this led to broken autocomplete city search, and photos for favorited cities. Moreover, there is a tight coupling of code logic with this API. Now, I made a well thought highly scalable solution of using **Algolia Places** Rest API for fetching address based on city query as well as fetching city name based on latitude and longitude. I am very much happy about this change since it removed a lot of bad code and improved the application load times and performance.
 
@@ -156,7 +156,7 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
 ## 🏎 Roadmap
 
-- [ ] Build a proxy server using Express for Dark Sky API requests
+- [x] Build a proxy server using Express for Dark Sky API requests
 
 - [ ] Unit Testing
 

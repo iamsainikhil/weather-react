@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "builds": [{"src": "index.js", "use": "@now/node-server"}],
+  "routes": [
+    {
+      "src": ".*",
+      "methods": ["GET", "OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "https://iamsainikhil.github.io"
+      },
+      "dest": "/index.js",
+      "continue": true
+    },
+    {
+      "src": "/address/coords/(?<latlong>[^/]+)"
+    },
+    {
+      "src": "/forecast/coords/(?<latlong>[^/]+)"
+    },
+    {
+      "src": "/places/query/(?<city>[^/]+)/(?<latlong>[^/]+)"
+    }
+  ]
+}
