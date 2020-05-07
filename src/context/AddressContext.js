@@ -82,6 +82,7 @@ class AddressContextProvider extends Component {
           false
         )}`
         const cityId = hit.objectID ? hit.objectID : ''
+        // country_code in hit will be in lowercase
         const countryCode = hit.country_code
           ? hit.country_code.toUpperCase()
           : ''
@@ -107,14 +108,21 @@ class AddressContextProvider extends Component {
     try {
       const data = await fetchIPAddress()
       if (isValid(data)) {
-        const {lat, lon, city, regionName, country, countryCode} = data
-        const cityName = `${city}, ${regionName}, ${country}`
-        this.updateWeatherUnit(countryCode)
+        const {
+          latitude,
+          longitude,
+          city,
+          region,
+          country_name,
+          country_code,
+        } = data
+        const cityName = `${city}, ${region}, ${country_name}`
+        this.updateWeatherUnit(country_code)
         this.updateState({
           address: {
             cityName,
           },
-          latlong: this.formatCoords(lat, lon),
+          latlong: this.formatCoords(latitude, longitude),
         })
       }
     } catch (error) {

@@ -3,9 +3,7 @@ import * as Sentry from '@sentry/browser'
 
 const fetchIPAddress = async () => {
   try {
-    const {data} = await axios.get(
-      'http://ip-api.com/json/?fields=status,country,countryCode,regionName,city,lat,lon,query'
-    )
+    const {data} = await axios.get('https://ipapi.co/json')
     return data
   } catch (err) {
     Sentry.captureException(err)
