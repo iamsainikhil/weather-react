@@ -55,6 +55,13 @@ class AddressContextProvider extends Component {
     return `${latitude},${longitude}`
   }
 
+  updateWeatherUnit = (countryCode) => {
+    // update the weatherUnit to 'F' if the countryCode is a special country code
+    if (SPECIAL_COUNTRY_CODES.includes(countryCode)) {
+      this.context.updateWeatherUnit('F')
+    }
+  }
+
   /**
    * update address using reverse geocoding of Algolia PLaces to obtain city, state, country, cityID
    */
@@ -75,6 +82,10 @@ class AddressContextProvider extends Component {
           false
         )}`
         const cityId = hit.objectID ? hit.objectID : ''
+        const countryCode = hit.country_code
+          ? hit.country_code.toUpperCase()
+          : ''
+        this.updateWeatherUnit(countryCode)
         this.updateState({
           address: {
             cityName,
@@ -98,10 +109,7 @@ class AddressContextProvider extends Component {
       if (isValid(data)) {
         const {lat, lon, city, regionName, country, countryCode} = data
         const cityName = `${city}, ${regionName}, ${country}`
-        // update the weatherUnit to 'F' if the countryCode is a special country code
-        if (SPECIAL_COUNTRY_CODES.includes(countryCode)) {
-          this.context.updateWeatherUnit('F')
-        }
+        this.updateWeatherUnit(countryCode)
         this.updateState({
           address: {
             cityName,
