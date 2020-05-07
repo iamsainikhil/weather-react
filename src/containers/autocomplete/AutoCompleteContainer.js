@@ -8,11 +8,11 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
-import {isEmpty, isUndefined, isNull} from 'lodash-es'
 import * as Sentry from '@sentry/browser'
 import {Event} from '../../utils/ReactAnalytics'
 import validName from '../../utils/ValidCityName'
 import API_URL from './../../utils/API'
+import isValid from '../../utils/ValidityChecker'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -50,12 +50,9 @@ class AutoCompleteContainer extends Component {
         this.setState({showLoader: true})
         // the below latlong check is just a workaround for accessing correct api route
         // otherwise, no matter how good the city name is, when latlong is empty user will get 404 since there is no route without latlong on the api server
-        const latlong =
-          !isEmpty(this.context.latlong) &&
-          !isUndefined(this.context.latlong) &&
-          !isNull(this.context.latlong)
-            ? this.context.latlong
-            : '00,00'
+        const latlong = isValid(this.context.latlong)
+          ? this.context.latlong
+          : '00,00'
 
         const {hits} = (
           await axios.get(
@@ -64,7 +61,7 @@ class AutoCompleteContainer extends Component {
         ).data
 
         // populate addresses and show them if matching cities exist
-        if (!isEmpty(hits) && !isUndefined(hits)) {
+        if (isValid(hits)) {
           const results = hits.map((hit) => {
             // city value lives in default array of locale_names
             const city = `${

@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import {PropTypes} from 'prop-types'
 import axios from 'axios'
 import * as Sentry from '@sentry/browser'
-import {isEmpty, isUndefined} from 'lodash-es'
 import validName from './../utils/ValidCityName'
 import fetchIPAddress from './../utils/FetchIPAddress'
 import API_URL from '../utils/API'
+import isValid from '../utils/ValidityChecker'
+import {isUndefined} from 'lodash-es'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
@@ -41,7 +42,7 @@ class AddressContextProvider extends Component {
       ).data
       hit = hits[0]
 
-      if (!isEmpty(hit) && !isUndefined(hit)) {
+      if (isValid(hit)) {
         const city = hit.city ? hit.city[0] : ''
         const state = hit.administrative ? hit.administrative[0] : ''
         const country = hit.country ? hit.country : ''
@@ -65,9 +66,12 @@ class AddressContextProvider extends Component {
 
   getIPAddress = async () => {
     try {
-      // loc is combined form of lat and long
-      const {loc} = await fetchIPAddress()
-      this.updateAddress(loc)
+      const {lat, lon} = await fetchIPAddress()
+      // update address if lat & lon are not undefined
+      // isValid cannot be used on lat and lon which are of type Number
+      if (!isUndefined(lat) && !isUndefined(lon)) {
+        this.updateAddress(this.formatCoords(lat, lon))
+      }
     } catch (error) {
       Sentry.captureException(error)
     }

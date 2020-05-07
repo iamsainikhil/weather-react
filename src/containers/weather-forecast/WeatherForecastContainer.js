@@ -1,4 +1,4 @@
-import React, {useContext, Fragment} from 'react'
+import React, {useContext, Fragment, useState} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 import getWeatherBackground from './../../utils/WeatherBackground'
 import CurrentWeatherContainer from './../current-weather/CurrentWeatherContainer'
@@ -12,7 +12,7 @@ import {isEmpty} from 'lodash-es'
 const WeatherForecastContainer = ({
   weatherCurrent,
   weatherForecast,
-  alert,
+  alerts,
   address,
   latlong,
 }) => {
@@ -31,6 +31,12 @@ const WeatherForecastContainer = ({
   const imageBorder = {
     borderTopLeftRadius: '1rem',
     borderTopRightRadius: '1rem',
+  }
+
+  const [showAlerts, setShowAlerts] = useState(false)
+
+  const toggleWeatherAlerts = () => {
+    setShowAlerts(!showAlerts)
   }
 
   return (
@@ -112,12 +118,32 @@ const WeatherForecastContainer = ({
           </a>
         </p>
 
-        {/* weather alert */}
-        {!isEmpty(alert) ? (
-          <div className='my-1'>
-            <AlertComponent alert={alert} />
+        {/* weather alerts */}
+        {!isEmpty(alerts) ? (
+          <div className='text-center pb-5'>
+            <p>
+              <button
+                className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}
+                onClick={toggleWeatherAlerts}>
+                {showAlerts ? 'Hide' : 'View'} Weather Alerts
+              </button>
+            </p>
           </div>
         ) : null}
+
+        <div>
+          {showAlerts ? (
+            <p>
+              {alerts.map((alert, index) => {
+                return (
+                  <div className='my-2'>
+                    <AlertComponent alert={alert} key={index} />
+                  </div>
+                )
+              })}
+            </p>
+          ) : null}
+        </div>
       </div>
     </Fragment>
   )

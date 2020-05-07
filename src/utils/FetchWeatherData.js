@@ -1,9 +1,9 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
-import {isUndefined, isEmpty, isNull} from 'lodash-es'
 import FormatTime from './FormatTime'
 import * as Sentry from '@sentry/browser'
 import API_URL from './API'
+import isValid from './ValidityChecker'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -18,13 +18,13 @@ const getURL = (latlong) => {
 const FetchWeatherData = async ({latlong}) => {
   let weatherCurrent = {}
   let weatherForecast = {}
-  let alert = {}
+  let alerts = []
 
   // fetch weather data only when latlong is valid to avoid uneccessary API calls
-  if (!isUndefined(latlong) && !isEmpty(latlong) && !isNull(latlong)) {
+  if (isValid(latlong)) {
     try {
       const weatherData = (await axios.get(getURL(latlong))).data
-      if (!isEmpty(weatherData) && !isUndefined(weatherData)) {
+      if (isValid(weatherData)) {
         // NOTE: add timezone property to current, days, and timeFrame data to use it later for
         // displaying weatherIcon with day or night variants specific to location timezone
         // parsing sunriseTime & sunsetTime according to the timezone
@@ -62,11 +62,13 @@ const FetchWeatherData = async ({latlong}) => {
 
         weatherForecast = {timeFrames, days}
 
-        if (!isUndefined(weatherData.alerts) && !isEmpty(weatherData.alerts)) {
-          alert = {
-            timezone,
-            ...weatherData.alerts[0],
-          }
+        if (isValid(weatherData.alerts)) {
+          weatherData.alerts.forEach((alert) => {
+            alerts.push({
+              timezone,
+              ...alert,
+            })
+          })
         }
       }
     } catch (err) {
@@ -77,7 +79,7 @@ const FetchWeatherData = async ({latlong}) => {
   return {
     weatherCurrent,
     weatherForecast,
-    alert,
+    alerts,
   }
 }
 
