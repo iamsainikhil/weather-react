@@ -46,9 +46,14 @@ const AlertComponent = ({alert}) => {
               {/* regions */}
               {isValid(regions) ? (
                 <p className='text-sm font-medium'>
-                  Regions:&nbsp;
+                  <b>Regions:&nbsp;</b>
                   {regions.map((region, index) => {
-                    return <span key={index}>{region}</span>
+                    return (
+                      <i key={index}>
+                        {region}
+                        {index === regions.length - 1 ? '.' : ', '}
+                      </i>
+                    )
                   })}
                 </p>
               ) : null}

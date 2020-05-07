@@ -33,7 +33,7 @@ const WeatherForecastContainer = ({
     borderTopRightRadius: '1rem',
   }
 
-  const [showAlerts, setShowAlerts] = useState(false)
+  const [showAlerts, setShowAlerts] = useState(true)
 
   const toggleWeatherAlerts = () => {
     setShowAlerts(!showAlerts)
@@ -120,30 +120,31 @@ const WeatherForecastContainer = ({
 
         {/* weather alerts */}
         {!isEmpty(alerts) ? (
-          <div className='text-center pb-5'>
-            <p>
-              <button
-                className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}
-                onClick={toggleWeatherAlerts}>
-                {showAlerts ? 'Hide' : 'View'} Weather Alerts
-              </button>
-            </p>
-          </div>
+          <Fragment>
+            <div className='text-center pb-5'>
+              <p>
+                <button
+                  className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}
+                  onClick={toggleWeatherAlerts}>
+                  {showAlerts ? 'Hide' : 'View'} Weather Alerts
+                </button>
+              </p>
+            </div>
+            <div>
+              {showAlerts ? (
+                <Fragment>
+                  {alerts.map((alert, index) => {
+                    return (
+                      <div className='my-2' key={index}>
+                        <AlertComponent alert={alert} />
+                      </div>
+                    )
+                  })}
+                </Fragment>
+              ) : null}
+            </div>
+          </Fragment>
         ) : null}
-
-        <div>
-          {showAlerts ? (
-            <p>
-              {alerts.map((alert, index) => {
-                return (
-                  <div className='my-2'>
-                    <AlertComponent alert={alert} key={index} />
-                  </div>
-                )
-              })}
-            </p>
-          ) : null}
-        </div>
       </div>
     </Fragment>
   )
