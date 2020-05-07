@@ -1,14 +1,21 @@
 {
-  "name": "proxy-server",
+  "name": "weather-react-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "An express based serverless API function to provide data for weather-react app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node index.js"
+    "start": "node index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "Weather React",
+    "Dark Sky",
+    "Proxy Server",
+    "Serverless API Function"
+  ],
   "author": "Sai Nikhil",
+  "license": "MIT",
+  "repository": "weather-react-api",
   "dependencies": {
     "axios": "^0.18.0",
     "dotenv": "^6.1.0",
