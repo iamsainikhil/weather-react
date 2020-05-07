@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {WeatherUnitContext} from './WeatherUnitContext'
 import {PropTypes} from 'prop-types'
 import axios from 'axios'
 import * as Sentry from '@sentry/browser'
@@ -6,12 +7,32 @@ import validName from './../utils/ValidCityName'
 import fetchIPAddress from './../utils/FetchIPAddress'
 import API_URL from '../utils/API'
 import isValid from '../utils/ValidityChecker'
-import {isUndefined} from 'lodash-es'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
 
+/**
+ * Today, countries that use the Fahrenheit include the United States, Bahamas, Palau,
+ * Belize, the Cayman Islands, the Federated States of Micronesia,
+ * the Marshall Islands, and the territories such as Puerto Rico,
+ * the U.S. Virgin Islands, and Guam.
+ */
+const SPECIAL_COUNTRY_CODES = [
+  'US',
+  'BS',
+  'PW',
+  'BZ',
+  'KY',
+  'FM',
+  'PR',
+  'VI',
+  'GU',
+]
+
 class AddressContextProvider extends Component {
+  // get weather unit
+  static contextType = WeatherUnitContext
+
   updateState = (state) => {
     this.setState({...state})
   }
@@ -34,6 +55,9 @@ class AddressContextProvider extends Component {
     return `${latitude},${longitude}`
   }
 
+  /**
+   * update address using reverse geocoding of Algolia PLaces to obtain city, state, country, cityID
+   */
   updateAddress = async (latlong) => {
     let hit = {}
     try {
@@ -64,13 +88,26 @@ class AddressContextProvider extends Component {
     }
   }
 
+  /**
+   * get ip and city info using ip-api
+   * update the address
+   */
   getIPAddress = async () => {
     try {
-      const {lat, lon} = await fetchIPAddress()
-      // update address if lat & lon are not undefined
-      // isValid cannot be used on lat and lon which are of type Number
-      if (!isUndefined(lat) && !isUndefined(lon)) {
-        this.updateAddress(this.formatCoords(lat, lon))
+      const data = await fetchIPAddress()
+      if (isValid(data)) {
+        const {lat, lon, city, regionName, country, countryCode} = data
+        const cityName = `${city}, ${regionName}, ${country}`
+        // update the weatherUnit to 'F' if the countryCode is a special country code
+        if (SPECIAL_COUNTRY_CODES.includes(countryCode)) {
+          this.context.updateWeatherUnit('F')
+        }
+        this.updateState({
+          address: {
+            cityName,
+          },
+          latlong: this.formatCoords(lat, lon),
+        })
       }
     } catch (error) {
       Sentry.captureException(error)
