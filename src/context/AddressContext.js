@@ -1,15 +1,38 @@
 import React, {Component} from 'react'
+import {WeatherUnitContext} from './WeatherUnitContext'
 import {PropTypes} from 'prop-types'
 import axios from 'axios'
 import * as Sentry from '@sentry/browser'
-import {isEmpty, isUndefined} from 'lodash-es'
-import HEADERS from '../utils/AlgoliaHeaders'
 import validName from './../utils/ValidCityName'
+import fetchIPAddress from './../utils/FetchIPAddress'
+import API_URL from '../utils/API'
+import isValid from '../utils/ValidityChecker'
 
 // const token = process.env.REACT_APP_IPINFO_TOKEN
 const AddressContext = React.createContext(null)
 
+/**
+ * Today, countries that use the Fahrenheit include the United States, Bahamas, Palau,
+ * Belize, the Cayman Islands, the Federated States of Micronesia,
+ * the Marshall Islands, and the territories such as Puerto Rico,
+ * the U.S. Virgin Islands, and Guam.
+ */
+const SPECIAL_COUNTRY_CODES = [
+  'US',
+  'BS',
+  'PW',
+  'BZ',
+  'KY',
+  'FM',
+  'PR',
+  'VI',
+  'GU',
+]
+
 class AddressContextProvider extends Component {
+  // get weather unit
+  static contextType = WeatherUnitContext
+
   updateState = (state) => {
     this.setState({...state})
   }
@@ -32,20 +55,25 @@ class AddressContextProvider extends Component {
     return `${latitude},${longitude}`
   }
 
+  updateWeatherUnit = (countryCode) => {
+    // update the weatherUnit to 'F' if the countryCode is a special country code
+    if (SPECIAL_COUNTRY_CODES.includes(countryCode)) {
+      this.context.updateWeatherUnit('F')
+    }
+  }
+
+  /**
+   * update address using reverse geocoding of Algolia PLaces to obtain city, state, country, cityID
+   */
   updateAddress = async (latlong) => {
     let hit = {}
     try {
       const {hits} = (
-        await axios.get(
-          `https://places-dsn.algolia.net/1/places/reverse?aroundLatLng=${latlong},&hitsPerPage=1&language=en`,
-          {
-            headers: HEADERS,
-          }
-        )
+        await axios.get(`${API_URL}/address/coords/${latlong}`)
       ).data
       hit = hits[0]
 
-      if (!isEmpty(hit) && !isUndefined(hit)) {
+      if (isValid(hit)) {
         const city = hit.city ? hit.city[0] : ''
         const state = hit.administrative ? hit.administrative[0] : ''
         const country = hit.country ? hit.country : ''
@@ -54,6 +82,10 @@ class AddressContextProvider extends Component {
           false
         )}`
         const cityId = hit.objectID ? hit.objectID : ''
+        const countryCode = hit.country_code
+          ? hit.country_code.toUpperCase()
+          : ''
+        this.updateWeatherUnit(countryCode)
         this.updateState({
           address: {
             cityName,
@@ -67,23 +99,46 @@ class AddressContextProvider extends Component {
     }
   }
 
+  /**
+   * get ip and city info using ip-api
+   * update the address
+   */
+  getIPAddress = async () => {
+    try {
+      const data = await fetchIPAddress()
+      if (isValid(data)) {
+        const {lat, lon, city, regionName, country, countryCode} = data
+        const cityName = `${city}, ${regionName}, ${country}`
+        this.updateWeatherUnit(countryCode)
+        this.updateState({
+          address: {
+            cityName,
+          },
+          latlong: this.formatCoords(lat, lon),
+        })
+      }
+    } catch (error) {
+      Sentry.captureException(error)
+    }
+  }
+
   getAddress = async () => {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const latlong = this.formatCoords(
-          position.coords.latitude,
-          position.coords.longitude
-        )
-        this.updateAddress(latlong)
-      })
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const latlong = this.formatCoords(
+            position.coords.latitude,
+            position.coords.longitude
+          )
+          this.updateAddress(latlong)
+        },
+        (error) => {
+          console.error(error)
+          this.getIPAddress()
+        }
+      )
     } else {
-      try {
-        const {data} = await axios.get('https://ipapi.co/json')
-        const latlong = this.formatCoords(data.latitude, data.longitude)
-        this.updateAddress(latlong)
-      } catch (error) {
-        Sentry.captureException(error)
-      }
+      this.getIPAddress()
     }
   }
 

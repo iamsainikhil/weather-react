@@ -8,11 +8,11 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
-import {isEmpty, isUndefined} from 'lodash-es'
 import * as Sentry from '@sentry/browser'
 import {Event} from '../../utils/ReactAnalytics'
-import HEADERS from '../../utils/AlgoliaHeaders'
 import validName from '../../utils/ValidCityName'
+import API_URL from './../../utils/API'
+import isValid from '../../utils/ValidityChecker'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -33,7 +33,7 @@ class AutoCompleteContainer extends Component {
   }
 
   // debounced function
-  debounceAddress = debounce(this.getAddresses, 1000)
+  debounceAddress = debounce(this.getAddresses, 1250)
 
   searchCity = (event) => {
     this.setState({city: event.target.value, errorMessage: ''})
@@ -48,21 +48,20 @@ class AutoCompleteContainer extends Component {
     if (this.state.city.trim()) {
       try {
         this.setState({showLoader: true})
+        // the below latlong check is just a workaround for accessing correct api route
+        // otherwise, no matter how good the city name is, when latlong is empty user will get 404 since there is no route without latlong on the api server
+        const latlong = isValid(this.context.latlong)
+          ? this.context.latlong
+          : '00,00'
+
         const {hits} = (
-          await axios.request({
-            url: 'https://places-dsn.algolia.net/1/places/query',
-            method: 'post',
-            data: {
-              query: this.state.city,
-              type: 'city',
-              aroundLatLng: this.context.latlong,
-            },
-            headers: HEADERS,
-          })
+          await axios.get(
+            `${API_URL}/places/query/${this.state.city}/${latlong}`
+          )
         ).data
 
         // populate addresses and show them if matching cities exist
-        if (!isEmpty(hits) && !isUndefined(hits)) {
+        if (isValid(hits)) {
           const results = hits.map((hit) => {
             // city value lives in default array of locale_names
             const city = `${
@@ -101,6 +100,9 @@ class AutoCompleteContainer extends Component {
         }
       } catch (error) {
         Sentry.captureException(error)
+        this.handleError(
+          'Something went wrong. Please try again or search with a different city name!'
+        )
       } finally {
         this.setState({showLoader: false})
       }

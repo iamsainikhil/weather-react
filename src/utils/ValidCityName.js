@@ -1,4 +1,4 @@
-import {isEmpty, isUndefined, isNull} from 'lodash-es'
+import isValid from './ValidityChecker'
 
 /**
  * util func to check and return the valid name
@@ -6,9 +6,7 @@ import {isEmpty, isUndefined, isNull} from 'lodash-es'
  * @param {*} showDelimeter (false for country)
  */
 const validName = (name, showDelimeter = true) => {
-  return !isEmpty(name) && !isUndefined(name) && !isNull(name)
-    ? `${name}${showDelimeter ? ', ' : ''}`
-    : ''
+  return isValid(name) ? `${name}${showDelimeter ? ', ' : ''}` : ''
 }
 
 export default validName

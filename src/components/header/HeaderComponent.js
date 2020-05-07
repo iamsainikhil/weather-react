@@ -16,7 +16,8 @@ const HeaderComponent = () => {
         <Link to='/'>
           <img
             src={`${AssetsSrcURL}/logo.png`}
-            alt='Logo'
+            alt='Weather React Logo'
+            title='Weather React'
             className='h-12 w-12 object-contain object-center cursor-pointer'
           />
         </Link>

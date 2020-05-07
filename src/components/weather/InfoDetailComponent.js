@@ -42,7 +42,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
     <Fragment>
       <div className='sm:flex-col md:flex md:flex-row justify-between my-2 px-6 sm:mt-5 sm:mb-5 sm:px-4'>
         <div className='flex-col sm:w-full lg:w-1/2'>
-          <div className='flex flex-row justify-between sm:justify-start sm:items-center'>
+          <div className='flex flex-row justify-center sm:justify-start sm:items-center'>
             <div className='flex flex-col justify-center items-center'>
               <div>
                 {getWeatherIcon(weatherCurrent).startsWith('wi') ? (

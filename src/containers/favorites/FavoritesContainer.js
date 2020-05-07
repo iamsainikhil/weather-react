@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect, useRef, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from './../../utils/FetchWeatherData'
-import {isUndefined, isEmpty, find, isNull} from 'lodash-es'
+import {isUndefined, find, isElement} from 'lodash-es'
 import Carousel from 'nuka-carousel'
 import CarouselSettings from '../../utils/CarouselSettings'
 import {ThemeContext} from '../../context/ThemeContext'
@@ -11,6 +11,7 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import * as Sentry from '@sentry/browser'
 import emitGA from '../../utils/MiscTrackEvents'
+import isValid from '../../utils/ValidityChecker'
 
 const FavoritesContainer = () => {
   const {favorites} = useContext(AddressContext)
@@ -29,31 +30,22 @@ const FavoritesContainer = () => {
    * @param {DOMElement} ref (weatherRef)
    */
   const scrollToRef = (ref) => {
-    if (!isNull(ref.current)) {
+    if (isElement(ref.current)) {
       window.scrollTo(0, ref.current.offsetTop)
     }
   }
 
   // check whether weatherCurrent exist on selectedFavorite to show/hide weatherForecastContainer
   const showWeatherForecast = () => {
-    return (
-      !isEmpty(favoriteWeather.weatherCurrent) &&
-      !isUndefined(favoriteWeather.weatherCurrent) &&
-      !isNull(favoriteWeather.weatherCurrent)
-    )
+    return isValid(favoriteWeather.weatherCurrent)
   }
 
   // check whether the cityName is valid
   const validCityName = () => {
-    if (
-      !isEmpty(selectedFavorite) &&
-      !isUndefined(selectedFavorite) &&
-      !isNull(selectedFavorite)
-    ) {
+    if (isValid(selectedFavorite)) {
       const cityName = selectedFavorite.address.cityName
       return (
-        !isEmpty(cityName) &&
-        !isUndefined(cityName) &&
+        isValid(cityName) &&
         !cityName.includes('') &&
         !cityName.includes('null')
       )
@@ -71,15 +63,12 @@ const FavoritesContainer = () => {
   }
 
   const fetchWeatherData = async () => {
-    if (
-      !isUndefined(selectedFavorite) &&
-      Object.keys(selectedFavorite).length
-    ) {
+    if (isValid(selectedFavorite)) {
       try {
         setIsLoading(true)
         const response = await FetchWeatherData(selectedFavorite)
         // set favoriteWeather only when the data is non-empty
-        if (!isEmpty(response) && !isUndefined(response) && !isNull(response)) {
+        if (isValid(response)) {
           setFavoriteWeather((state) => ({...state, ...response}))
           scrollHandler()
         }
@@ -99,11 +88,7 @@ const FavoritesContainer = () => {
     // check for deleted selectedFavorite scenario
     // i.e. selectedFavorite is not in the favorites
     // to update it with the favorite at current slideIndex
-    if (
-      !isEmpty(selectedFavorite) &&
-      !isUndefined(selectedFavorite) &&
-      !isNull(selectedFavorite)
-    ) {
+    if (isValid(selectedFavorite)) {
       if (
         isUndefined(
           find(
@@ -196,6 +181,7 @@ const FavoritesContainer = () => {
               <WeatherForecastContainer
                 weatherCurrent={favoriteWeather.weatherCurrent}
                 weatherForecast={favoriteWeather.weatherForecast}
+                alerts={favoriteWeather.alerts}
                 address={selectedFavorite.address}
                 latlong={selectedFavorite.latlong}
               />

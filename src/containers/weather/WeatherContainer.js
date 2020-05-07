@@ -1,40 +1,31 @@
 import React, {useState, useEffect, useContext, Fragment} from 'react'
 import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from '../../utils/FetchWeatherData'
-import {isUndefined, isEmpty, isNull} from 'lodash-es'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import * as Sentry from '@sentry/browser'
+import isValid from '../../utils/ValidityChecker'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
   const [weatherForecast, setWeatherForecast] = useState({})
   const [weatherCurrent, setWeatherCurrent] = useState({})
+  const [alerts, setAlerts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
   // check whether to show/hide weatherForecastContainer based on weatherCurrent
   const showWeatherForecast = () => {
-    return (
-      !isUndefined(weatherCurrent) &&
-      !isEmpty(weatherCurrent) &&
-      !isNull(weatherCurrent)
-    )
+    return isValid(weatherCurrent)
   }
 
   // check whether the cityName is valid
   const validCityName = () => {
-    if (
-      !isEmpty(addressContext.address) &&
-      !isUndefined(addressContext.address) &&
-      !isNull(addressContext.address)
-    ) {
+    if (isValid(addressContext.address)) {
       const cityName = addressContext.address.cityName
       return (
-        !isEmpty(cityName) &&
-        !isUndefined(cityName) &&
-        !isNull(cityName) &&
+        isValid(cityName) &&
         !cityName.includes('undefined') &&
         !cityName.includes('null')
       )
@@ -42,21 +33,22 @@ const WeatherContainer = () => {
     return false
   }
 
-  const setWeatherData = (current, forecast) => {
-    if (!isEmpty(current) && !isEmpty(forecast)) {
+  const setWeatherData = (current, forecast, alerts) => {
+    if (isValid(current) && isValid(forecast)) {
       setWeatherCurrent(current)
       setWeatherForecast(forecast)
+      setAlerts(alerts)
     }
   }
 
   const fetchWeatherData = async () => {
     try {
-      const {weatherCurrent, weatherForecast} = await FetchWeatherData(
+      const {weatherCurrent, weatherForecast, alerts} = await FetchWeatherData(
         addressContext
       )
       // set the weatherCurrent and weatherForecast only when the data is non-empty
       // this way, the old fetched data can be preserved when api call fail or limit exceed
-      setWeatherData(weatherCurrent, weatherForecast)
+      setWeatherData(weatherCurrent, weatherForecast, alerts)
       // set the error to false state with the above successful weather data fetch
       setIsError(false)
     } catch (err) {
@@ -70,6 +62,7 @@ const WeatherContainer = () => {
   useEffect(() => {
     setIsLoading(true)
     fetchWeatherData()
+    // fetch weather data every 60 minutes
     const timer = setInterval(() => {
       fetchWeatherData()
     }, 3600000)
@@ -115,6 +108,7 @@ const WeatherContainer = () => {
                 <WeatherForecastContainer
                   weatherCurrent={weatherCurrent}
                   weatherForecast={weatherForecast}
+                  alerts={alerts}
                   address={addressContext.address}
                   latlong={addressContext.latlong}
                 />

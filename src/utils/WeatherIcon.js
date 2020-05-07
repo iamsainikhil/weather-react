@@ -1,13 +1,11 @@
-import moment from 'moment-timezone'
+import FormatTime from './FormatTime'
 
 /**
  * @param {Object} data (weatherCurrent, Timeframe, day)
  */
-const getWeatherIcon = data => {
+const getWeatherIcon = (data) => {
   const {icon, time, timezone} = data
-  const hour = moment(time * 1000)
-    .tz(timezone)
-    .format('H')
+  const hour = FormatTime(time, timezone, 'H')
   const type = hour >= 6 && hour <= 18 ? 'day' : 'night'
   if (icon) {
     switch (icon) {
