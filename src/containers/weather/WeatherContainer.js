@@ -43,6 +43,7 @@ const WeatherContainer = () => {
 
   const fetchWeatherData = async () => {
     try {
+      setIsLoading(true)
       const {weatherCurrent, weatherForecast, alerts} = await FetchWeatherData(
         addressContext
       )
@@ -59,9 +60,17 @@ const WeatherContainer = () => {
     }
   }
 
+  // show the loading state when fetching address information using lat & long from addressContext
   useEffect(() => {
-    setIsLoading(true)
-    fetchWeatherData()
+    setIsLoading(addressContext.showLoader)
+  }, [addressContext.showLoader])
+
+  useEffect(() => {
+    if (isValid(addressContext.latlong)) {
+      fetchWeatherData()
+    } else {
+      setIsError(true)
+    }
     // fetch weather data every 60 minutes
     const timer = setInterval(() => {
       fetchWeatherData()
@@ -71,36 +80,31 @@ const WeatherContainer = () => {
       clearInterval(timer)
     }
     // eslint-disable-next-line
-  }, [addressContext.address])
+  }, [addressContext.latlong])
 
   return (
     <Fragment>
       {isLoading ? (
         <LoaderComponent
-          loaderText={`Fetching weather forecast ${
-            validCityName() ? `for ${addressContext.address.cityName}` : ''
-          } 😎`}
+          loaderText={
+            validCityName()
+              ? `Fetching weather forecast for ${addressContext.address.cityName} 😎`
+              : 'Fetching address information using your geolocation coordinates'
+          }
         />
       ) : (
         <Fragment>
           {isError ? (
-            <div>
-              {validCityName() ? (
-                // show error component only when addressContext cityName is valid
-                // since by default on component load, addressContext address is empty
-                // this extra check will hide error and show only when api call fetch fail for fetching weatherData
-                <div className='flex justify-center'>
-                  <div className='sm:w-full lg:w-2/3 xl:w-1/2'>
-                    <ErrorComponent
-                      errorMessage={`Something went wrong. Failed to fetch weather forecast ${
-                        validCityName()
-                          ? `for ${addressContext.address.cityName}`
-                          : ''
-                      }! 😢`}
-                    />
-                  </div>
-                </div>
-              ) : null}
+            <div className='flex justify-center'>
+              <div className='sm:w-full lg:w-2/3 xl:w-1/2'>
+                <ErrorComponent
+                  errorMessage={
+                    validCityName()
+                      ? `Something went wrong. Failed to fetch weather forecast for ${addressContext.address.cityName}! 😢`
+                      : 'Failed to fetch address information for your geolocation. Please search for any city to fetch weather forecast!!'
+                  }
+                />
+              </div>
             </div>
           ) : (
             <Fragment>

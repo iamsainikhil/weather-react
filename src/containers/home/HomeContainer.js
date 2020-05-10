@@ -20,7 +20,7 @@ export class HomeContainer extends Component {
             <ErrorBoundaryContainer>
               <Suspense
                 fallback={
-                  <LoaderComponent loaderText={'Loading components'} />
+                  <LoaderComponent loaderText={'Loading weather forecast UI'} />
                 }>
                 <WeatherContainer />
                 <FavoritesContainer />

@@ -41,6 +41,7 @@ class AddressContextProvider extends Component {
     this.setState({...state})
   }
   state = {
+    showLoader: true,
     address: {
       cityName: '',
       cityId: '',
@@ -88,6 +89,7 @@ class AddressContextProvider extends Component {
           : ''
         this.updateWeatherUnit(countryCode)
         this.updateState({
+          showLoader: false,
           address: {
             cityName,
             cityId,
@@ -119,11 +121,14 @@ class AddressContextProvider extends Component {
         const cityName = `${city}, ${region}, ${country_name}`
         this.updateWeatherUnit(country_code)
         this.updateState({
+          showLoader: false,
           address: {
             cityName,
           },
           latlong: this.formatCoords(latitude, longitude),
         })
+      } else {
+        this.updateState({showLoader: false})
       }
     } catch (error) {
       Sentry.captureException(error)

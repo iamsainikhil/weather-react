@@ -1,13 +1,15 @@
 import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 
-const ErrorComponent = props => {
+const ErrorComponent = (props) => {
   const {theme} = useContext(ThemeContext)
   return (
     <div
       className={`w-full ml-auto mr-auto h-auto bg-${theme} border border-red-400 text-red-700 mt-5 px-4 py-2 rounded relative`}
       role='alert'>
-      <span className='w-5/6 block break-words'>{props.errorMessage}</span>
+      <span className='w-5/6 block break-words text-sm'>
+        {props.errorMessage}
+      </span>
       {props.showCloseBtn && (
         <span
           className='absolute top-0 bottom-0 right-0 ml-3 mr-1 py-3'

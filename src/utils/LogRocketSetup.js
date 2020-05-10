@@ -29,7 +29,6 @@ const logRocketSetup = async () => {
     // initLogRocket when ip is not in the ignore list or ip fetch fail
     try {
       const {ip} = await fetchIPAddress()
-      console.log(ip)
       if (
         !isUndefined(ip) &&
         !ipaddresses.split(',').includes(ip) &&
