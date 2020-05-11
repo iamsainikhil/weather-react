@@ -129,7 +129,7 @@ const FavoritesContainer = () => {
   return (
     <Fragment>
       {favorites.length > 0 ? (
-        <div className={`bg-${theme} pt-10 pb-24 mb-0`}>
+        <div className={`bg-${theme} pt-5 pb-24 mb-0`}>
           <p className={`text-center font-bold text-2xl text-${colorTheme}`}>
             Favorites
           </p>

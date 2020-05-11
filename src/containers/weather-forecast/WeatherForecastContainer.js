@@ -130,7 +130,7 @@ const WeatherForecastContainer = ({
                 </button>
               </p>
             </div>
-            <div>
+            <div className='pb-5'>
               {showAlerts ? (
                 <Fragment>
                   {alerts.map((alert, index) => {
