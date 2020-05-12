@@ -11,7 +11,7 @@ const ErrorComponent = (props) => {
       <span className='w-5/6 block break-words text-sm'>
         {props.errorMessage}
       </span>
-      {!props.showCloseBtn && (
+      {props.showCloseBtn && (
         <span
           className='absolute top-0 bottom-0 right-0 ml-3 mr-1'
           onClick={props.closeError}>
