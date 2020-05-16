@@ -110,7 +110,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
           <p className='sm:hidden font-medium capitalize text-2xl -mt-2 mb-2'>
             {weatherCurrent.summary}
           </p>
-          <div className='text-sm sm:text-lg ml-8'>
+          <div className='text-sm sm:text-lg ml-8 mt-3 sm:mt-0'>
             <div className='flex flex-row sm:my-2'>
               <p className='font-light'>Humidity:</p>&nbsp;
               <p className='mx-1 font-bold'>

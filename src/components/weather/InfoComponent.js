@@ -82,8 +82,8 @@ const InfoComponent = ({address, latlong, weatherCurrent}) => {
 
   // format and set date & time based on the dateObj
   const datetimeSetter = (dateObj) => {
-    setDate(!isUndefined(dateObj) ? dateObj.format('MMMM Do, YYYY') : '')
-    setTime(!isUndefined(dateObj) ? dateObj.format('dddd h:mm A') : '')
+    setDate(!isUndefined(dateObj) ? dateObj.format('dddd, MMMM DD, YYYY') : '')
+    setTime(!isUndefined(dateObj) ? dateObj.format('h:mm A') : '')
     formattedDateTimeRef.current = dateObj ? dateObj : null
   }
 

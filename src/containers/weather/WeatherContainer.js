@@ -101,7 +101,7 @@ const WeatherContainer = () => {
                   errorMessage={
                     validCityName()
                       ? `Something went wrong. Failed to fetch weather forecast for ${addressContext.address.cityName}! 😢`
-                      : 'Failed to fetch address information for your geolocation. Please search for any city to fetch weather forecast!!'
+                      : 'Failed to fetch address information for your geolocation. Please search for any city to get weather forecast!!'
                   }
                 />
               </div>
