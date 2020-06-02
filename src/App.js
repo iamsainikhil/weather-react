@@ -16,35 +16,6 @@ const GA_ID = process.env.REACT_APP_GA_ID
 // reactGA initialization
 ReactGA.initialize(`${GA_ID}`)
 
-let deferredPrompt
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent the mini-infobar from appearing on mobile
-  e.preventDefault()
-  // Stash the event so it can be triggered later.
-  deferredPrompt = e
-  // Update UI notify the user they can install the PWA
-  // Show the prompt
-  deferredPrompt.prompt()
-  // Wait for the user to respond to the prompt
-  deferredPrompt.userChoice.then((choiceResult) => {
-    if (choiceResult.outcome === 'accepted') {
-      console.log('User accepted the A2HS prompt')
-    } else {
-      console.log('User dismissed the A2HS prompt')
-    }
-    deferredPrompt = null
-  })
-})
-
-window.addEventListener('appinstalled', (event) => {
-  ReactGA.event({
-    category: 'PWA Install',
-    action: event,
-    label: 'App installed from prompt',
-  })
-})
-
 const App = () => {
   const {theme} = useContext(ThemeContext)
 

@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>Weather React</title>
     <meta name="author" content="Sai Nikhil Bheemanathini" />
     <meta
@@ -23,7 +26,7 @@
     <meta name="apple-mobile-web-app-title" content="Weather React" />
     <meta name="application-name" content="Weather React" />
     <meta name="msapplication-TileColor" content="#2b5797" />
-    <meta name="theme-color" content="transparent" />
+    <meta name="theme-color" content="#E7AB4D" />
     <link
       rel="mask-icon"
       href="%PUBLIC_URL%/safari-pinned-tab.svg"
@@ -76,13 +79,18 @@
       content="%PUBLIC_URL%/weather-react-app.png"
     />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <script
+      async
+      src="https://unpkg.com/pwacompat"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script>
       // to bypass spa route re-direct error with gh-pages
-      ;(function() {
+      ;(function () {
         var redirect = sessionStorage.redirect
         delete sessionStorage.redirect
         if (redirect && redirect != location.href) {
@@ -125,10 +133,10 @@
     </script>
     <!-- Hotjar Tracking Code for https://iamsainikhil.github.io/weather-react -->
     <script defer>
-      ;(function(h, o, t, j, a, r) {
+      ;(function (h, o, t, j, a, r) {
         h.hj =
           h.hj ||
-          function() {
+          function () {
             ;(h.hj.q = h.hj.q || []).push(arguments)
           }
         h._hjSettings = {hjid: 1718449, hjsv: 6}
