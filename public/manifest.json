@@ -1,6 +1,6 @@
 {
-  "short_name": "Weather",
   "name": "Weather React",
+  "short_name": "Weather",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -18,7 +18,8 @@
       "type": "image/x-icon"
     }
   ],
-  "start_url": ".",
+  "start_url": "https://iamsainikhil.github.io/weather-react/?utm_source=pwa_install",
+  "scope": "https://iamsainikhil.github.io/weather-react/",
   "display": "standalone",
   "theme_color": "transparent",
   "background_color": "transparent"
