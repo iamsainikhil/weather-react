@@ -18,8 +18,7 @@
       "type": "image/x-icon"
     }
   ],
-  "start_url": "https://iamsainikhil.github.io/weather-react/?utm_source=pwa_install",
-  "scope": "https://iamsainikhil.github.io/weather-react/",
+  "start_url": "https://iamsainikhil.github.io/weather-react",
   "display": "standalone",
   "theme_color": "transparent",
   "background_color": "transparent"
