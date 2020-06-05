@@ -120,12 +120,16 @@ class AddressContextProvider extends Component {
         } = data
         const cityName = `${city}, ${region}, ${country_name}`
         this.updateWeatherUnit(country_code)
+
+        // check whether latitude and longitude are strings which are NaN
+        const Latitude = isNaN(Number(latitude)) ? '00' : latitude
+        const Longitude = isNaN(Number(longitude)) ? '00' : longitude
         this.updateState({
           showLoader: false,
           address: {
             cityName,
           },
-          latlong: this.formatCoords(latitude, longitude),
+          latlong: this.formatCoords(Latitude, Longitude),
         })
       } else {
         this.updateState({showLoader: false})
