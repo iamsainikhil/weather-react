@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
-import debounce from 'lodash/debounce'
 import './AutoCompleteStyle.scss'
 import AddressComponent from '../../components/address/AddressComponent'
 import LoaderComponent from '../../components/loader/LoaderComponent'
@@ -13,6 +12,7 @@ import {Event} from '../../utils/ReactAnalytics'
 import validName from '../../utils/ValidCityName'
 import API_URL from './../../utils/API'
 import isValid from '../../utils/ValidityChecker'
+import {debounce, isNil} from 'lodash-es'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
@@ -50,9 +50,10 @@ class AutoCompleteContainer extends Component {
         this.setState({showLoader: true})
         // the below latlong check is just a workaround for accessing correct api route
         // otherwise, no matter how good the city name is, when latlong is empty user will get 404 since there is no route without latlong on the api server
-        const latlong = isValid(this.context.latlong)
-          ? this.context.latlong
-          : '00,00'
+        const latlong =
+          !isNil(this.context.latlong) && !isNaN(Number(this.context.latlong))
+            ? this.context.latlong
+            : '00,00'
 
         const {hits} = (
           await axios.get(

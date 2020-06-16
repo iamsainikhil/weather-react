@@ -19,6 +19,7 @@ const FetchWeatherData = async ({latlong}) => {
   let weatherCurrent = {}
   let weatherForecast = {}
   let alerts = []
+  let error = null
 
   // fetch weather data only when latlong is valid to avoid uneccessary API calls
   if (isValid(latlong)) {
@@ -72,6 +73,7 @@ const FetchWeatherData = async ({latlong}) => {
         }
       }
     } catch (err) {
+      error = err
       Sentry.captureException(err)
     }
   }
@@ -80,6 +82,7 @@ const FetchWeatherData = async ({latlong}) => {
     weatherCurrent,
     weatherForecast,
     alerts,
+    error,
   }
 }
 

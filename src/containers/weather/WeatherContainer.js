@@ -6,6 +6,7 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import * as Sentry from '@sentry/browser'
 import isValid from '../../utils/ValidityChecker'
+import {isNil} from 'lodash-es'
 
 const WeatherContainer = () => {
   const addressContext = useContext(AddressContext)
@@ -44,14 +45,21 @@ const WeatherContainer = () => {
   const fetchWeatherData = async () => {
     try {
       setIsLoading(true)
-      const {weatherCurrent, weatherForecast, alerts} = await FetchWeatherData(
-        addressContext
-      )
+      const {
+        weatherCurrent,
+        weatherForecast,
+        alerts,
+        error,
+      } = await FetchWeatherData(addressContext)
       // set the weatherCurrent and weatherForecast only when the data is non-empty
       // this way, the old fetched data can be preserved when api call fail or limit exceed
-      setWeatherData(weatherCurrent, weatherForecast, alerts)
-      // set the error to false state with the above successful weather data fetch
-      setIsError(false)
+      if (isNil(error)) {
+        setWeatherData(weatherCurrent, weatherForecast, alerts)
+        // set the error to false state with the above successful weather data fetch
+        setIsError(false)
+      } else {
+        setIsError(true)
+      }
     } catch (err) {
       setIsError(true)
       Sentry.captureException(err)
