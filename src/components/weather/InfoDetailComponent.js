@@ -114,7 +114,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
             <div className='flex flex-row sm:my-2'>
               <p className='font-light'>Humidity:</p>&nbsp;
               <p className='mx-1 font-bold'>
-                {Math.round(weatherCurrent.humidity)}
+                {Math.round(weatherCurrent.humidity * 100)}
               </p>
               <p className='text-sm mt-1'>
                 <FiPercent />
