@@ -146,14 +146,7 @@ class AutoCompleteContainer extends Component {
   }
 
   keyCodeHandler = (e) => {
-    if (e.keyCode && (e.keyCode === 38 || e.keyCode === 40)) {
-      // scroll behavior inside the address list corresponding to up/down arrow key
-      this.listRef.current.scrollTo({
-        left: 0,
-        top: this.state.selectedAddressIndex * 30,
-        behavior: 'auto',
-      })
-
+    if (e.keyCode) {
       if (e.keyCode === 38) {
         // up arrow
         this.setState((prevState) => {
@@ -164,6 +157,15 @@ class AutoCompleteContainer extends Component {
             ),
           }
         })
+        // scroll up inside the address list corresponding to up/down arrow key
+        this.listRef.current.scrollTo({
+          left: 0,
+          top:
+            this.state.selectedAddressIndex < 6
+              ? 0
+              : this.state.selectedAddressIndex * 30,
+          behavior: 'auto',
+        })
       } else if (e.keyCode === 40) {
         // down arrow
         this.setState((prevState) => {
@@ -173,6 +175,12 @@ class AutoCompleteContainer extends Component {
               this.state.addresses.length - 1
             ),
           }
+        })
+        // scroll down inside the address list corresponding to up/down arrow key
+        this.listRef.current.scrollTo({
+          left: 0,
+          top: this.state.selectedAddressIndex * 30,
+          behavior: 'auto',
         })
       }
     }
