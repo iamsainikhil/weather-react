@@ -8,13 +8,14 @@ const IconComponent = ({type, color}) => {
   const TYPES = {
     search: <FiSearch />,
     up: <IoIosArrowUp />,
-    down: <IoIosArrowDown />
+    down: <IoIosArrowDown />,
   }
   return <p className={`opacity-75 text-2xl fill-${color}`}>{TYPES[type]}</p>
 }
 
-const SearchComponent = props => {
+const SearchComponent = (props) => {
   const {theme, colorTheme} = useContext(ThemeContext)
+
   return (
     <div className='h-12 mx-5 mt-5'>
       <div className='relative'>
@@ -24,13 +25,15 @@ const SearchComponent = props => {
         <input
           style={{
             backgroundColor: `${theme === 'dark' ? '#3a3a3a' : '#e2e8f0'}`,
-            letterSpacing: '0.05em'
+            letterSpacing: '0.05em',
           }}
           className={`data-hj-whitelist block appearance-none w-full border-none rounded-full shadow py-3 pl-12 pr-6 mb-3 leading-tight focus:outline-none focus:bg-gray-200 truncate text-${colorTheme}`}
           id='grid-first-name'
           type='text'
           placeholder='Type city name to find weather forecast'
           onChange={props.citySearch}
+          onKeyDown={props.keyPressed}
+          tabIndex='0'
           value={props.city}
         />
         {props.showCaret ? (
@@ -56,5 +59,5 @@ SearchComponent.propTypes = {
   cityName: PropTypes.string,
   showCaret: PropTypes.bool,
   showAddresses: PropTypes.bool,
-  caretClicked: PropTypes.func
+  caretClicked: PropTypes.func,
 }

@@ -47,7 +47,7 @@ class AddressContextProvider extends Component {
       cityName: '',
       cityId: '',
     },
-    latlong: '',
+    latlong: null,
     favorites: [],
     updateState: this.updateState,
     updateFavorites: this.updateFavorites,
