@@ -1,7 +1,6 @@
 import React, {useContext} from 'react'
 import {ThemeContext} from '../../context/ThemeContext'
 import moment from 'moment-timezone'
-import {Link} from 'react-router-dom'
 import {Event} from '../../utils/ReactAnalytics'
 import {FaHeart, FaReact} from 'react-icons/fa'
 
@@ -23,7 +22,7 @@ const FooterComponent = () => {
       }}>
       <div
         className={`flex flex-col text-center sm:flex sm:flex-row justify-around p-5 text-${colorTheme} text-sm`}>
-        <p className='my-2 sm:my-0 w-full sm:w-1/3'>
+        {/* <p className='my-2 sm:my-0 w-full sm:w-1/3'>
           <a
             href='https://github.com/iamsainikhil/weather-react/'
             target='_blank'
@@ -32,7 +31,7 @@ const FooterComponent = () => {
             onClick={() => emitGA('Visit GitHub', 'GitHub Link')}>
             GitHub
           </a>
-        </p>
+        </p> */}
         <p className='flex flex-no-wrap justify-center items-center my-2 sm:my-0 w-full sm:w-1/2'>
           Made with&nbsp;
           <span
@@ -51,11 +50,11 @@ const FooterComponent = () => {
             <FaReact />
           </span>
         </p>
-        <p className='my-2 sm:my-0 w-full sm:w-1/3'>
+        {/* <p className='my-2 sm:my-0 w-full sm:w-1/3'>
           <Link to='/privacy-policy' className={`link z-0 hover:text-${theme}`}>
             Privacy Policy
           </Link>
-        </p>
+        </p> */}
       </div>
       <p className='mx-auto text-center text-sm'>
         &copy; {moment().format('YYYY')}{' '}

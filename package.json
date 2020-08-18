@@ -1,8 +1,7 @@
 {
   "name": "weather-react",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://iamsainikhil.github.io/weather-react",
+  "version": "2.10.0",
+  "homepage": "https://iamsainikhil.com/weather-react",
   "dependencies": {
     "@sentry/browser": "^5.15.4",
     "@testing-library/jest-dom": "^4.2.4",

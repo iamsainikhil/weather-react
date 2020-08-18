@@ -7,9 +7,9 @@ import LoaderComponent from './components/loader/LoaderComponent'
 import ReactGA from 'react-ga'
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
-const PrivacyPolicyComponent = lazy(() =>
-  import('./components/privacy-policy/PrivacyPolicyComponent')
-)
+// const PrivacyPolicyComponent = lazy(() =>
+//   import('./components/privacy-policy/PrivacyPolicyComponent')
+// )
 
 const GA_ID = process.env.REACT_APP_GA_ID
 
@@ -29,10 +29,10 @@ const App = () => {
           fallback={<LoaderComponent loaderText='Loading components' />}>
           <Switch>
             <Route path='/' exact component={HomeContainer}></Route>
-            <Route
+            {/* <Route
               path='/privacy-policy'
               exact
-              component={PrivacyPolicyComponent}></Route>
+              component={PrivacyPolicyComponent}></Route> */}
           </Switch>
         </Suspense>
       </div>
