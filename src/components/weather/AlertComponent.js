@@ -5,7 +5,7 @@ import FormatTime from './../../utils/FormatTime'
 import isValid from '../../utils/ValidityChecker'
 
 const AlertComponent = ({alert}) => {
-  const {timezone, title, time, expires, description, uri} = alert
+  const {timezone, title, time, expires, uri} = alert
   const {theme, colorTheme} = useContext(ThemeContext)
   const startTime = FormatTime(time, timezone, 'dddd h:mm A')
   const endTime = FormatTime(expires, timezone, 'dddd h:mm A')
@@ -42,10 +42,10 @@ const AlertComponent = ({alert}) => {
                   <span>{endTime}</span>
                 </p>
               </div>
-              <p className='text-sm lowercase py-1'>{description}</p>
+              {/* <p className='text-sm lowercase py-1'>{description}</p> */}
               {/* regions */}
               {isValid(regions) ? (
-                <p className='text-sm font-medium'>
+                <p className='text-sm font-medium py-2'>
                   <b>Regions:&nbsp;</b>
                   {regions.map((region, index) => {
                     return (
