@@ -39,7 +39,7 @@
     "build": "npm-run-all -s build-css build-react",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!lodash-es)/\" --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -60,6 +60,7 @@
   "devDependencies": {
     "autoprefixer": "^9.7.4",
     "postcss-cli": "^7.1.0",
+    "react-test-renderer": "^17.0.1",
     "tailwindcss": "^1.1.4"
   }
 }
