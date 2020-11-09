@@ -160,15 +160,9 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
 - [ ] Unit Testing
 
-- [ ] Publish this project as an NPM package that can be consumed elsewhere.
-
-- [ ] Update Favorites UI
-
 - [ ] Add documentation for components using **Storybook**
 
-- [ ] Develop desktop application using **Electron**
-
-- [ ] Develop Android and iOS app using **React Native**
+- [ ] Publish this project as an NPM package that can be consumed elsewhere.
 
 ## 🙌 Contribution
 
