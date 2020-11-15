@@ -148,6 +148,48 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
   _Note: The application UI/UX is not affected with this API change._
 
+## 🧐 What's inside?
+
+A quick look at the top-level files and directories in this weather-react project.
+
+```
+├── api
+	├── index.js
+	├── now.json
+├── public
+├── src
+	├── components
+	├──	containers
+	├── context
+	├── fonts
+	├── sass
+	├── styles
+	├── tests
+	├── utils
+	├── App.js
+	├── index.js
+	├── serviceWorker.js
+├── tailwind.config.js
+```
+
+1.  **`api`**: This directory contain all of the code related to the back-end of the application.
+    - **`index.js`**: This file contains the functions which when deployed on any cloud platform will accept requests from the front-end application and return responses.
+    - **`now.json`**: This file contains the run-time configuration needed when deploying the above functions on Vercel (cloud platform).
+2.  **`public`**: This directory contain all the assets like images, icons, manifest (PWA), and favicons.
+3.  **`src`**: This directory contain all of the code related to what you see on the front-end of the application. `src` is a convention for “source code”.
+    - **`components`**: This directory contain several React components with each component having an own directory.
+    - **`containers`**: This directory contain several containers with each container wrapping many components defined in the above `components` directory. Each container have an own directory.
+    - **`context`**: This directory contain context files with each file holding the logic related to the state shared between the containers & components.
+    - **`fonts`**: This directory contain font files related to several font variations and formats.
+    - **`sass`**: This directory contain the application styles written in `scss` grouped into several directories.
+    - **`styles`**: This directory contain only two files `main.css` (styles used in development) and `style.css` (styles used in production).
+    - **`tests`**: This directory contain test suites with each file containing several test cases testing a utility function or a component.
+    - **`utils`**: This directory contain files with each file representing a utility function.
+    - **`App.js`**: This is the main React component that is rendered in the DOM which contain the containers & components as well as routing.
+    - **`index.js`**: This is the first file which gets run in the browser after starting the application. `App.js` component rendering as well as `serviceworker` registration process takes place in this file.
+    - **`serviceWorker`**: This file contains the code related to registration/deregistration of a Service worker.
+4.  **`tailwind.config.js`**: This file contains the configuration related to `tailwindcss`.
+
 ## 📖 Architecture
 
 ![Weather React Application Architecture](./Weather_React_Architecture.svg)
