@@ -5,8 +5,6 @@ import {isEmpty, isNil} from 'lodash-es'
  * @param {*} value
  * @returns {Boolean}
  */
-const isValid = (value) => {
-  return !isEmpty(value) && !isNil(value)
-}
+const isValid = (value) => { return !isEmpty(value) && !isNil(value) }
 
 export default isValid
