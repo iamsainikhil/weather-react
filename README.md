@@ -194,13 +194,13 @@ A quick look at the top-level files and directories in this weather-react projec
 
 ![Weather React Application Architecture](./Weather_React_Architecture.svg)
 
-### ❕ **Detailed Architecture Documentation will be added soon...**
+![Application Architecture Live](./Weather_React_Architecture_Live.png)
 
 ## 🏎 Roadmap
 
 - [x] Build a proxy server using Express for Dark Sky API requests
 
-- [ ] Unit Testing
+- [-] Unit Testing
 
 - [ ] Add documentation for components using **Storybook**
 
