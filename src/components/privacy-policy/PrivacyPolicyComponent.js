@@ -114,28 +114,6 @@ const PrivacyPolicyComponent = () => {
             .
           </p>
           <br />
-          <p>
-            I use Hotjar to help me understand how my users use the Site. You
-            can read more about how Hotjar uses your Personal Information
-            here:&nbsp;
-            <a
-              href='https://www.hotjar.com/legal/policies/privacy/'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='link z-0'>
-              https://www.hotjar.com/legal/policies/privacy/
-            </a>
-            . You can also opt-out of Hotjar here:&nbsp;
-            <a
-              href='https://www.hotjar.com/legal/compliance/opt-out/'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='link z-0'>
-              https://www.hotjar.com/legal/compliance/opt-out/
-            </a>
-            .
-          </p>
-          <br />
 
           <h4 className='py-1 font-semibold'>
             HOW DO I PROTECT YOUR INFORMATION?
