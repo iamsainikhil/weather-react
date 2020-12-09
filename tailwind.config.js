@@ -1,6 +1,10 @@
 /** @format */
 
 module.exports = {
+  purge: {
+    enabled: true,
+    content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
+  },
   prefix: '',
   important: false,
   separator: ':',
