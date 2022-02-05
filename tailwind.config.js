@@ -1,10 +1,8 @@
 /** @format */
 
 module.exports = {
-  purge: {
-    enabled: true,
-    content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
-  },
+  content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
+  darkMode: 'media',
   prefix: '',
   important: false,
   separator: ':',
