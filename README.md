@@ -102,8 +102,10 @@ A quick look at the top-level files and directories in this weather-react projec
 
 ```
 ├── api
-	├── index.js
-	├── now.json
+	├── address.js
+	├── places.js
+	├── forecast.js
+	├── hello.js
 ├── public
 ├── src
 	├── components
