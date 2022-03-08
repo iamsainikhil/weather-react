@@ -1,4 +1,4 @@
-const data = {
+const WEATHER_DATA = {
   latitude: 37.8267,
   longitude: -122.4233,
   timezone: 'America/Los_Angeles',
@@ -1377,7 +1377,4 @@ const data = {
   offset: -8,
 }
 
-export default function handler(req, res) {
-  res.status(200)
-  res.json(data)
-}
+export default WEATHER_DATA

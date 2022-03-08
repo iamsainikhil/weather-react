@@ -3,6 +3,7 @@ import axiosRetry from 'axios-retry'
 import FormatTime from './FormatTime'
 import API_URL from './API'
 import isValid from './ValidityChecker'
+import WEATHER_DATA from '../constants/WeatherData'
 
 // Exponential back-off retry delay between requests
 axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay, retries: 1})
@@ -80,7 +81,7 @@ const FetchWeatherData = async ({latlong}, sample = false) => {
   let error = null
   try {
     if (sample) {
-      weatherData = (await axios.get(`${API_URL}/sample-forecast`)).data
+      weatherData = WEATHER_DATA
     } else if (isValid(latlong)) {
       // fetch weather data only when latlong is valid to avoid uneccessary API calls
       weatherData = (await axios.get(getURL(latlong))).data
