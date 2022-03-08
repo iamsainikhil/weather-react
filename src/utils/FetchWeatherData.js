@@ -1,15 +1,14 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 import FormatTime from './FormatTime'
-import * as Sentry from '@sentry/browser'
 import API_URL from './API'
 import isValid from './ValidityChecker'
 
 // Exponential back-off retry delay between requests
-axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
+axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay, retries: 1})
 
 const getURL = (latlong) => {
-  return `${API_URL}/forecast/coords/${latlong}?extend=hourly&exclude=minutely,flags`
+  return `${API_URL}/forecast?latlong=${latlong}`
 }
 
 /**
@@ -74,7 +73,7 @@ const FetchWeatherData = async ({latlong}) => {
       }
     } catch (err) {
       error = err
-      Sentry.captureException(err)
+      console.error(err)
     }
   }
 

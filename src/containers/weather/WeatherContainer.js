@@ -4,7 +4,6 @@ import FetchWeatherData from '../../utils/FetchWeatherData'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
-import * as Sentry from '@sentry/browser'
 import isValid from '../../utils/ValidityChecker'
 import {isNil} from 'lodash-es'
 
@@ -45,12 +44,8 @@ const WeatherContainer = () => {
   const fetchWeatherData = async () => {
     try {
       setIsLoading(true)
-      const {
-        weatherCurrent,
-        weatherForecast,
-        alerts,
-        error,
-      } = await FetchWeatherData(addressContext)
+      const {weatherCurrent, weatherForecast, alerts, error} =
+        await FetchWeatherData(addressContext)
       // set the weatherCurrent and weatherForecast only when the data is non-empty
       // this way, the old fetched data can be preserved when api call fail or limit exceed
       if (isNil(error)) {
@@ -62,7 +57,6 @@ const WeatherContainer = () => {
       }
     } catch (err) {
       setIsError(true)
-      Sentry.captureException(err)
     } finally {
       setIsLoading(false)
     }
@@ -109,7 +103,10 @@ const WeatherContainer = () => {
                   errorMessage={
                     validCityName()
                       ? `Something went wrong. Failed to fetch weather forecast for ${addressContext.address.cityName}! 😢`
-                      : 'Failed to fetch address information for your geolocation. Please search for any city to get weather forecast!!'
+                      : `${
+                          addressContext.error ||
+                          'Something went wrong. Please try again!'
+                        }`
                   }
                 />
               </div>

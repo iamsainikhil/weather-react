@@ -9,7 +9,6 @@ import FavoriteComponent from '../../components/favorite/FavoriteComponent'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
-import * as Sentry from '@sentry/browser'
 import emitGA from '../../utils/MiscTrackEvents'
 import isValid from '../../utils/ValidityChecker'
 
@@ -73,7 +72,7 @@ const FavoritesContainer = () => {
           scrollHandler()
         }
       } catch (err) {
-        Sentry.captureException(err)
+        console.error(err)
       } finally {
         setIsLoading(false)
       }

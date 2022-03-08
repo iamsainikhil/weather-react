@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {WeatherUnitContext} from './WeatherUnitContext'
 import {PropTypes} from 'prop-types'
 import axios from 'axios'
-import * as Sentry from '@sentry/browser'
 import validName from './../utils/ValidCityName'
 import fetchIPAddress from './../utils/FetchIPAddress'
 import API_URL from '../utils/API'
@@ -43,6 +42,7 @@ class AddressContextProvider extends Component {
   }
   state = {
     showLoader: true,
+    error: null,
     address: {
       cityName: '',
       cityId: '',
@@ -64,15 +64,22 @@ class AddressContextProvider extends Component {
     }
   }
 
+  returnError = () => {
+    this.updateState({
+      showLoader: false,
+      error:
+        'Failed to fetch address information for your geolocation. Please search for any city to get weather forecast!!',
+    })
+  }
+
   /**
    * update address using reverse geocoding of Algolia PLaces to obtain city, state, country, cityID
    */
   updateAddress = async (latlong) => {
     let hit = {}
     try {
-      const {hits} = (
-        await axios.get(`${API_URL}/address/coords/${latlong}`)
-      ).data
+      const {hits} = (await axios.get(`${API_URL}/address?latlong=${latlong}`))
+        .data
       hit = hits[0]
 
       if (isValid(hit)) {
@@ -91,6 +98,7 @@ class AddressContextProvider extends Component {
         this.updateWeatherUnit(countryCode)
         this.updateState({
           showLoader: false,
+          error: null,
           address: {
             cityName,
             cityId,
@@ -99,7 +107,8 @@ class AddressContextProvider extends Component {
         })
       }
     } catch (error) {
-      Sentry.captureException(error)
+      this.returnError()
+      console.error(error)
     }
   }
 
@@ -111,14 +120,8 @@ class AddressContextProvider extends Component {
     try {
       const data = await fetchIPAddress()
       if (isValid(data)) {
-        const {
-          latitude,
-          longitude,
-          city,
-          region,
-          country_name,
-          country_code,
-        } = data
+        const {latitude, longitude, city, region, country_name, country_code} =
+          data
         const cityName = `${city}, ${region}, ${country_name}`
         this.updateWeatherUnit(country_code)
 
@@ -129,16 +132,18 @@ class AddressContextProvider extends Component {
           isNil(longitude) || isNaN(Number(longitude)) ? '00' : longitude
         this.updateState({
           showLoader: false,
+          error: null,
           address: {
             cityName,
           },
           latlong: this.formatCoords(Latitude, Longitude),
         })
       } else {
-        this.updateState({showLoader: false})
+        this.updateState({showLoader: false, error: null})
       }
     } catch (error) {
-      Sentry.captureException(error)
+      this.returnError()
+      console.error(error)
     }
   }
 

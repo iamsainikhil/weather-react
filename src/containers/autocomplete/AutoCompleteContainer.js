@@ -7,7 +7,6 @@ import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/search/SearchComponent'
-import * as Sentry from '@sentry/browser'
 import {Event} from '../../utils/ReactAnalytics'
 import validName from '../../utils/ValidCityName'
 import API_URL from './../../utils/API'
@@ -15,7 +14,7 @@ import isValid from '../../utils/ValidityChecker'
 import {debounce, isNil} from 'lodash-es'
 
 // Exponential back-off retry delay between requests
-axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
+axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay, retries: 1})
 
 class AutoCompleteContainer extends Component {
   static contextType = AddressContext
@@ -60,7 +59,7 @@ class AutoCompleteContainer extends Component {
 
         const {hits} = (
           await axios.get(
-            `${API_URL}/places/query/${this.state.city}/${latlong}`
+            `${API_URL}/places?city=${this.state.city}&latlong=${latlong}`
           )
         ).data
 
@@ -103,7 +102,6 @@ class AutoCompleteContainer extends Component {
           )
         }
       } catch (error) {
-        Sentry.captureException(error)
         this.handleError(
           'Something went wrong. Please try again or search with a different city name!'
         )
