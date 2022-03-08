@@ -29,7 +29,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
   }
 
   // find the index of selectedDay in days object
-  const selectedDayIndexHandler = selectedDay => {
+  const selectedDayIndexHandler = (selectedDay) => {
     const index = Object.keys(weatherForecast.days).indexOf(selectedDay)
     setSelectedDayIndex(index !== -1 ? index : 0)
   }
@@ -38,7 +38,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
    * day is a date '02/28/2020'
    * @param {String} day
    */
-  const daySelectHandler = day => {
+  const daySelectHandler = (day) => {
     setSelectedDay(day)
     selectedDayIndexHandler(day)
   }
@@ -73,7 +73,10 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
             </div>
 
             {/* tablet and above devices */}
-            <div className='hidden sm:flex sm:pb-3 sm:mb-4'>
+            <div
+              className={`hidden sm:flex sm:pb-3 sm:${
+                weatherForecast.timeFrames[selectedDay] ? 'mb-4' : 'my-12'
+              }`}>
               {weatherForecast.timeFrames[selectedDay] ? (
                 <Carousel {...CarouselSettings('time', 'tablet')}>
                   {weatherForecast.timeFrames[selectedDay].map(
@@ -133,5 +136,5 @@ export default ForecastContainer
 ForecastContainer.propTypes = {
   cityName: PropTypes.string,
   weatherCurrent: PropTypes.object,
-  weatherForecast: PropTypes.object
+  weatherForecast: PropTypes.object,
 }
