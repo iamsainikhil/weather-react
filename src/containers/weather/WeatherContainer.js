@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext, Fragment} from 'react'
+import {ThemeContext} from '../../context/ThemeContext'
 import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from '../../utils/FetchWeatherData'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
@@ -8,6 +9,7 @@ import isValid from '../../utils/ValidityChecker'
 import {isNil} from 'lodash-es'
 
 const WeatherContainer = () => {
+  const {theme, colorTheme} = useContext(ThemeContext)
   const addressContext = useContext(AddressContext)
   const [weatherForecast, setWeatherForecast] = useState({})
   const [weatherCurrent, setWeatherCurrent] = useState({})
@@ -41,11 +43,11 @@ const WeatherContainer = () => {
     }
   }
 
-  const fetchWeatherData = async () => {
+  const fetchWeatherData = async (sample = false) => {
     try {
       setIsLoading(true)
       const {weatherCurrent, weatherForecast, alerts, error} =
-        await FetchWeatherData(addressContext)
+        await FetchWeatherData(addressContext, sample)
       // set the weatherCurrent and weatherForecast only when the data is non-empty
       // this way, the old fetched data can be preserved when api call fail or limit exceed
       if (isNil(error)) {
@@ -109,6 +111,15 @@ const WeatherContainer = () => {
                         }`
                   }
                 />
+                <div className='text-center py-5'>
+                  <p>
+                    <button
+                      className={`bg-${colorTheme} text-${theme} font-semibold py-3 px-6 rounded-full capitalize`}
+                      onClick={() => fetchWeatherData(true)}>
+                      Show Sample Weather Information
+                    </button>
+                  </p>
+                </div>
               </div>
             </div>
           ) : (
