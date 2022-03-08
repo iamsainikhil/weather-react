@@ -3,6 +3,8 @@ import setupLogRocketReact from 'logrocket-react'
 import * as Sentry from '@sentry/browser'
 
 const logRocketSetup = () => {
+  if (process.env.NODE_ENV !== 'production') return
+
   // initiate SENTRY
   const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
   Sentry.init({dsn: `${SENTRY_DSN}`})
