@@ -109,7 +109,7 @@ A quick look at the top-level files and directories in this weather-react projec
 ├── public
 ├── src
 	├── components
-	├──	containers
+	├── containers
 	├── context
 	├── fonts
 	├── sass
