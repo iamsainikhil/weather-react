@@ -76,7 +76,7 @@ class AddressContextProvider extends Component {
 
       if (isValid(hit)) {
         const city = hit.name ?? ''
-        const state = hit.name ?? ''
+        const state = hit.state ?? ''
         const country = hit.country ?? ''
         const cityName = `${validName(city)}${validName(state)}${validName(
           country,
