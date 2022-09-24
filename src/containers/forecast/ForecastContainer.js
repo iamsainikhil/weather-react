@@ -13,13 +13,13 @@ import {PropTypes} from 'prop-types'
 const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
   const [selectedDay, setSelectedDay] = useState('')
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
-  const {time, timezone} = weatherCurrent
+  const {dt, timezone} = weatherCurrent
 
   // set the selectedDay to the current day by fetching current city date from weatherCurrent timestamp
   const updateSelectedDay = async () => {
     // show forecast elements when formattedDateTime is not an empty string & an error message starting with Failed
-    if (!isUndefined(weatherCurrent.time)) {
-      const today = FormatTime(time, timezone, 'MM/DD/YYYY')
+    if (!isUndefined(dt)) {
+      const today = FormatTime(dt, timezone, 'MM/DD/YYYY')
       // check if today key exist in days
       if (!isEmpty(weatherForecast) && !isUndefined(weatherForecast)) {
         setSelectedDay(weatherForecast.days[today] ? today : '')

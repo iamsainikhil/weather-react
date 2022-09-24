@@ -25,7 +25,7 @@ const WeatherContainer = () => {
   // check whether the cityName is valid
   const validCityName = () => {
     if (isValid(addressContext.address)) {
-      const cityName = addressContext.address.cityName
+      const cityName = addressContext.cityName
       return (
         isValid(cityName) &&
         !cityName.includes('undefined') &&
@@ -92,7 +92,7 @@ const WeatherContainer = () => {
         <LoaderComponent
           loaderText={
             validCityName()
-              ? `Fetching weather forecast for ${addressContext.address.cityName} 😎`
+              ? `Fetching weather forecast for ${addressContext.cityName} 😎`
               : 'Fetching address information using your geolocation coordinates'
           }
         />
@@ -104,7 +104,7 @@ const WeatherContainer = () => {
                 <ErrorComponent
                   errorMessage={
                     validCityName()
-                      ? `Something went wrong. Failed to fetch weather forecast for ${addressContext.address.cityName}! 😢`
+                      ? `Something went wrong. Failed to fetch weather forecast for ${addressContext.cityName}! 😢`
                       : `${
                           addressContext.error ||
                           'Something went wrong. Please try again!'
@@ -129,7 +129,7 @@ const WeatherContainer = () => {
                   weatherCurrent={weatherCurrent}
                   weatherForecast={weatherForecast}
                   alerts={alerts}
-                  address={addressContext.address}
+                  address={addressContext}
                   latlong={addressContext.latlong}
                 />
               ) : null}

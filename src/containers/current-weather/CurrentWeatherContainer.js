@@ -5,17 +5,13 @@ import LoaderComponent from './../../components/loader/LoaderComponent'
 import ErrorBoundaryContainer from '../error-boundary/ErrorBoundaryContainer'
 import {PropTypes} from 'prop-types'
 
-const CurrentWeatherContainer = ({weatherCurrent, address, latlong}) => {
+const CurrentWeatherContainer = ({weatherCurrent, address}) => {
   return (
     <ErrorBoundaryContainer>
       <Fragment>
         {address && weatherCurrent ? (
           <div>
-            <InfoComponent
-              address={address}
-              latlong={latlong}
-              weatherCurrent={weatherCurrent}
-            />
+            <InfoComponent address={address} weatherCurrent={weatherCurrent} />
             <InfoDetailComponent weatherCurrent={weatherCurrent} />
           </div>
         ) : (
@@ -30,6 +26,5 @@ export default CurrentWeatherContainer
 
 CurrentWeatherContainer.propTypes = {
   address: PropTypes.objectOf(PropTypes.string),
-  latlong: PropTypes.string,
   weatherCurrent: PropTypes.object,
 }
