@@ -1,5 +1,4 @@
 import React, {useContext, Suspense, lazy} from 'react'
-import {Switch, Route} from 'react-router-dom'
 import {ThemeContext} from './context/ThemeContext'
 import HeaderComponent from './components/header/HeaderComponent'
 import FooterComponent from './components/footer/FooterComponent'
@@ -7,9 +6,6 @@ import LoaderComponent from './components/loader/LoaderComponent'
 import ReactGA from 'react-ga'
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
-// const PrivacyPolicyComponent = lazy(() =>
-//   import('./components/privacy-policy/PrivacyPolicyComponent')
-// )
 
 const GA_ID = process.env.REACT_APP_GA_ID
 
@@ -27,13 +23,7 @@ const App = () => {
       <div>
         <Suspense
           fallback={<LoaderComponent loaderText='Loading components' />}>
-          <Switch>
-            <Route path='/' exact component={HomeContainer}></Route>
-            {/* <Route
-              path='/privacy-policy'
-              exact
-              component={PrivacyPolicyComponent}></Route> */}
-          </Switch>
+          <HomeContainer />
         </Suspense>
       </div>
       <div>
