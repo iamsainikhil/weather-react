@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const API_KEY = process.env.API_KEY
+const API_KEY = process.env.OPENWEATHER_API_KEY
 
 export default function handler(req, res) {
   const {latlong} = req.query
