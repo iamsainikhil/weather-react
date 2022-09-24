@@ -1,15 +1,11 @@
 const axios = require('axios')
 
-// custom HTTP headers for authenticating requests sent to Algolia places server
-const HEADERS = {
-  'X-Algolia-Application-Id': process.env.ALGOLIA_PLACES_APP_ID || '',
-  'X-Algolia-API-Key': process.env.ALGOLIA_PLACES_API_KEY || '',
-}
+const API_KEY = process.env.API_KEY
 
 export default function handler(req, res) {
   const {latlong} = req.query
-  console.log(latlong)
-  const url = `https://places-dsn.algolia.net/1/places/reverse?aroundLatLng=${latlong},&hitsPerPage=1&language=en`
+  const [lat, long] = latlong ? latlong.split(',') : [0, 0]
+  const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=1&appid=${API_KEY}`
   axios
     .get(url, {headers: HEADERS})
     .then((response) => {
