@@ -1380,7 +1380,7 @@
 const WEATHER_DATA = {
   lat: 33.44,
   lon: -94.04,
-  timezone: 'America/Chicago',
+  timezone: 'America/New_York',
   timezone_offset: -18000,
   current: {
     dt: new Date().getTime() / 1000,
