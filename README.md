@@ -28,17 +28,15 @@
 
 # 🚀 Getting Started
 
-> **Note**: Dark Sky had been bought by Apple and is no longer accepting new signups. For more information, read this news **[here](https://blog.darksky.net/)**.
-
-**When you have a Dark Sky Account, follow the instructions described in-detail **[here](https://www.notion.so/reactweather/Weather-React-Local-Setup-Branch-561fe5fa6cc546f588b93390de63ce21)** or below to set up the project locally on your machine.**
+**You need to have a OpenWeather Account, follow the instructions described **[here](https://openweathermap.org/api)** to create an account and grab an API key.**
 
 ## Basic Setup
 
-- Clone the `local-setup` branch in the repository
+- Clone the repository
 
 ```bash
 
-git clone -b local-setup https://github.com/iamsainikhil/weather-react.git
+git clone https://github.com/iamsainikhil/weather-react.git
 
 ```
 
@@ -50,15 +48,9 @@ git clone -b local-setup https://github.com/iamsainikhil/weather-react.git
 
   ```bash
 
-  REACT_APP_DARKSKY_API_KEY=<your Dark Sky API Key>
-
-  REACT_APP_ALGOLIA_PLACES_APP_ID=<your Algolia Places APP ID> (Optional)
-
-  REACT_APP_ALGOLIA_PLACES_API_KEY=<your Algolia Places Search-Only API Key> (Optional)
+  OPENWEATHER_API_KEY=<your OpenWeather API Key>
 
   ```
-
-  _You can obtain your Algolia Places API key **[here](https://community.algolia.com/places/pricing.html)**. You will get higher rate limits if you sign up and provide an api key OR it's just limited to **1000** requests/day! Moreover, code logic handles the scenario where no Algolia App ID & API key are provided since these are optional.\*_
 
 _That's it! You can run the below available scripts to get up and running on the localhost. If you want to dive deeper into the codebase, I recommend you to check the architecture documentation to customize this application as your wish._
 
@@ -68,9 +60,15 @@ _That's it! You can run the below available scripts to get up and running on the
 
 In the project directory, you can run:
 
+`vercel dev`
+
+Runs the app in the local development mode (`npm run start`) while serving serverless functions defined in the `/api` folder. Open `[http://localhost:3000](http://localhost:3000/)` to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+
+For more information, check the Vercel docs [**here**](https://vercel.com/docs/cli/dev)
+
 `npm run start`
 
-Runs the app in the development mode.Open `[http://localhost:3000](http://localhost:3000/)` to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+Runs the app in the development mode. Open `[http://localhost:3000](http://localhost:3000/)` to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
 `npm test`
 
@@ -103,7 +101,6 @@ A quick look at the top-level files and directories in this weather-react projec
 ```
 ├── api
 	├── address.js
-	├── places.js
 	├── forecast.js
 	├── hello.js
 ├── public
@@ -193,7 +190,7 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
 ## 😢 Challenges
 
-- First, I used the OpenWeatherMap API to fetch the weather forecast data. However, 5-day forecast data was not reliable i.e. _when a user on 14th March 2020 at 7:00 PM EST tries to fetch 5-day forecast data, will get forecast data starting 15th March 2020 at 12:00 AM UTC._ This posed a big problem of categorizing 5-day data into individual days since the data is not always consistent and is based on UTC and not based on the user timezone. Finally, I switched to Dark Sky API which is more reliable and provides a robust data model. However, there is a limit of `1000` calls/day.
+- First, I used the OpenWeather API to fetch the weather forecast data. However, 5-day forecast data was not reliable i.e. _when a user on 14th March 2020 at 7:00 PM EST tries to fetch 5-day forecast data, will get forecast data starting 15th March 2020 at 12:00 AM UTC._ This posed a big problem of categorizing 5-day data into individual days since the data is not always consistent and is based on UTC and not based on the user timezone. Finally, I switched to Dark Sky API which is more reliable and provides a robust data model. However, there is a limit of `1000` calls/day.
 
 - Dark Sky API needs a proxy server to send and receive a response which was easy in the development stage using a browser extension like **[this](https://chrome.google.com/webstore/detail/moesif-orign-cors-changer/digfbfaphojjndkpccljibejjbppifbc)** to enable CORS in the browser. However, I can't ask every user to install this extension in their browser to check the weather forecast. So, I overcome this issue temporarily for now using the `cors-anywhere` library which you can get more info by checking **[here](https://github.com/Rob--W/cors-anywhere)**. However, I overcome the temporary solution and built a proxy server by deploying the _Node.js_ API functions on the **Vercel**'s serverless architecture and can be accessed **[here](https://weather-react-iamsainikhil.vercel.app/api/hello)**.
 
@@ -201,9 +198,17 @@ There are so many weather-related applications out in the wild. So, the goal is 
 
   _Note: The application UI/UX is not affected with this API change._
 
+- Algolia Places shutdown it's Geocoding API on May 31st, 2022 which broke the `address` search autocomplete functionality in the app.
+
+- Dark Sky got acquired by Apple and shut down it's API service at the end of 2021. At the same time, OpenWeather API introduced a new service `One Call API 3.0` which is similar to Dark Sky API with more forecast features like hourly forecast for 48 hours, daily forecast for 8 days, national weather alerts, etc.
+
+- Finally, replaced both Dark Sky & Algolia Places with just OpenWeather API for both weather forecast and reverse geocoding. However, `address` search autocomplete functionality is removed from the app.
+
 ## 🏎 Roadmap
 
 - [x] Build a proxy server using Express for Dark Sky API requests
+
+- [ ] Convert to a TypeScript project
 
 - [ ] Unit Testing
 
