@@ -7,7 +7,7 @@ export default function handler(req, res) {
   const [lat, long] = latlong ? latlong.split(',') : [0, 0]
   const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=1&appid=${API_KEY}`
   axios
-    .get(url, {headers: HEADERS})
+    .get(url)
     .then((response) => {
       const {data} = response
       res.status(200)
