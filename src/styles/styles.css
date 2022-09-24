@@ -36,7 +36,8 @@ a {
 .link {
   position: relative;
   text-decoration: none;
-  transition: color ease 0.3s; }
+  transition: color ease 0.3s;
+  padding: 0.25rem; }
   .link::after {
     content: '';
     position: absolute;

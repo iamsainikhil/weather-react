@@ -12,6 +12,7 @@ import AssetsSrcURL from '../../utils/AssetsSrcURL'
 
 const InfoDetailComponent = ({weatherCurrent}) => {
   const {weatherUnit, updateWeatherUnit} = useContext(WeatherUnitContext)
+  const {description} = weatherCurrent.weather[0]
   const unitClick = (unit) => {
     // track event to GA
     Event({
@@ -34,8 +35,8 @@ const InfoDetailComponent = ({weatherCurrent}) => {
 
   const computedSpeedValue = () => {
     return weatherUnit === 'F'
-      ? `${Math.round(weatherCurrent.windSpeed)} mph`
-      : `${mToK(weatherCurrent.windSpeed)} kmph`
+      ? `${Math.round(weatherCurrent.wind_speed)} mph`
+      : `${mToK(weatherCurrent.wind_speed)} kmph`
   }
 
   return (
@@ -46,9 +47,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
             <div className='flex flex-col justify-center items-center'>
               <div>
                 {getWeatherIcon(weatherCurrent).startsWith('wi') ? (
-                  <p
-                    className='text-6xl sm:mx-2 mt-2'
-                    title={weatherCurrent.summary}>
+                  <p className='text-6xl sm:mx-2 mt-2' title={description}>
                     {
                       <WeatherIconComponent
                         type={getWeatherIcon(weatherCurrent)}
@@ -61,19 +60,19 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                       weatherCurrent
                     )}.svg`}
                     alt='icon'
-                    title={weatherCurrent.summary}
+                    title={description}
                     className='-mt-2 -ml-4 sm:mx-0 w-32 h-32 object-contain'
                   />
                 )}
               </div>
               <p className='hidden sm:flex sm:flex-no-wrap font-medium -mt-2 ml-3 capitalize'>
-                {weatherCurrent.summary}
+                {description}
               </p>
             </div>
             <div className='flex justify-start items-center sm:-mt-3 sm:ml-3'>
               <div>
                 <span className='text-6xl font-bold'>
-                  {computedTempValue('temperature')}
+                  {computedTempValue('temp')}
                 </span>
               </div>
               <p className='-mt-8 text-3xl'>
@@ -108,13 +107,13 @@ const InfoDetailComponent = ({weatherCurrent}) => {
         {/* weather info */}
         <div className='flex flex-col justify-center items-center sm:mt-6 sm:w-full lg:w-1/2'>
           <p className='sm:hidden font-medium capitalize text-2xl -mt-2 mb-2'>
-            {weatherCurrent.summary}
+            {description}
           </p>
           <div className='text-sm sm:text-lg ml-8 mt-3 sm:mt-0'>
             <div className='flex flex-row sm:my-2'>
               <p className='font-light'>Humidity:</p>&nbsp;
               <p className='mx-1 font-bold'>
-                {Math.round(weatherCurrent.humidity * 100)}
+                {Math.round(weatherCurrent.humidity)}
               </p>
               <p className='text-sm mt-1'>
                 <FiPercent />
@@ -128,7 +127,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
               <p className='text-3xl'>
                 {
                   <WeatherIconComponent
-                    type={getWindDirection(weatherCurrent.windBearing)}
+                    type={getWindDirection(weatherCurrent.wind_deg)}
                   />
                 }
               </p>
@@ -136,7 +135,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
             <p>
               <span className='font-light sm:my-2'>Feels like:</span>&nbsp;
               <span className='font-bold'>
-                {computedTempValue('apparentTemperature')}
+                {computedTempValue('feels_like')}
               </span>
               <sup>o</sup>
             </p>

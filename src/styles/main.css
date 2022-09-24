@@ -47,6 +47,7 @@ a:hover {
   position: relative;
   text-decoration: none;
   transition: color ease 0.3s;
+  padding: 0.25rem;
 }
 
 .link::after {

@@ -10,6 +10,7 @@ import AssetsSrcURL from '../../utils/AssetsSrcURL'
 
 const DayComponent = (props) => {
   const {day, index, selectedIndex} = props
+  const {description} = day.weather[0]
   const {weatherUnit} = useContext(WeatherUnitContext)
   const {theme, colorTheme} = useContext(ThemeContext)
 
@@ -19,8 +20,8 @@ const DayComponent = (props) => {
    */
   const computedTempValue = (type) => {
     return weatherUnit === 'F'
-      ? Math.round(day[`temperature${type}`])
-      : fToC(day[`temperature${type}`])
+      ? Math.round(day.temp[type])
+      : fToC(day.temp[type])
   }
 
   // emit event to forecastContainer
@@ -36,21 +37,21 @@ const DayComponent = (props) => {
       onClick={selectedDay}>
       <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>
         <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-semibold'>
-          {FormatTime(day.time, day.timezone, 'ddd')}
+          {FormatTime(day.dt, day.timezone, 'ddd')}
         </p>
         {/* icon */}
         <div className='flex w-1/6 sm:w-full'>
           {getWeatherIcon(day).startsWith('wi') ? (
             <p
               className='my-1 sm:mt-1 sm:mb-3 mx-auto text-3xl'
-              title={day.summary}>
+              title={description}>
               <WeatherIconComponent type={getWeatherIcon(day)} />
             </p>
           ) : (
             <img
               src={`${AssetsSrcURL}/weather/${getWeatherIcon(day)}.svg`}
               alt='icon'
-              title={day.summary}
+              title={description}
               className='sm:-mt-2 sm:-mb-1 mx-auto w-12 h-12 sm:w-16 sm:h-16 object-contain'
             />
           )}
@@ -58,11 +59,11 @@ const DayComponent = (props) => {
         {/* high & low */}
         <div className='flex flex-row justify-center items-center font-light w-1/4 sm:w-full mt-1 sm:mt-0'>
           <p className='mx-2 text-xs sm:text-sm'>
-            {computedTempValue('High')}
+            {computedTempValue('max')}
             <sup>o</sup>
           </p>
           <p className='mx-2 text-xs'>
-            {computedTempValue('Low')}
+            {computedTempValue('min')}
             <sup>o</sup>
           </p>
         </div>
@@ -77,7 +78,7 @@ const DayComponent = (props) => {
               title='sunrise'>
               <WeatherIconComponent type='sunrise' />
             </p>
-            <p>{FormatTime(day.sunriseTime, day.timezone, 'h:mm')}</p>
+            <p>{FormatTime(day.sunrise, day.timezone, 'h:mm')}</p>
           </div>
           <div className='flex flex-row justify-center items-center mx-2 sm:my-1 text-xs sm:text-sm'>
             <p
@@ -85,7 +86,7 @@ const DayComponent = (props) => {
               title='sunset'>
               <WeatherIconComponent type='sunset' />
             </p>
-            <p>{FormatTime(day.sunsetTime, day.timezone, 'HH:mm')}</p>
+            <p>{FormatTime(day.sunset, day.timezone, 'HH:mm')}</p>
           </div>
         </div>
       </div>

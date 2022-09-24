@@ -22,7 +22,7 @@ const WeatherForecastContainer = ({
 
   // return rain or snow svg image for the above wet types
   const weatherSVG = () => {
-    if (weatherCurrent.icon === 'snow') {
+    if (weatherCurrent.weather.id >= 600 || weatherCurrent.weather.id <= 622) {
       return 'snow'
     }
     return 'rain'
@@ -50,7 +50,7 @@ const WeatherForecastContainer = ({
               src={`${AssetsSrcURL}/weather-backgrounds/${getWeatherBackground(
                 weatherCurrent
               )}.jpg`}
-              alt='clear day'
+              alt=''
               className='w-full object-cover object-center weather-background'
               style={imageBorder}
             />
@@ -59,7 +59,7 @@ const WeatherForecastContainer = ({
               {WET_TYPES.includes(weatherCurrent.icon) && (
                 <img
                   src={`${AssetsSrcURL}/weather-backgrounds/${weatherSVG()}.svg`}
-                  alt='clear day'
+                  alt=''
                   className='w-full object-cover object-center absolute top-0 right-0 bottom-0 left-0 weather-background'
                   style={imageBorder}
                 />
@@ -73,7 +73,6 @@ const WeatherForecastContainer = ({
               <CurrentWeatherContainer
                 weatherCurrent={weatherCurrent}
                 address={address}
-                latlong={latlong}
               />
             </div>
 
@@ -84,7 +83,6 @@ const WeatherForecastContainer = ({
               <CurrentWeatherContainer
                 weatherCurrent={weatherCurrent}
                 address={address}
-                latlong={latlong}
               />
               <ForecastContainer
                 cityName={address.cityName}
@@ -107,14 +105,14 @@ const WeatherForecastContainer = ({
       <div className='relative'>
         <p
           className={`mx-auto text-center pt-2 pb-10 text-xs font-light text-${colorTheme} bg-${theme}`}>
-          Powered by&nbsp;
+          Weather data provided by&nbsp;
           <a
-            href='https://darksky.net/poweredby/'
+            href='https://openweathermap.org/'
             target='_blank'
             rel='noreferrer noopener'
             className={`link z-0 font-medium hover:text-${theme}`}
-            onClick={() => emitGA('powered-by', 'Dark Sky')}>
-            Dark Sky
+            onClick={() => emitGA('provided-by', 'OpenWeather')}>
+            OpenWeather
           </a>
         </p>
 

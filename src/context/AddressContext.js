@@ -37,24 +37,16 @@ class AddressContextProvider extends Component {
     this.setState({...state})
   }
 
-  updateFavorites = (state) => {
-    this.setState({...state})
+  formatCoords = (latitude, longitude) => {
+    return `${latitude},${longitude}`
   }
+
   state = {
     showLoader: true,
     error: null,
-    address: {
-      cityName: '',
-      cityId: '',
-    },
+    cityName: '',
     latlong: null,
-    favorites: [],
     updateState: this.updateState,
-    updateFavorites: this.updateFavorites,
-  }
-
-  formatCoords = (latitude, longitude) => {
-    return `${latitude},${longitude}`
   }
 
   updateWeatherUnit = (countryCode) => {
@@ -68,41 +60,33 @@ class AddressContextProvider extends Component {
     this.updateState({
       showLoader: false,
       error:
-        'Failed to fetch address information for your geolocation. Please search for any city to get weather forecast!!',
+        'Failed to fetch address information based on your geolocation. Please allow location access to get weather forecast!!',
     })
   }
 
   /**
-   * update address using reverse geocoding of Algolia PLaces to obtain city, state, country, cityID
+   * update address using reverse geocoding of OpenWeatherMap to obtain city and country
    */
   updateAddress = async (latlong) => {
     let hit = {}
     try {
-      const {hits} = (await axios.get(`${API_URL}/address?latlong=${latlong}`))
+      const hits = (await axios.get(`${API_URL}/address?latlong=${latlong}`))
         .data
       hit = hits[0]
 
       if (isValid(hit)) {
-        const city = hit.city ? hit.city[0] : ''
-        const state = hit.administrative ? hit.administrative[0] : ''
-        const country = hit.country ? hit.country : ''
+        const city = hit.name ?? ''
+        const state = hit.state ?? ''
+        const country = hit.country ?? ''
         const cityName = `${validName(city)}${validName(state)}${validName(
           country,
           false
         )}`
-        const cityId = hit.objectID ? hit.objectID : ''
-        // country_code in hit will be in lowercase
-        const countryCode = hit.country_code
-          ? hit.country_code.toUpperCase()
-          : ''
-        this.updateWeatherUnit(countryCode)
+        this.updateWeatherUnit(country)
         this.updateState({
           showLoader: false,
           error: null,
-          address: {
-            cityName,
-            cityId,
-          },
+          cityName,
           latlong,
         })
       }
@@ -133,9 +117,7 @@ class AddressContextProvider extends Component {
         this.updateState({
           showLoader: false,
           error: null,
-          address: {
-            cityName,
-          },
+          cityName,
           latlong: this.formatCoords(Latitude, Longitude),
         })
       } else {
@@ -167,18 +149,8 @@ class AddressContextProvider extends Component {
     }
   }
 
-  getFavorites = () => {
-    if (localStorage.getItem('favorites')) {
-      this.setState({
-        favorites: [...JSON.parse(localStorage.getItem('favorites'))],
-      })
-    }
-  }
-
   componentDidMount() {
     this.getAddress()
-    // update favorites for the initial application load
-    this.getFavorites()
   }
 
   render() {
@@ -193,8 +165,6 @@ class AddressContextProvider extends Component {
 export {AddressContext, AddressContextProvider}
 
 AddressContext.propTypes = {
-  address: PropTypes.objectOf(PropTypes.string),
-  favorites: PropTypes.array,
+  state: PropTypes.object,
   updateState: PropTypes.func,
-  updateFavorites: PropTypes.func,
 }
