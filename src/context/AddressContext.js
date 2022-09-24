@@ -161,6 +161,6 @@ class AddressContextProvider extends Component {
 export {AddressContext, AddressContextProvider}
 
 AddressContext.propTypes = {
-  address: PropTypes.objectOf(PropTypes.string),
+  state: PropTypes.object,
   updateState: PropTypes.func,
 }

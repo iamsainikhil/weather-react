@@ -4,7 +4,6 @@ import moment from 'moment-timezone'
 import {PropTypes} from 'prop-types'
 
 const InfoComponent = ({address, weatherCurrent}) => {
-  console.log({address})
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
 
@@ -61,6 +60,6 @@ const InfoComponent = ({address, weatherCurrent}) => {
 export default InfoComponent
 
 InfoComponent.propTypes = {
-  address: PropTypes.objectOf(PropTypes.string),
+  address: PropTypes.object,
   weatherCurrent: PropTypes.object,
 }

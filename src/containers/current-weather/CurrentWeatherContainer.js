@@ -25,6 +25,6 @@ const CurrentWeatherContainer = ({weatherCurrent, address}) => {
 export default CurrentWeatherContainer
 
 CurrentWeatherContainer.propTypes = {
-  address: PropTypes.objectOf(PropTypes.string),
+  address: PropTypes.object,
   weatherCurrent: PropTypes.object,
 }
