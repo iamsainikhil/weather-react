@@ -74,9 +74,15 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
 
             {/* tablet and above devices */}
             <div
-              className={`hidden sm:flex sm:pb-3 sm:${
-                weatherForecast.timeFrames[selectedDay] ? 'mb-4' : 'my-12'
-              }`}>
+              className='hidden sm:flex sm:flex-shrink-0 sm:pb-3'
+              style={{
+                marginTop: weatherForecast.timeFrames[selectedDay]
+                  ? '0'
+                  : '3.3rem',
+                marginBottom: weatherForecast.timeFrames[selectedDay]
+                  ? '0.75rem'
+                  : '3.3rem',
+              }}>
               {weatherForecast.timeFrames[selectedDay] ? (
                 <Carousel {...CarouselSettings('time', 'tablet')}>
                   {weatherForecast.timeFrames[selectedDay].map(
@@ -95,8 +101,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
             </div>
 
             {/* day */}
-            <div
-              className={`flex flex-col mt-4 sm:mt-0 sm:flex-row w-full rounded`}>
+            <div className='flex flex-col mb-2 sm:mt-0 sm:flex-row w-full rounded'>
               {Object.keys(weatherForecast.days).map((day, index) => {
                 // day is key in weatherForecast.days -> '02/28/2020'
                 // index is the position of key -> 0

@@ -5,14 +5,12 @@ import getWeatherIcon from '../../utils/WeatherIcon'
 import FormatTime from './../../utils/FormatTime'
 import {PropTypes} from 'prop-types'
 import WeatherIconComponent from './WeatherIconComponent'
-import {ThemeContext} from '../../context/ThemeContext'
 import AssetsSrcURL from '../../utils/AssetsSrcURL'
 
 const DayComponent = (props) => {
   const {day, index, selectedIndex} = props
   const {description} = day.weather[0]
   const {weatherUnit} = useContext(WeatherUnitContext)
-  const {theme, colorTheme} = useContext(ThemeContext)
 
   /**
    * type can be 'High' or 'Low'
@@ -29,11 +27,21 @@ const DayComponent = (props) => {
     props.selectedDay({day})
   }
 
+  const activeDayStyle = () => {
+    return index === selectedIndex
+      ? {
+          backdropFilter: 'blur(1px)',
+          WebkitBackdropFilter: 'blur(1px)',
+          background: 'rgba(17, 25, 40, 0.5)',
+          borderRadius: '10px',
+        }
+      : null
+  }
+
   return (
     <div
-      className={`md:hover:bg-${colorTheme} md:hover:text-${theme} items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer  ${
-        index === selectedIndex ? `bg-${colorTheme} text-${theme}` : ''
-      }`}
+      className={`items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer`}
+      style={activeDayStyle()}
       onClick={selectedDay}>
       <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>
         <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-semibold'>
