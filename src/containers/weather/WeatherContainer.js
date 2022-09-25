@@ -3,6 +3,7 @@ import {ThemeContext} from '../../context/ThemeContext'
 import {AddressContext} from '../../context/AddressContext'
 import FetchWeatherData from '../../utils/FetchWeatherData'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
+import WindyContainer from '../windy/WindyContainer'
 import LoaderComponent from '../../components/loader/LoaderComponent'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import isValid from '../../utils/ValidityChecker'
@@ -125,13 +126,16 @@ const WeatherContainer = () => {
           ) : (
             <Fragment>
               {showWeatherForecast() ? (
-                <WeatherForecastContainer
-                  weatherCurrent={weatherCurrent}
-                  weatherForecast={weatherForecast}
-                  alerts={alerts}
-                  address={addressContext}
-                  latlong={addressContext.latlong}
-                />
+                <Fragment>
+                  <WeatherForecastContainer
+                    weatherCurrent={weatherCurrent}
+                    weatherForecast={weatherForecast}
+                    alerts={alerts}
+                    address={addressContext}
+                    latlong={addressContext.latlong}
+                  />
+                  <WindyContainer />
+                </Fragment>
               ) : null}
             </Fragment>
           )}
