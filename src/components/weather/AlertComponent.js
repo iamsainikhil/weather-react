@@ -5,13 +5,18 @@ import FormatTime from './../../utils/FormatTime'
 import isValid from '../../utils/ValidityChecker'
 
 const AlertComponent = ({alert}) => {
-  const {timezone, title, time, expires, uri} = alert
+  const {
+    timezone,
+    event: title,
+    start: time,
+    end: expires,
+    description,
+    tags,
+  } = alert
   const {theme, colorTheme} = useContext(ThemeContext)
   const startTime = FormatTime(time, timezone, 'dddd h:mm A')
   const endTime = FormatTime(expires, timezone, 'dddd h:mm A')
   const severity = alert.severity || 'warning'
-  const regions = alert.regions
-
   const severityColor = severity === 'warning' ? 'red' : 'orange'
 
   return (
@@ -42,28 +47,21 @@ const AlertComponent = ({alert}) => {
                   <span>{endTime}</span>
                 </p>
               </div>
-              {/* <p className='text-sm lowercase py-1'>{description}</p> */}
-              {/* regions */}
-              {isValid(regions) ? (
+              <p className='text-sm lowercase py-1'>{description}</p>
+              {/* tags */}
+              {isValid(tags) ? (
                 <p className='text-sm font-medium py-2'>
-                  <b>Regions:&nbsp;</b>
-                  {regions.map((region, index) => {
+                  <b>Tags:&nbsp;</b>
+                  {tags.map((region, index) => {
                     return (
                       <i key={index}>
                         {region}
-                        {index === regions.length - 1 ? '.' : ', '}
+                        {index === tags.length - 1 ? '.' : ', '}
                       </i>
                     )
                   })}
                 </p>
               ) : null}
-              <a
-                href={uri}
-                target='_blank'
-                rel='noreferrer noopener'
-                className={`link z-0 text-xs font-medium hover:text-${theme}`}>
-                View Details
-              </a>
             </div>
           </div>
         </div>
