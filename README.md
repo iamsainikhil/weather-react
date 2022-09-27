@@ -1,5 +1,7 @@
 # Table of Contents
 
+- **[Demo](https://github.com/iamsainikhil/weather-react#-demo)**
+
 - **[Getting Started](https://github.com/iamsainikhil/weather-react#-getting-started)**
 
 - **[What's inside?](https://github.com/iamsainikhil/weather-react#-whats-inside)**
@@ -25,6 +27,18 @@
 - **[Featured](https://github.com/iamsainikhil/weather-react#-featured-on)**
 
 - **[Acknowledgements](https://github.com/iamsainikhil/weather-react#-acknowledgements)**
+
+# Demo
+
+## Check it out at [iamsainikhil.com/weather-react](https://weather-react-iamsainikhil.vercel.app/)
+
+![app](https://user-images.githubusercontent.com/21148072/192406615-d637ac39-27e2-48c3-ae34-1d4f99854f56.png)
+
+
+## Dynamic Weather Backgrounds
+
+https://user-images.githubusercontent.com/21148072/192406356-bd5f5a11-082f-4668-bd6f-689cb5e69f9f.mp4
+
 
 # 🚀 Getting Started
 
