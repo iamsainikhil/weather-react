@@ -18,11 +18,14 @@ const WeatherForecastContainer = ({
 }) => {
   const {theme, colorTheme} = useContext(ThemeContext)
 
-  const WET_TYPES = ['rain', 'snow', 'sleet', 'hail']
+  const isWetType = (id) => 500 <= id && id <= 622
 
   // return rain or snow svg image for the above wet types
   const weatherSVG = () => {
-    if (weatherCurrent.weather.id >= 600 || weatherCurrent.weather.id <= 622) {
+    if (
+      weatherCurrent.weather[0].id >= 600 &&
+      weatherCurrent.weather[0].id <= 622
+    ) {
       return 'snow'
     }
     return 'rain'
@@ -56,7 +59,7 @@ const WeatherForecastContainer = ({
             />
             {/* show rain or snow svg only when weather icon exist in WET_TYPES*/}
             <div>
-              {WET_TYPES.includes(weatherCurrent.icon) && (
+              {isWetType(weatherCurrent?.weather[0]?.id) && (
                 <img
                   src={`${AssetsSrcURL}/weather-backgrounds/${weatherSVG()}.svg`}
                   alt=''
