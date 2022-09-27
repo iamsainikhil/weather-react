@@ -89,8 +89,6 @@ const getWeatherBackground = (data) => {
     return 'thunderstorm'
   } else if (isWithinRange(300, 622, iconId)) {
     return `overcast-${type}`
-  } else if (isWithinRange(600, 622, iconId)) {
-    return `overcast-${type}`
   } else {
     return 'clear-day'
   }
