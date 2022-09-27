@@ -44,7 +44,7 @@ const DayComponent = (props) => {
       style={activeDayStyle()}
       onClick={selectedDay}>
       <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>
-        <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-semibold'>
+        <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-semibold md:pt-1'>
           {FormatTime(day.dt, day.timezone, 'ddd')}
         </p>
         {/* icon */}

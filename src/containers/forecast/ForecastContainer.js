@@ -101,7 +101,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
             </div>
 
             {/* day */}
-            <div className='flex flex-col mb-2 sm:mt-0 sm:flex-row w-full rounded'>
+            <div className='flex flex-col my-2 sm:mt-0 sm:flex-row w-full rounded'>
               {Object.keys(weatherForecast.days).map((day, index) => {
                 // day is key in weatherForecast.days -> '02/28/2020'
                 // index is the position of key -> 0
