@@ -2,7 +2,7 @@
   "name": "weather-react",
   "version": "2.10.0",
   "dependencies": {
-    "@sentry/browser": "^5.30.0",
+    "@sentry/browser": "^7.119.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
