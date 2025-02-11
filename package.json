@@ -20,7 +20,7 @@
     "react-ga": "^2.7.0",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^5.0.1",
     "react-toggle": "^4.1.2"
   },
   "scripts": {
