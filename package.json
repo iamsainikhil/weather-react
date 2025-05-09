@@ -23,8 +23,8 @@
     "react-toggle": "^4.1.3"
   },
   "scripts": {
-    "scss": "sass src/sass/styles.scss:src/styles/",
-    "watch-scss": "sass --watch src/sass/styles.scss:src/styles/",
+    "scss": "sass src/sass/styles.scss:src/styles/styles.css",
+    "watch-scss": "sass --watch src/sass/styles.scss:src/styles/styles.css",
     "build-scss": "npm run scss",
     "watch:style": "postcss src/styles/styles.css -o src/styles/main.css -w",
     "build:style": "postcss src/styles/styles.css -o src/styles/main.css",
