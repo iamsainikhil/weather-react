@@ -3,8 +3,9 @@
  *
  * @format
  */
+ @use '../abstracts/variables';
 
 body {
-  color: $text-color;
-  font: normal 125% / 1.4 $text-font-stack;
+  color: variables.$text-color;
+  font: normal 125% / 1.4 variables.$text-font-stack;
 }

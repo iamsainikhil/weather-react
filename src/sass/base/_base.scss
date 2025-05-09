@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // This file contains very basic styles.
 // -----------------------------------------------------------------------------
-
+@use '../abstracts/variables';
 /**
  * Set up a decent box model on the root element
  */
@@ -28,11 +28,11 @@ html {
  * Basic styles for links
  */
 a {
-  color: $brand-color;
+  color: variables.$brand-color;
   text-decoration: none;
 
   &:hover {
-    color: $text-color;
+    color: variables.$text-color;
     text-decoration: none;
   }
 }
