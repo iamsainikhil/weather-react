@@ -16,7 +16,7 @@ const logRocketSetup = () => {
 
   // setup LogRocket and Sentry
   LogRocket.getSessionURL((sessionURL) => {
-    Sentry.configureScope((scope) => {
+    Sentry.withScope((scope) => {
       scope.setExtra('sessionURL', sessionURL)
     })
   })
