@@ -5,6 +5,8 @@
  * @param {Number} value iconId
  * @returns
  */
-export default function (min, max, value) {
-  return min <= value && value <= max
+const IsWithinRange = (min, max, value) => {
+  return min <= value && value <= max;
 }
+
+export default IsWithinRange;

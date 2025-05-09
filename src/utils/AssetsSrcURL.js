@@ -1,1 +1,2 @@
-export default '.'
+const URL = '.';
+export default URL;

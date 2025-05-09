@@ -1,4 +1,5 @@
 /**
  * weather react serverless API functions URL
  */
-export default '/api'
+const URL= '/api';
+export default URL;
