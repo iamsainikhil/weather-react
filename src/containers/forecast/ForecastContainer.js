@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Fragment} from 'react'
 import {isEmpty, isUndefined} from 'lodash-es'
-import Carousel from 'nuka-carousel'
+import { Carousel } from 'nuka-carousel'
 import DayComponent from '../../components/weather/DayComponent'
 import TimeframeComponent from '../../components/weather/TimeframeComponent'
 import LoaderComponent from '../../components/loader/LoaderComponent'
