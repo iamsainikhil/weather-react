@@ -246,7 +246,7 @@ Have a look at the **[license file](https://github.com/iamsainikhil/weather-reac
 
 Whether you’d like to discuss a project, ask me about my website or simply say “hello”, I’d love to hear from you.
 
-Email: **[contact@iamsainikhil.com](mailto:contact@iamsainikhil.com)**
+Email: **[hello@iamsainikhil.com](mailto:hello@iamsainikhil.com)**
 
 ## 😍 Featured On
 
