@@ -1,7 +1,13 @@
 /** @format */
 
 module.exports = {
-  content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
+  safelist: [
+    'bg-light',
+    'bg-dark',
+    'text-light',
+    'text-dark',
+  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx,html}'],
   darkMode: 'media',
   prefix: '',
   important: false,
@@ -57,7 +63,7 @@ module.exports = {
       sans: [
         '-apple-system',
         'BlinkMacSystemFont',
-        '"SpaceGrotesk"',
+        '"Rubik"',
         '"Lato"',
         '"Segoe UI"',
         'Roboto',

@@ -6,11 +6,13 @@ import FormatTime from './../../utils/FormatTime'
 import {PropTypes} from 'prop-types'
 import WeatherIconComponent from './WeatherIconComponent'
 import AssetsSrcURL from '../../utils/AssetsSrcURL'
+import { ThemeContext } from '../../context/ThemeContext'
 
 const DayComponent = (props) => {
   const {day, index, selectedIndex} = props
   const {description} = day.weather[0]
   const {weatherUnit} = useContext(WeatherUnitContext)
+  const {theme} = useContext(ThemeContext)
 
   /**
    * type can be 'High' or 'Low'
@@ -32,7 +34,7 @@ const DayComponent = (props) => {
       ? {
           backdropFilter: 'blur(1px)',
           WebkitBackdropFilter: 'blur(1px)',
-          background: 'rgba(17, 25, 40, 0.5)',
+          background: theme === 'dark' ? '#292929' : 'rgba(200, 220, 255, 0.5)',
           borderRadius: '10px',
         }
       : null
@@ -40,10 +42,10 @@ const DayComponent = (props) => {
 
   return (
     <div
-      className={`items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer`}
+      className='items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer'
       style={activeDayStyle()}
       onClick={selectedDay}>
-      <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>
+  <div className='flex flex-row flex-nowrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>
         <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-semibold md:pt-1'>
           {FormatTime(day.dt, day.timezone, 'ddd')}
         </p>

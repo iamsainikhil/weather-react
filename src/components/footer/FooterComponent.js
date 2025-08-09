@@ -32,7 +32,7 @@ const FooterComponent = () => {
             GitHub
           </a>
         </p> */}
-        <p className='flex flex-no-wrap justify-center items-center my-2 sm:my-0 w-full sm:w-1/2'>
+  <p className='flex flex-nowrap justify-center items-center my-2 sm:my-0 w-full sm:w-1/2'>
           Made with&nbsp;
           <span
             title='Love'

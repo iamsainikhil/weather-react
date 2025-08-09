@@ -65,7 +65,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
                   />
                 )}
               </div>
-              <p className='hidden sm:flex sm:flex-no-wrap font-medium -mt-2 ml-3 capitalize'>
+              <p className='hidden sm:flex sm:flex-nowrap font-medium -mt-2 ml-3 capitalize'>
                 {description}
               </p>
             </div>
