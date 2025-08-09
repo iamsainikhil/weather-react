@@ -140,7 +140,6 @@ A quick look at the top-level files and directories in this weather-react projec
     - **`components`**: This directory contain several React components with each component having an own directory.
     - **`containers`**: This directory contain several containers with each container wrapping many components defined in the above `components` directory. Each container have an own directory.
     - **`context`**: This directory contain context files with each file holding the logic related to the state shared between the containers & components.
-    - **`fonts`**: This directory contain font files related to several font variations and formats.
     - **`sass`**: This directory contain the application styles written in `scss` grouped into several directories.
     - **`styles`**: This directory contain only two files `main.css` (styles used in development) and `style.css` (styles used in production).
     - **`tests`**: This directory contain test suites with each file containing several test cases testing a utility function or a component.
