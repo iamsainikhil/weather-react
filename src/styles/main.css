@@ -655,7 +655,7 @@ html,
   line-height: 1.5; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */ /* 3 */
   tab-size: 4; /* 3 */
-  font-family: -apple-system, BlinkMacSystemFont, "SpaceGrotesk", "Lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-family: -apple-system, BlinkMacSystemFont, "Rubik", "Lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
   font-feature-settings: normal; /* 5 */
   font-variation-settings: normal; /* 6 */
   -webkit-tap-highlight-color: transparent; /* 7 */
@@ -1148,6 +1148,9 @@ video {
 .flex-col {
   flex-direction: column;
 }
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
 .items-start {
   align-items: flex-start;
 }
@@ -1201,6 +1204,14 @@ video {
 .border-red-400 {
   --tw-border-opacity: 1;
   border-color: rgb(252 129 129 / var(--tw-border-opacity, 1));
+}
+.bg-dark {
+  --tw-bg-opacity: 1;
+  background-color: rgb(24 24 24 / var(--tw-bg-opacity, 1));
+}
+.bg-light {
+  --tw-bg-opacity: 1;
+  background-color: rgb(247 248 249 / var(--tw-bg-opacity, 1));
 }
 .object-contain {
   object-fit: contain;
@@ -1333,6 +1344,10 @@ video {
 }
 .tracking-wider {
   letter-spacing: 0.05em;
+}
+.text-dark {
+  --tw-text-opacity: 1;
+  color: rgb(24 24 24 / var(--tw-text-opacity, 1));
 }
 .text-heart {
   --tw-text-opacity: 1;
@@ -1468,6 +1483,9 @@ video {
   }
   .sm\:flex-wrap {
     flex-wrap: wrap;
+  }
+  .sm\:flex-nowrap {
+    flex-wrap: nowrap;
   }
   .sm\:items-center {
     align-items: center;
