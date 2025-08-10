@@ -1,17 +1,17 @@
 /** @format */
 
 module.exports = {
+  content: ['./src/**/*.{js,jsx,ts,tsx,html}'],
+  darkMode: 'media',
+  prefix: '',
+  important: false,
+  separator: ':',
   safelist: [
     'bg-light',
     'bg-dark',
     'text-light',
     'text-dark',
   ],
-  content: ['./src/**/*.{js,jsx,ts,tsx,html}'],
-  darkMode: 'media',
-  prefix: '',
-  important: false,
-  separator: ':',
   theme: {
     colors: {
       transparent: 'transparent',

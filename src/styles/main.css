@@ -1445,6 +1445,9 @@ video {
   .sm\:mt-6 {
     margin-top: 1.5rem;
   }
+  .sm\:mb-2 {
+    margin-bottom: 0.5rem;
+  }
   .sm\:flex {
     display: flex;
   }

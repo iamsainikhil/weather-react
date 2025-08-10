@@ -41,7 +41,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
 
   return (
     <Fragment>
-      <div className='sm:flex-col md:flex md:flex-row justify-between my-2 px-6 sm:mt-5 sm:mb-5 sm:px-4'>
+      <div className='flex flex-col md:flex md:flex-row justify-between my-2 px-6 sm:mt-5 sm:mb-3 sm:px-4'>
         <div className='flex-col sm:w-full lg:w-1/2'>
           <div className='flex flex-row justify-center sm:justify-start sm:items-center'>
             <div className='flex flex-col justify-center items-center'>
@@ -109,7 +109,7 @@ const InfoDetailComponent = ({weatherCurrent}) => {
           <p className='sm:hidden font-medium capitalize text-2xl -mt-2 mb-2'>
             {description}
           </p>
-          <div className='text-sm sm:text-lg ml-8 mt-3 sm:mt-0'>
+          <div className='text-sm sm:text-lg ml-8 mt-1 sm:mt-0'>
             <div className='flex flex-row sm:my-2'>
               <p className='font-light'>Humidity:</p>&nbsp;
               <p className='mx-1 font-bold'>

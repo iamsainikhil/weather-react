@@ -79,9 +79,7 @@ const DayComponent = (props) => {
         </div>
         {/* sunrise & sunset */}
         <div
-          className={`${
-            index === selectedIndex ? 'flex' : 'flex'
-          } flex-row justify-around sm:justify-center sm:flex sm:flex-col w-5/12 sm:w-full font-light mt-1`}>
+          className='flex flex-row justify-around sm:justify-center sm:flex sm:flex-col w-5/12 sm:w-full font-light mt-1'>
           <div className='flex flex-row justify-center items-center mx-2 sm:my-1 text-xs sm:text-sm'>
             <p
               className='text-xl lg:text-2xl text-sun mr-2 md:mr-3'
