@@ -8,7 +8,7 @@
     "@testing-library/user-event": "^14.6.1",
     "axios": "^1.9.0",
     "axios-retry": "^4.5.0",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.23",
     "logrocket": "^10.0.0",
     "logrocket-react": "^6.0.3",
     "moment-timezone": "^0.5.48",
