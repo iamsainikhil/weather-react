@@ -80,7 +80,7 @@ const ForecastContainer = ({cityName, weatherCurrent, weatherForecast}) => {
                   ? '0'
                   : '3.3rem',
                 marginBottom: weatherForecast.timeFrames[selectedDay]
-                  ? '0.75rem'
+                  ? '0.5rem'
                   : '3.3rem',
               }}>
               {weatherForecast.timeFrames[selectedDay] ? (
