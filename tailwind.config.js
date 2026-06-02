@@ -63,6 +63,7 @@ module.exports = {
       sans: [
         '-apple-system',
         'BlinkMacSystemFont',
+        '"Hubot Sans"',
         '"Rubik"',
         '"Lato"',
         '"Segoe UI"',
