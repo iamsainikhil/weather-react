@@ -2,7 +2,7 @@ const axios = require('axios')
 
 const API_KEY = process.env.OPENWEATHER_API_KEY
 
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   const {latlong} = req.query
   const [lat, long] = latlong ? latlong.split(',') : [0, 0]
   const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=imperial&appid=${API_KEY}`
