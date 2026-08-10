@@ -247,12 +247,6 @@ Whether you’d like to discuss a project, ask me about my website or simply say
 
 Email: **[hello@iamsainikhil.com](mailto:hello@iamsainikhil.com)**
 
-## 😍 Featured On
-
-- **[React.js Examples](https://reactjsexample.com/a-nice-weather-app-built-using-react/)**
-
-- **[Morioh](https://morioh.com/p/fc5f51d76847)**
-
 ## 🙏 Acknowledgements
 
 See the **[Acknowledgements](https://github.com/iamsainikhil/weather-react/wiki/Acknowledgements)** page on the wiki for a list of Acknowledgements for Weather React codebase.
