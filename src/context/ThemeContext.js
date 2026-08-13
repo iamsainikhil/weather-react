@@ -48,7 +48,17 @@ const ThemeContextProvider = ({children}) => {
     if (!localStorage.getItem('theme')) {
       daynightChecker()
     } else {
-      setTheme(JSON.parse(localStorage.getItem('theme')))
+      let savedTheme = localStorage.getItem('theme')
+      try {
+        savedTheme = JSON.parse(savedTheme)
+      } catch (e) {
+        // legacy value stored without JSON.stringify (plain string)
+      }
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        setTheme(savedTheme)
+      } else {
+        daynightChecker()
+      }
     }
     // eslint-disable-next-line
   }, [])
