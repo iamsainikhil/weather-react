@@ -1,0 +1,52 @@
+diff --git a/node_modules/react-scripts/config/webpackDevServer.config.js b/node_modules/react-scripts/config/webpackDevServer.config.js
+index 522a81b..8491aad 100644
+--- a/node_modules/react-scripts/config/webpackDevServer.config.js
++++ b/node_modules/react-scripts/config/webpackDevServer.config.js
+@@ -99,7 +99,12 @@ module.exports = function (proxy, allowedHost) {
+       publicPath: paths.publicUrlOrPath.slice(0, -1),
+     },
+ 
+-    https: getHttpsConfig(),
++    ...(getHttpsConfig() && {
++      server: {
++        type: 'https',
++        options: getHttpsConfig(),
++      },
++    }),
+     host,
+     historyApiFallback: {
+       // Paths with dots should still use the history fallback.
+@@ -107,9 +112,8 @@ module.exports = function (proxy, allowedHost) {
+       disableDotRule: true,
+       index: paths.publicUrlOrPath,
+     },
+-    // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
+     proxy,
+-    onBeforeSetupMiddleware(devServer) {
++    setupMiddlewares(middlewares, devServer) {
+       // Keep `evalSourceMapMiddleware`
+       // middlewares before `redirectServedPath` otherwise will not have any effect
+       // This lets us fetch source contents from webpack for the error overlay
+@@ -119,17 +123,18 @@ module.exports = function (proxy, allowedHost) {
+         // This registers user provided middleware for proxy reasons
+         require(paths.proxySetup)(devServer.app);
+       }
+-    },
+-    onAfterSetupMiddleware(devServer) {
++
+       // Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
+-      devServer.app.use(redirectServedPath(paths.publicUrlOrPath));
++      middlewares.push(redirectServedPath(paths.publicUrlOrPath));
+ 
+       // This service worker file is effectively a 'no-op' that will reset any
+       // previous service worker registered for the same host:port combination.
+       // We do this in development to avoid hitting the production cache if
+       // it used the same host and port.
+       // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
+-      devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
++      middlewares.push(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
++
++      return middlewares;
+     },
+   };
+ };
